@@ -32,196 +32,200 @@ class LockScreenView extends GetWidget<LockScreenController> {
           centerTitle: true,
         ),
         body: Obx(() {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Spacer(),
-              SvgPicture.asset(
-                "image/lock.svg",
-                height: MySize.getHeight(150),
-                width: MySize.getWidth(150),
-              ),
-              Spacer(),
-              Text(
-                "Enter your of 4 digits passcode",
-                style: GoogleFonts.lexend(
-                  fontWeight: FontWeight.w400,
-                  fontSize: MySize.getHeight(14),
+          return Container(
+            height: MySize.safeHeight,
+            width: MySize.safeWidth,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Spacer(),
+                SvgPicture.asset(
+                  "image/lock.svg",
+                  height: MySize.getHeight(150),
+                  width: MySize.getWidth(150),
                 ),
-              ),
-              Spacer(),
-              Directionality(
-                textDirection: TextDirection.ltr,
-                child: Pinput(
-                  length: 4,
-                  obscureText: true,
-                  showCursor: false,
-                  defaultPinTheme: PinTheme(
-                    width: MySize.getHeight(50),
-                    height: MySize.getHeight(50),
-                    textStyle: TextStyle(
-                        fontSize: MySize.getHeight(35),
-                        color: appTheme.appbarTheme,
-                        fontWeight: FontWeight.w600),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color.fromRGBO(0, 0, 0, 0.06),
-                          blurStyle: BlurStyle.outer,
-                          blurRadius: MySize.getHeight(13),
-                          spreadRadius: MySize.getHeight(1),
-                        ),
-                      ],
-                    ),
+                Spacer(),
+                Text(
+                  "Enter your of 4 digits passcode",
+                  style: GoogleFonts.lexend(
+                    fontWeight: FontWeight.w400,
+                    fontSize: MySize.getHeight(14),
                   ),
-                  controller: controller.passwordController.value,
-                  readOnly: true,
-                  onTap: null,
                 ),
-              ),
-              Spacer(),
-              (isNullEmptyOrFalse(box.read(ArgumentConstant.isFirstTime)) &&
-                      box.read(ArgumentConstant.isFirstTime) != true &&
-                      controller.passwordController.value.text.length == 0)
-                  ? Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: MySize.getHeight(10.0)),
-                      child: Column(children: [
-                        Text(
-                          "your default passcode is",
-                          style: GoogleFonts.lexend(
-                            fontWeight: FontWeight.w400,
-                            fontSize: MySize.getHeight(14),
+                Spacer(),
+                Directionality(
+                  textDirection: TextDirection.ltr,
+                  child: Pinput(
+                    length: 4,
+                    obscureText: true,
+                    showCursor: false,
+                    defaultPinTheme: PinTheme(
+                      width: MySize.getHeight(50),
+                      height: MySize.getHeight(50),
+                      textStyle: TextStyle(
+                          fontSize: MySize.getHeight(35),
+                          color: appTheme.appbarTheme,
+                          fontWeight: FontWeight.w600),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color.fromRGBO(0, 0, 0, 0.06),
+                            blurStyle: BlurStyle.outer,
+                            blurRadius: MySize.getHeight(13),
+                            spreadRadius: MySize.getHeight(1),
                           ),
-                        ),
-                        Text(
-                          " 1234 ",
-                          style: GoogleFonts.lexend(
-                            fontWeight: FontWeight.w400,
-                            fontSize: MySize.getHeight(14),
-                          ),
-                        ),
-                        Text(
-                          "you can change it later from settings.",
-                          style: GoogleFonts.lexend(
-                            fontWeight: FontWeight.w400,
-                            fontSize: MySize.getHeight(14),
-                          ),
-                        ),
-                      ]),
-                    )
-                  : Container(),
-              Spacer(),
-              (controller.isIncorrect.value)
-                  ? Text(
-                      "Incorrect Password. Please try again.",
-                      style: GoogleFonts.lexend(
-                        fontWeight: FontWeight.w400,
-                        color: appTheme.ErrorText,
-                        fontSize: MySize.getHeight(12),
-                      ),
-                    )
-                  : Container(
-                      height: 10,
-                    ),
-              Spacer(),
-              Container(
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Container(
-                      child: SvgPicture.asset(
-                        "image/numpad.svg",
-                        width: MySize.screenWidth,
-                        // fit: BoxFit.contain,
+                        ],
                       ),
                     ),
-                    Positioned(
-                      top: (MySize.isMini)
-                          ? MySize.getHeight(100)
-                          : MySize.getHeight(80),
-                      // left: MySize.getWidth(75),
-                      child: Container(
-                        height: MySize.getHeight(250),
-                        width: MySize.getWidth(250),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                getCustomButton(
-                                  number: "1",
-                                ),
-                                Spacer(),
-                                getCustomButton(
-                                  number: "2",
-                                ),
-                                Spacer(),
-                                getCustomButton(
-                                  number: "3",
-                                )
-                              ],
-                            ),
-                            Spacer(),
-                            Row(
-                              children: [
-                                getCustomButton(
-                                  number: "4",
-                                ),
-                                Spacer(),
-                                getCustomButton(
-                                  number: "5",
-                                ),
-                                Spacer(),
-                                getCustomButton(
-                                  number: "6",
-                                )
-                              ],
-                            ),
-                            Spacer(),
-                            Row(
-                              children: [
-                                getCustomButton(
-                                  number: "7",
-                                ),
-                                Spacer(),
-                                getCustomButton(
-                                  number: "8",
-                                ),
-                                Spacer(),
-                                getCustomButton(
-                                  number: "9",
-                                )
-                              ],
-                            ),
-                            Spacer(),
-                            Row(
-                              children: [
-                                getCustomButton(
-                                  isIcon: true,
-                                  isBackButton: true,
-                                  icon: Icons.backspace_rounded,
-                                ),
-                                Spacer(),
-                                getCustomButton(
-                                  number: "0",
-                                ),
-                                Spacer(),
-                                getCustomButton(
-                                  isIcon: true,
-                                  isSubmitButton: true,
-                                  icon: Icons.check,
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
+                    controller: controller.passwordController.value,
+                    readOnly: true,
+                    onTap: null,
+                  ),
                 ),
-              )
-            ],
+                Spacer(),
+                (isNullEmptyOrFalse(box.read(ArgumentConstant.isFirstTime)) &&
+                        box.read(ArgumentConstant.isFirstTime) != true &&
+                        controller.passwordController.value.text.length == 0)
+                    ? Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: MySize.getHeight(10.0)),
+                        child: Column(children: [
+                          Text(
+                            "your default passcode is",
+                            style: GoogleFonts.lexend(
+                              fontWeight: FontWeight.w400,
+                              fontSize: MySize.getHeight(14),
+                            ),
+                          ),
+                          Text(
+                            " 1234 ",
+                            style: GoogleFonts.lexend(
+                              fontWeight: FontWeight.w400,
+                              fontSize: MySize.getHeight(14),
+                            ),
+                          ),
+                          Text(
+                            "you can change it later from settings.",
+                            style: GoogleFonts.lexend(
+                              fontWeight: FontWeight.w400,
+                              fontSize: MySize.getHeight(14),
+                            ),
+                          ),
+                        ]),
+                      )
+                    : Container(),
+                Spacer(),
+                (controller.isIncorrect.value)
+                    ? Text(
+                        "Incorrect Password. Please try again.",
+                        style: GoogleFonts.lexend(
+                          fontWeight: FontWeight.w400,
+                          color: appTheme.ErrorText,
+                          fontSize: MySize.getHeight(12),
+                        ),
+                      )
+                    : Container(
+                        height: 10,
+                      ),
+                Spacer(),
+                Container(
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Container(
+                        child: SvgPicture.asset(
+                          "image/numpad.svg",
+                          width: MySize.screenWidth,
+                          // fit: BoxFit.contain,
+                        ),
+                      ),
+                      Positioned(
+                        top: (MySize.isMini)
+                            ? MySize.getHeight(100)
+                            : MySize.getHeight(80),
+                        // left: MySize.getWidth(75),
+                        child: Container(
+                          height: MySize.getHeight(250),
+                          width: MySize.getWidth(250),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  getCustomButton(
+                                    number: "1",
+                                  ),
+                                  Spacer(),
+                                  getCustomButton(
+                                    number: "2",
+                                  ),
+                                  Spacer(),
+                                  getCustomButton(
+                                    number: "3",
+                                  )
+                                ],
+                              ),
+                              Spacer(),
+                              Row(
+                                children: [
+                                  getCustomButton(
+                                    number: "4",
+                                  ),
+                                  Spacer(),
+                                  getCustomButton(
+                                    number: "5",
+                                  ),
+                                  Spacer(),
+                                  getCustomButton(
+                                    number: "6",
+                                  )
+                                ],
+                              ),
+                              Spacer(),
+                              Row(
+                                children: [
+                                  getCustomButton(
+                                    number: "7",
+                                  ),
+                                  Spacer(),
+                                  getCustomButton(
+                                    number: "8",
+                                  ),
+                                  Spacer(),
+                                  getCustomButton(
+                                    number: "9",
+                                  )
+                                ],
+                              ),
+                              Spacer(),
+                              Row(
+                                children: [
+                                  getCustomButton(
+                                    isIcon: true,
+                                    isBackButton: true,
+                                    icon: Icons.backspace_rounded,
+                                  ),
+                                  Spacer(),
+                                  getCustomButton(
+                                    number: "0",
+                                  ),
+                                  Spacer(),
+                                  getCustomButton(
+                                    isIcon: true,
+                                    isSubmitButton: true,
+                                    icon: Icons.check,
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
           );
         }),
       ),

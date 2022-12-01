@@ -2,9 +2,12 @@ import 'dart:io';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:warranty_appp/utilities/buttons.dart';
+// import 'package:rxdart/rxdart.dart';
 import '../../../../constants/api_constants.dart';
 import '../../../../constants/color_constant.dart';
 import '../../../../constants/sizeConstant.dart';
@@ -13,9 +16,12 @@ import '../../../models/categoriesModels.dart';
 import '../../../routes/app_pages.dart';
 import '../controllers/add_item_controller.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
 
 class AddItemView extends GetView<AddItemController> {
   const AddItemView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -69,10 +75,17 @@ class AddItemView extends GetView<AddItemController> {
                         Padding(
                           padding: EdgeInsets.all(MySize.getHeight(8.0)),
                           child: GestureDetector(
-                            onTap: () {
+                            onTap: () async {
                               if (controller.formKey.currentState!.validate()) {
                                 if (controller.isNameEmpty.isFalse &&
                                     controller.isDurationEmpty.isFalse) {
+                                  await controller.service
+                                      .showScheduledNotification(
+                                    id: 0,
+                                    title: 'Notification Title',
+                                    body: 'Some body',
+                                    seconds: 5,
+                                  );
                                   if (controller.isFromEdit) {
                                     controller.EditItem(dataModels(
                                         id: DateTime.now()
@@ -534,6 +547,15 @@ class AddItemView extends GetView<AddItemController> {
     return DateFormat('dd/MM/yyyy').format(finalDate);
   }
 
+  expireDay() {
+    getDateFromStringNew(getExpiryDateString(), formatter: 'dd/MM/yyyy')
+            .difference(getDateFromStringNew(
+                controller.selectedDate.value.toString(),
+                formatter: 'dd/MM/yyyy'))
+            .inDays ??
+        1;
+  }
+
   getimageWidget({
     String Counter = "0",
     String image = "pc.png",
@@ -776,4 +798,108 @@ class AddItemView extends GetView<AddItemController> {
       return;
     }
   }
+}
+
+class LocalNotificationService {
+  LocalNotificationService();
+
+  final _localNotificationService = FlutterLocalNotificationsPlugin();
+
+  // final BehaviorSubject<String?> onNotificationClick = BehaviorSubject();
+
+  Future<void> intialize() async {
+    tz.initializeTimeZones();
+    const AndroidInitializationSettings androidInitializationSettings =
+        AndroidInitializationSettings('@drawable/ic_stat_android');
+
+    IOSInitializationSettings iosInitializationSettings =
+        IOSInitializationSettings(
+      requestAlertPermission: true,
+      requestBadgePermission: true,
+      requestSoundPermission: true,
+      onDidReceiveLocalNotification: onDidReceiveLocalNotification,
+    );
+
+    final InitializationSettings settings = InitializationSettings(
+      android: androidInitializationSettings,
+      iOS: iosInitializationSettings,
+    );
+
+    // await _localNotificationService.initialize(
+    //   settings,
+    //   onSelectNotification: onSelectNotification,
+    // );
+  }
+
+  Future<NotificationDetails> _notificationDetails() async {
+    const AndroidNotificationDetails androidNotificationDetails =
+        AndroidNotificationDetails(
+      'channel_id',
+      'channel_name',
+      channelDescription: 'description',
+      importance: Importance.max,
+      priority: Priority.max,
+      playSound: true,
+    );
+
+    const IOSNotificationDetails iosNotificationDetails =
+        IOSNotificationDetails();
+
+    return const NotificationDetails(
+      android: androidNotificationDetails,
+      iOS: iosNotificationDetails,
+    );
+  }
+
+  Future<void> showNotification({
+    required int id,
+    required String title,
+    required String body,
+  }) async {
+    final details = await _notificationDetails();
+    await _localNotificationService.show(id, title, body, details);
+  }
+
+  Future<void> showScheduledNotification(
+      {required int id,
+      required String title,
+      required String body,
+      required int seconds}) async {
+    final details = await _notificationDetails();
+    await _localNotificationService.zonedSchedule(
+      id,
+      title,
+      body,
+      tz.TZDateTime.from(
+        DateTime.now().add(Duration(seconds: seconds)),
+        tz.local,
+      ),
+      details,
+      androidAllowWhileIdle: true,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
+    );
+  }
+
+  Future<void> showNotificationWithPayload(
+      {required int id,
+      required String title,
+      required String body,
+      required String payload}) async {
+    final details = await _notificationDetails();
+    await _localNotificationService.show(id, title, body, details,
+        payload: payload);
+  }
+
+  void onDidReceiveLocalNotification(
+      int id, String? title, String? body, String? payload) {
+    print('id $id');
+  }
+
+  // void onSelectNotification(String? payload) {
+  //   print('payload $payload');
+  //   if (payload != null && payload.isNotEmpty) {
+  //     onNotificationClick.add(payload);
+  //   }
+  // }
 }

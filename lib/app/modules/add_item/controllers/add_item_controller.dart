@@ -22,6 +22,7 @@ class AddItemController extends GetxController {
       .obs;
 
   SingleValueDropDownController? dropDownController;
+  SingleValueDropDownController? NotificationController;
   HomeController? homeController;
   AddItemListscreenController? addItemListscreenController;
   Rx<DateTime> selectedDate = DateTime.now().obs;
@@ -30,10 +31,20 @@ class AddItemController extends GetxController {
   RxBool isNameEmpty = false.obs;
   bool isFromEdit = false;
   bool isFromInnerScreen = false;
+  RxList<String> NotificationList = RxList<String>([
+    "1 Days Ago",
+    "2 Days Ago",
+    "3 Days Ago",
+    "4 Days Ago",
+    "5 Days Ago",
+    "6 Days Ago",
+    "Week Ago"
+  ]);
   String categoryName = "";
   dataModels? additemListview;
   RxList<String>? files = RxList<String>([]);
   RxList<String>? files1 = RxList<String>([]);
+  RxString notificationDays = "".obs;
   @override
   void onInit() {
     Get.lazyPut(() => AddItemListscreenController());
@@ -53,9 +64,7 @@ class AddItemController extends GetxController {
         dateController.value.text = additemListview!.Date.toString();
         files!.value = additemListview!.Image.toString().split(" ");
         files1!.value = additemListview!.Bill.toString().split(" ");
-        print(files);
       }
-
       if (isFromHome) {
         dropDownController = SingleValueDropDownController(
             data: DropDownValueModel(

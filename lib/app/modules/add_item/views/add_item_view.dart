@@ -385,6 +385,74 @@ class AddItemView extends GetView<AddItemController> {
                               ),
                               Spacing.height(20),
                               Text(
+                                "Schedule Notification",
+                                style: GoogleFonts.lexend(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: MySize.getHeight(13),
+                                    color: Colors.black),
+                              ),
+                              Spacing.height(12),
+                              Container(
+                                decoration: BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+                                      offset: Offset(0, 7),
+                                      color: Colors.black.withOpacity(0.08),
+                                      blurRadius: MySize.getHeight(13),
+                                      spreadRadius: MySize.getHeight(2),
+                                    ),
+                                  ],
+                                ),
+                                child: DropDownTextField(
+                                    textStyle: GoogleFonts.lexend(
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: MySize.getHeight(13),
+                                        color: Colors.black),
+                                    clearOption: false,
+                                    listTextStyle: GoogleFonts.lexend(
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: MySize.getHeight(13),
+                                        color: Colors.black),
+                                    textFieldDecoration: InputDecoration(
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      labelStyle: TextStyle(),
+                                      border: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.white),
+                                        borderRadius: BorderRadius.circular(
+                                            MySize.getHeight(10)),
+                                      ),
+                                      contentPadding: EdgeInsets.only(
+                                        left: MySize.getWidth(20),
+                                        right: MySize.getWidth(10),
+                                        //  bottom: size! / 2, // HERE THE IMPORTANT PART
+                                      ),
+                                    ),
+                                    controller:
+                                        controller.NotificationController =
+                                            SingleValueDropDownController(
+                                                data: DropDownValueModel(
+                                                    name: controller
+                                                        .NotificationList.first,
+                                                    value: controller
+                                                        .NotificationList
+                                                        .first)),
+                                    dropDownItemCount: 6,
+                                    onChanged: (index) {
+                                      DropDownValueModel dropDownValue =
+                                          index as DropDownValueModel;
+                                      print("index:=== ${dropDownValue.name}");
+                                    },
+                                    dropDownList: List.generate(
+                                        controller.NotificationList.length,
+                                        (index) => DropDownValueModel(
+                                            name: controller
+                                                .NotificationList[index],
+                                            value: controller.NotificationList[index]))),
+                              ),
+                              Spacing.height(20),
+                              Text(
                                 "Detail",
                                 style: GoogleFonts.lexend(
                                     fontWeight: FontWeight.w400,

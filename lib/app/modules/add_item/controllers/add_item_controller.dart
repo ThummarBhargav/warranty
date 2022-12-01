@@ -22,10 +22,12 @@ class AddItemController extends GetxController {
   Rx<TextEditingController> dateController = TextEditingController(
           text: DateFormat('dd/MM/yyyy').format(DateTime.now()))
       .obs;
-
   SingleValueDropDownController? dropDownController;
-  SingleValueDropDownController? NotificationController;
+  SingleValueDropDownController? notificationController;
   HomeController? homeController;
+  RxInt expireDay = 0.obs;
+  RxInt selectedExpireDay = 0.obs;
+  RxInt selectedExpireSec = 0.obs;
   AddItemListscreenController? addItemListscreenController;
   Rx<DateTime> selectedDate = DateTime.now().obs;
   bool isFromHome = false;
@@ -33,14 +35,15 @@ class AddItemController extends GetxController {
   RxBool isNameEmpty = false.obs;
   bool isFromEdit = false;
   bool isFromInnerScreen = false;
-  RxList<String> NotificationList = RxList<String>([
-    "1 Days Ago",
-    "2 Days Ago",
-    "3 Days Ago",
-    "4 Days Ago",
-    "5 Days Ago",
-    "6 Days Ago",
-    "Week Ago"
+  RxList<NotificationDataModel> notificationList =
+      RxList<NotificationDataModel>([
+    NotificationDataModel(value: 1, title: "1 Days Ago"),
+    NotificationDataModel(value: 2, title: "2 Days Ago"),
+    NotificationDataModel(value: 3, title: "3 Days Ago"),
+    NotificationDataModel(value: 4, title: "4 Days Ago"),
+    NotificationDataModel(value: 5, title: "5 Days Ago"),
+    NotificationDataModel(value: 6, title: "6 Days Ago"),
+    NotificationDataModel(value: 7, title: "Week Ago"),
   ]);
   String categoryName = "";
   dataModels? additemListview;
@@ -51,6 +54,10 @@ class AddItemController extends GetxController {
 
   @override
   void onInit() {
+    notificationController = SingleValueDropDownController(
+      data: DropDownValueModel(
+          name: notificationList[0].title, value: notificationList[0].value),
+    );
     service = LocalNotificationService();
     service.intialize();
     // listenToNotification();
@@ -245,4 +252,10 @@ class LocalNotificationService {
 //     onNotificationClick.add(payload);
 //   }
 // }
+}
+
+class NotificationDataModel {
+  String title;
+  int value;
+  NotificationDataModel({required this.value, required this.title});
 }

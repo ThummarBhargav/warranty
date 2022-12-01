@@ -47,6 +47,7 @@ class dataModels {
   String? Ditails;
   String? Date;
   String? expiredDate;
+  String? expiredDay;
   String? Image;
   String? Bill;
 
@@ -59,6 +60,7 @@ class dataModels {
       this.Image,
       this.Bill,
       this.expiredDate,
+      this.expiredDay,
       this.categoriesName});
 
   dataModels.fromJson(Map<String, dynamic> json) {
@@ -71,6 +73,7 @@ class dataModels {
     Image = json["Image"];
     Bill = json["Bill"];
     expiredDate = json["expiredDate"];
+    expiredDay = json["expiredDay"];
   }
 
   Map<String, dynamic> toJson() {
@@ -83,6 +86,7 @@ class dataModels {
     data['Ditails'] = this.Ditails;
     data['Image'] = this.Image;
     data['expiredDate'] = this.expiredDate;
+    data['expiredDay'] = this.expiredDay;
     data['Bill'] = this.Bill;
     return data;
   }

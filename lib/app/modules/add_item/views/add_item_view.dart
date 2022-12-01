@@ -76,16 +76,33 @@ class AddItemView extends GetView<AddItemController> {
                           padding: EdgeInsets.all(MySize.getHeight(8.0)),
                           child: GestureDetector(
                             onTap: () async {
+                              controller.selectedExpireSec ==
+                                  ((controller.expireDay.value) -
+                                      (controller.selectedExpireDay.value));
                               if (controller.formKey.currentState!.validate()) {
                                 if (controller.isNameEmpty.isFalse &&
                                     controller.isDurationEmpty.isFalse) {
                                   await controller.service
                                       .showScheduledNotification(
-                                    id: 0,
-                                    title: 'Notification Title',
-                                    body: 'Some body',
-                                    seconds: 5,
-                                  );
+                                          id: 0,
+                                          title: 'Notification Title',
+                                          body: 'Some body',
+                                          seconds: 0);
+
+                                  controller.expireDay ==
+                                      (getDateFromStringNew(
+                                                  getExpiryDateString(),
+                                                  formatter: 'dd/MM/yyyy')
+                                              .difference(getDateFromStringNew(
+                                                  controller
+                                                      .dateController.value.text
+                                                      .toString(),
+                                                  formatter: 'dd/MM/yyyy'))
+                                              .inDays)
+                                          .obs
+                                          .toString();
+                                  print(
+                                      "ExpireDay========>${controller.expireDay.value}");
                                   if (controller.isFromEdit) {
                                     controller.EditItem(dataModels(
                                         id: DateTime.now()
@@ -324,7 +341,7 @@ class AddItemView extends GetView<AddItemController> {
                                                           TextButtonThemeData(
                                                         style: TextButton
                                                             .styleFrom(
-                                                          foregroundColor: appTheme
+                                                          backgroundColor: appTheme
                                                               .yellowPrimaryTheme, // button text color
                                                         ),
                                                       ),
@@ -443,26 +460,23 @@ class AddItemView extends GetView<AddItemController> {
                                       ),
                                     ),
                                     controller:
-                                        controller.NotificationController =
-                                            SingleValueDropDownController(
-                                                data: DropDownValueModel(
-                                                    name: controller
-                                                        .NotificationList.first,
-                                                    value: controller
-                                                        .NotificationList
-                                                        .first)),
+                                        controller.notificationController,
                                     dropDownItemCount: 6,
                                     onChanged: (index) {
                                       DropDownValueModel dropDownValue =
                                           index as DropDownValueModel;
-                                      print("index:=== ${dropDownValue.name}");
+                                      print("index:=== ${dropDownValue.value}");
+                                      controller.selectedExpireDay =
+                                          dropDownValue.value.obs;
                                     },
                                     dropDownList: List.generate(
-                                        controller.NotificationList.length,
+                                        controller.notificationList.length,
                                         (index) => DropDownValueModel(
                                             name: controller
-                                                .NotificationList[index],
-                                            value: controller.NotificationList[index]))),
+                                                .notificationList[index].title,
+                                            value: controller
+                                                .notificationList[index]
+                                                .value))),
                               ),
                               Spacing.height(20),
                               Text(
@@ -545,15 +559,6 @@ class AddItemView extends GetView<AddItemController> {
             days: int.parse(controller.durationcontroller.value.text)));
     DateTime finalDate = DateTime(n.year, n.month, n.day, 0, 0, 0);
     return DateFormat('dd/MM/yyyy').format(finalDate);
-  }
-
-  expireDay() {
-    getDateFromStringNew(getExpiryDateString(), formatter: 'dd/MM/yyyy')
-            .difference(getDateFromStringNew(
-                controller.selectedDate.value.toString(),
-                formatter: 'dd/MM/yyyy'))
-            .inDays ??
-        1;
   }
 
   getimageWidget({

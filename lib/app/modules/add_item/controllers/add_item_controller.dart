@@ -81,6 +81,8 @@ class AddItemController extends GetxController {
         files!.value = additemListview!.Image.toString().split(" ");
         files1!.value = additemListview!.Bill.toString().split(" ");
         days.value = int.parse(additemListview!.Duration.toString());
+        selectedExpireDay.value =
+            int.parse(additemListview!.selectedExpireDay.toString());
       }
       if (isFromHome) {
         dropDownController = SingleValueDropDownController(

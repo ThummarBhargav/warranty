@@ -90,7 +90,6 @@ class AddItemView extends GetView<AddItemController> {
                                           .inDays);
                                   print(
                                       "ExpireDay :========= ${controller.expireDay.value}");
-                                  controller.notificationList.clear();
 
                                   controller.selectedExpireSec.value =
                                       ((controller.expireDay.value) -
@@ -413,6 +412,13 @@ class AddItemView extends GetView<AddItemController> {
                                       }
                                       return null;
                                     },
+                                    onChange: (value) {
+                                      print(value);
+                                      controller.days.value =
+                                          int.parse(value.toString());
+                                      print(
+                                          "helllllllll ${controller.days.value}");
+                                    },
                                     labelColor: Colors.grey,
                                     textInputType: TextInputType.number),
                               ),
@@ -474,7 +480,11 @@ class AddItemView extends GetView<AddItemController> {
                                               dropDownValue.value.toString());
                                     },
                                     dropDownList: List.generate(
-                                        controller.notificationList.length,
+                                        (controller.days.value < 7 &&
+                                                controller.days.value != 0)
+                                            ? controller.days.value - 1
+                                            : controller
+                                                .notificationList.length,
                                         (index) => DropDownValueModel(
                                             name: controller
                                                 .notificationList[index].title,

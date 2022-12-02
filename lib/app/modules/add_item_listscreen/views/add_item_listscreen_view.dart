@@ -78,495 +78,504 @@ class AddItemListscreenView extends GetWidget<AddItemListscreenController> {
                     height: MySize.safeHeight,
                     width: MySize.safeWidth,
                     child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          ListView.separated(
-                              physics: NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemBuilder: (context, index) {
-                                return (getDateFromStringNew(
-                                            controller.addDataTempList[index]
+                      child: Padding(
+                        padding: EdgeInsets.only(top: MySize.getHeight(20)),
+                        child: Column(
+                          children: [
+                            ListView.separated(
+                                physics: NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) {
+                                  return (getDateFromStringNew(
+                                              controller.addDataTempList[index]
+                                                  .expiredDate
+                                                  .toString(),
+                                              formatter: 'dd/MM/yyyy')
+                                          .isBefore(DateTime.now()))
+                                      ? Container()
+                                      : addDatawidget(
+                                          onTap: () {
+                                            Get.offAndToNamed(
+                                                Routes.ADD_ITEM_LISTSCREEN_VIEW,
+                                                arguments: {
+                                                  ArgumentConstant
+                                                          .additemListview:
+                                                      controller
+                                                              .addDataTempList[
+                                                          index]
+                                                });
+                                          },
+                                          bill: () {
+                                            OpenFile.open(controller
+                                                    .addDataTempList[index]
+                                                    .Bill)
+                                                .then((value) {
+                                              if (value.message ==
+                                                  "No APP found to open this file。") {
+                                                getIt<CustomDialogs>()
+                                                    .getDialog(
+                                                  title: "No App Found",
+                                                  desc: value.message,
+                                                );
+                                              }
+                                            });
+                                          },
+                                          delete: () {
+                                            showDialog(
+                                                context: context,
+                                                barrierDismissible: false,
+                                                builder: (context) {
+                                                  return AlertDialog(
+                                                    contentPadding:
+                                                        EdgeInsets.all(0.0),
+                                                    content: Container(
+                                                      child: Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        children: [
+                                                          Row(
+                                                            children: [
+                                                              Padding(
+                                                                padding: EdgeInsets.only(
+                                                                    top: MySize
+                                                                        .getHeight(
+                                                                            20.0),
+                                                                    left: MySize
+                                                                        .getHeight(
+                                                                            20.0)),
+                                                                child: Text(
+                                                                  "Are You Sure?",
+                                                                  style:
+                                                                      GoogleFonts
+                                                                          .lexend(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    fontSize: MySize
+                                                                        .getHeight(
+                                                                            20),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          SizedBox(
+                                                            height: MySize
+                                                                .getHeight(20),
+                                                          ),
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .end,
+                                                            children: [
+                                                              TextButton(
+                                                                  onPressed:
+                                                                      () {
+                                                                    Get.back();
+                                                                  },
+                                                                  child:
+                                                                      Container(
+                                                                    height: MySize
+                                                                        .getHeight(
+                                                                            50),
+                                                                    width: MySize
+                                                                        .getWidth(
+                                                                            115),
+                                                                    decoration: BoxDecoration(
+                                                                        border: Border.all(
+                                                                            color: appTheme
+                                                                                .yellowPrimaryTheme),
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(4)),
+                                                                    child:
+                                                                        Center(
+                                                                      child:
+                                                                          Text(
+                                                                        "CANCEL",
+                                                                        style: GoogleFonts.lexend(
+                                                                            fontWeight:
+                                                                                FontWeight.w400,
+                                                                            fontSize: MySize.getHeight(18),
+                                                                            color: Colors.black),
+                                                                      ),
+                                                                    ),
+                                                                  )),
+                                                              SizedBox(
+                                                                width: MySize
+                                                                    .getHeight(
+                                                                        3.0),
+                                                              ),
+                                                              TextButton(
+                                                                  onPressed:
+                                                                      () {
+                                                                    Get.back();
+                                                                    controller.addDataList.removeWhere((element) =>
+                                                                        element
+                                                                            .id ==
+                                                                        controller
+                                                                            .addDataTempList[index]
+                                                                            .id);
+                                                                    controller
+                                                                        .addDataTempList
+                                                                        .clear();
+                                                                    controller
+                                                                        .addDataList
+                                                                        .forEach(
+                                                                            (element) {
+                                                                      controller
+                                                                          .addDataTempList
+                                                                          .add(
+                                                                              element);
+                                                                    });
+                                                                    box.write(
+                                                                        ArgumentConstant
+                                                                            .additemList,
+                                                                        jsonEncode(
+                                                                            controller.addDataList));
+                                                                  },
+                                                                  child:
+                                                                      Container(
+                                                                    height: MySize
+                                                                        .getHeight(
+                                                                            50),
+                                                                    width: MySize
+                                                                        .getWidth(
+                                                                            115),
+                                                                    decoration: BoxDecoration(
+                                                                        color: appTheme
+                                                                            .yellowPrimaryTheme,
+                                                                        border: Border.all(
+                                                                            color: appTheme
+                                                                                .yellowPrimaryTheme),
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(4)),
+                                                                    child:
+                                                                        Center(
+                                                                      child:
+                                                                          Text(
+                                                                        "DELETE",
+                                                                        style: GoogleFonts.lexend(
+                                                                            fontWeight:
+                                                                                FontWeight.bold,
+                                                                            fontSize: MySize.getHeight(18),
+                                                                            color: Colors.white),
+                                                                      ),
+                                                                    ),
+                                                                  )),
+                                                            ],
+                                                          ),
+                                                          SizedBox(
+                                                            height: MySize
+                                                                .getHeight(10),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  );
+                                                });
+                                          },
+                                          edit: () {
+                                            Get.offAndToNamed(Routes.ADD_ITEM,
+                                                arguments: {
+                                                  ArgumentConstant
+                                                          .Categoriename:
+                                                      controller.CategoryName,
+                                                  ArgumentConstant.isFromHome:
+                                                      false,
+                                                  ArgumentConstant.isFromEdit:
+                                                      true,
+                                                  ArgumentConstant
+                                                      .isFromInnerScreen: false,
+                                                  ArgumentConstant
+                                                          .additemListview:
+                                                      controller
+                                                              .addDataTempList[
+                                                          index],
+                                                });
+                                          },
+                                          context: context,
+                                          Index: index,
+                                          Purchaseddate: controller
+                                              .addDataTempList[index].Date
+                                              .toString(),
+                                          expireddate: controller
+                                              .addDataTempList[index]
+                                              .expiredDate
+                                              .toString(),
+                                          days: getDateFromStringNew(
+                                                  controller
+                                                      .addDataTempList[index]
+                                                      .expiredDate
+                                                      .toString(),
+                                                  formatter: 'dd/MM/yyyy')
+                                              .difference(getDateFromStringNew(
+                                                  controller
+                                                      .addDataTempList[index]
+                                                      .Date
+                                                      .toString(),
+                                                  formatter: 'dd/MM/yyyy'))
+                                              .inDays,
+                                          Name: controller
+                                              .addDataTempList[index].ItemName
+                                              .toString(),
+                                          image: controller
+                                              .addDataTempList[index].Image
+                                              .toString(),
+                                          isFromExprired: false,
+                                        );
+                                },
+                                separatorBuilder: (context, index) {
+                                  return SizedBox(
+                                    height: 5,
+                                  );
+                                },
+                                itemCount: controller.addDataTempList.length),
+                            (!isNullEmptyOrFalse(controller.expireDataList))
+                                ? Center(
+                                    child: Text(
+                                    "Expired items",
+                                    style: TextStyle(color: Colors.red),
+                                  ))
+                                : Container(),
+                            ListView.separated(
+                                physics: NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) {
+                                  return addDatawidget(
+                                    isFromExprired: true,
+                                    onTap: () {
+                                      Get.offAndToNamed(
+                                          Routes.ADD_ITEM_LISTSCREEN_VIEW,
+                                          arguments: {
+                                            ArgumentConstant.additemListview:
+                                                controller.expireDataList[index]
+                                          });
+                                    },
+                                    context: context,
+                                    Index: index,
+                                    edit: () {
+                                      Get.offAndToNamed(Routes.ADD_ITEM,
+                                          arguments: {
+                                            ArgumentConstant.Categoriename:
+                                                controller.CategoryName,
+                                            ArgumentConstant.isFromHome: false,
+                                            ArgumentConstant.isFromEdit: true,
+                                            ArgumentConstant.isFromInnerScreen:
+                                                false,
+                                            ArgumentConstant.additemListview:
+                                                controller
+                                                    .expireDataList[index],
+                                          });
+                                    },
+                                    Purchaseddate: controller
+                                        .expireDataList[index].Date
+                                        .toString(),
+                                    expireddate: controller
+                                        .expireDataList[index].expiredDate
+                                        .toString(),
+                                    days: getDateFromStringNew(
+                                            controller.expireDataList[index]
                                                 .expiredDate
                                                 .toString(),
                                             formatter: 'dd/MM/yyyy')
-                                        .isBefore(DateTime.now()))
-                                    ? Container()
-                                    : addDatawidget(
-                                        onTap: () {
-                                          Get.offAndToNamed(
-                                              Routes.ADD_ITEM_LISTSCREEN_VIEW,
-                                              arguments: {
-                                                ArgumentConstant
-                                                        .additemListview:
-                                                    controller
-                                                        .addDataTempList[index]
-                                              });
-                                        },
-                                        bill: () {
-                                          OpenFile.open(controller
-                                                  .addDataTempList[index].Bill)
-                                              .then((value) {
-                                            if (value.message ==
-                                                "No APP found to open this file。") {
-                                              getIt<CustomDialogs>().getDialog(
-                                                title: "No App Found",
-                                                desc: value.message,
-                                              );
-                                            }
-                                          });
-                                        },
-                                        delete: () {
-                                          showDialog(
-                                              context: context,
-                                              barrierDismissible: false,
-                                              builder: (context) {
-                                                return AlertDialog(
-                                                  contentPadding:
-                                                      EdgeInsets.all(0.0),
-                                                  content: Container(
-                                                    child: Column(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
+                                        .difference(getDateFromStringNew(
+                                            controller
+                                                .expireDataList[index].Date
+                                                .toString(),
+                                            formatter: 'dd/MM/yyyy'))
+                                        .inDays,
+                                    bill: () {
+                                      OpenFile.open(controller
+                                              .expireDataList[index].Bill)
+                                          .then((value) {
+                                        if (value.message ==
+                                            "No APP found to open this file。") {
+                                          getIt<CustomDialogs>().getDialog(
+                                            title: "No App Found",
+                                            desc: value.message,
+                                          );
+                                        }
+                                      });
+                                    },
+                                    Name: controller
+                                        .expireDataList[index].ItemName
+                                        .toString(),
+                                    image: controller
+                                        .expireDataList[index].Image
+                                        .toString(),
+                                    delete: () {
+                                      showDialog(
+                                          context: context,
+                                          barrierDismissible: false,
+                                          builder: (context) {
+                                            return AlertDialog(
+                                              contentPadding:
+                                                  EdgeInsets.all(0.0),
+                                              content: Container(
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    Row(
                                                       children: [
-                                                        Row(
-                                                          children: [
-                                                            Padding(
-                                                              padding: EdgeInsets.only(
-                                                                  top: MySize
-                                                                      .getHeight(
-                                                                          20.0),
-                                                                  left: MySize
-                                                                      .getHeight(
-                                                                          20.0)),
-                                                              child: Text(
-                                                                "Are You Sure?",
-                                                                style:
-                                                                    GoogleFonts
-                                                                        .lexend(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontSize: MySize
-                                                                      .getHeight(
-                                                                          20),
+                                                        Padding(
+                                                          padding: EdgeInsets.only(
+                                                              top: MySize
+                                                                  .getHeight(
+                                                                      20.0),
+                                                              left: MySize
+                                                                  .getHeight(
+                                                                      20.0)),
+                                                          child: Text(
+                                                            "Are You Sure?",
+                                                            style: GoogleFonts
+                                                                .lexend(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: MySize
+                                                                  .getHeight(
+                                                                      20),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    SizedBox(
+                                                      height:
+                                                          MySize.getHeight(20),
+                                                    ),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment.end,
+                                                      children: [
+                                                        TextButton(
+                                                            onPressed: () {
+                                                              Get.back();
+                                                            },
+                                                            child: Container(
+                                                              height: MySize
+                                                                  .getHeight(
+                                                                      50),
+                                                              width: MySize
+                                                                  .getWidth(
+                                                                      115),
+                                                              decoration: BoxDecoration(
+                                                                  border: Border.all(
+                                                                      color: appTheme
+                                                                          .yellowPrimaryTheme),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              4)),
+                                                              child: Center(
+                                                                child: Text(
+                                                                  "CANCEL",
+                                                                  style: GoogleFonts.lexend(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400,
+                                                                      fontSize:
+                                                                          MySize.getHeight(
+                                                                              18),
+                                                                      color: Colors
+                                                                          .black),
                                                                 ),
                                                               ),
-                                                            ),
-                                                          ],
-                                                        ),
+                                                            )),
                                                         SizedBox(
-                                                          height:
+                                                          width:
                                                               MySize.getHeight(
-                                                                  20),
+                                                                  3.0),
                                                         ),
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .end,
-                                                          children: [
-                                                            TextButton(
-                                                                onPressed: () {
-                                                                  Get.back();
-                                                                },
-                                                                child:
-                                                                    Container(
-                                                                  height: MySize
-                                                                      .getHeight(
-                                                                          50),
-                                                                  width: MySize
-                                                                      .getWidth(
-                                                                          115),
-                                                                  decoration: BoxDecoration(
-                                                                      border: Border.all(
-                                                                          color: appTheme
-                                                                              .yellowPrimaryTheme),
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              4)),
-                                                                  child: Center(
-                                                                    child: Text(
-                                                                      "CANCEL",
-                                                                      style: GoogleFonts.lexend(
-                                                                          fontWeight: FontWeight
-                                                                              .w400,
-                                                                          fontSize: MySize.getHeight(
-                                                                              18),
-                                                                          color:
-                                                                              Colors.black),
-                                                                    ),
-                                                                  ),
-                                                                )),
-                                                            SizedBox(
-                                                              width: MySize
-                                                                  .getHeight(
-                                                                      3.0),
-                                                            ),
-                                                            TextButton(
-                                                                onPressed: () {
-                                                                  Get.back();
-                                                                  controller.addDataList.removeWhere((element) =>
-                                                                      element
-                                                                          .id ==
-                                                                      controller
-                                                                          .addDataTempList[
-                                                                              index]
-                                                                          .id);
-                                                                  controller
-                                                                      .addDataTempList
-                                                                      .clear();
+                                                        TextButton(
+                                                            onPressed: () {
+                                                              Get.back();
+                                                              controller
+                                                                  .addDataTempList
+                                                                  .forEach(
+                                                                      (element) {
+                                                                if (element
+                                                                        .id ==
+                                                                    controller
+                                                                        .expireDataList[
+                                                                            index]
+                                                                        .id) {
                                                                   controller
                                                                       .addDataList
-                                                                      .forEach(
-                                                                          (element) {
-                                                                    controller
-                                                                        .addDataTempList
-                                                                        .add(
-                                                                            element);
-                                                                  });
+                                                                      .remove(
+                                                                          element);
+                                                                  controller
+                                                                      .expireDataList
+                                                                      .remove(
+                                                                          element);
+                                                                  controller
+                                                                      .addDataTempList
+                                                                      .remove(
+                                                                          element);
                                                                   box.write(
                                                                       ArgumentConstant
                                                                           .additemList,
                                                                       jsonEncode(
                                                                           controller
                                                                               .addDataList));
-                                                                },
-                                                                child:
-                                                                    Container(
-                                                                  height: MySize
-                                                                      .getHeight(
-                                                                          50),
-                                                                  width: MySize
-                                                                      .getWidth(
-                                                                          115),
-                                                                  decoration: BoxDecoration(
+                                                                }
+                                                              });
+                                                            },
+                                                            child: Container(
+                                                              height: MySize
+                                                                  .getHeight(
+                                                                      50),
+                                                              width: MySize
+                                                                  .getWidth(
+                                                                      115),
+                                                              decoration: BoxDecoration(
+                                                                  color: appTheme
+                                                                      .yellowPrimaryTheme,
+                                                                  border: Border.all(
                                                                       color: appTheme
-                                                                          .yellowPrimaryTheme,
-                                                                      border: Border.all(
-                                                                          color: appTheme
-                                                                              .yellowPrimaryTheme),
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
+                                                                          .yellowPrimaryTheme),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
                                                                               4)),
-                                                                  child: Center(
-                                                                    child: Text(
-                                                                      "DELETE",
-                                                                      style: GoogleFonts.lexend(
-                                                                          fontWeight: FontWeight
+                                                              child: Center(
+                                                                child: Text(
+                                                                  "DELETE",
+                                                                  style: GoogleFonts.lexend(
+                                                                      fontWeight:
+                                                                          FontWeight
                                                                               .bold,
-                                                                          fontSize: MySize.getHeight(
+                                                                      fontSize:
+                                                                          MySize.getHeight(
                                                                               18),
-                                                                          color:
-                                                                              Colors.white),
-                                                                    ),
-                                                                  ),
-                                                                )),
-                                                          ],
-                                                        ),
-                                                        SizedBox(
-                                                          height:
-                                                              MySize.getHeight(
-                                                                  10),
-                                                        ),
+                                                                      color: Colors
+                                                                          .white),
+                                                                ),
+                                                              ),
+                                                            )),
                                                       ],
                                                     ),
-                                                  ),
-                                                );
-                                              });
-                                        },
-                                        edit: () {
-                                          Get.offAndToNamed(Routes.ADD_ITEM,
-                                              arguments: {
-                                                ArgumentConstant.Categoriename:
-                                                    controller.CategoryName,
-                                                ArgumentConstant.isFromHome:
-                                                    false,
-                                                ArgumentConstant.isFromEdit:
-                                                    true,
-                                                ArgumentConstant
-                                                    .isFromInnerScreen: false,
-                                                ArgumentConstant
-                                                        .additemListview:
-                                                    controller
-                                                        .addDataTempList[index],
-                                              });
-                                        },
-                                        context: context,
-                                        Index: index,
-                                        Purchaseddate: controller
-                                            .addDataTempList[index].Date
-                                            .toString(),
-                                        expireddate: controller
-                                            .addDataTempList[index].expiredDate
-                                            .toString(),
-                                        days: getDateFromStringNew(
-                                                    controller
-                                                        .addDataTempList[index]
-                                                        .expiredDate
-                                                        .toString(),
-                                                    formatter: 'dd/MM/yyyy')
-                                                .difference(
-                                                    getDateFromStringNew(
-                                                        controller
-                                                            .addDataTempList[
-                                                                index]
-                                                            .Date
-                                                            .toString(),
-                                                        formatter:
-                                                            'dd/MM/yyyy'))
-                                                .inDays ??
-                                            1,
-                                        Name: controller
-                                            .addDataTempList[index].ItemName
-                                            .toString(),
-                                        image: controller
-                                            .addDataTempList[index].Image
-                                            .toString(),
-                                        isFromExprired: false,
-                                      );
-                              },
-                              separatorBuilder: (context, index) {
-                                return SizedBox(
-                                  height: 5,
-                                );
-                              },
-                              itemCount: controller.addDataTempList.length),
-                          (!isNullEmptyOrFalse(controller.expireDataList))
-                              ? Center(
-                                  child: Text(
-                                  "Expired items",
-                                  style: TextStyle(color: Colors.red),
-                                ))
-                              : Container(),
-                          ListView.separated(
-                              physics: NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemBuilder: (context, index) {
-                                return addDatawidget(
-                                  isFromExprired: true,
-                                  onTap: () {
-                                    Get.offAndToNamed(
-                                        Routes.ADD_ITEM_LISTSCREEN_VIEW,
-                                        arguments: {
-                                          ArgumentConstant.additemListview:
-                                              controller.expireDataList[index]
-                                        });
-                                  },
-                                  context: context,
-                                  Index: index,
-                                  edit: () {
-                                    Get.offAndToNamed(Routes.ADD_ITEM,
-                                        arguments: {
-                                          ArgumentConstant.Categoriename:
-                                              controller.CategoryName,
-                                          ArgumentConstant.isFromHome: false,
-                                          ArgumentConstant.isFromEdit: true,
-                                          ArgumentConstant.isFromInnerScreen:
-                                              false,
-                                          ArgumentConstant.additemListview:
-                                              controller.expireDataList[index],
-                                        });
-                                  },
-                                  Purchaseddate: controller
-                                      .expireDataList[index].Date
-                                      .toString(),
-                                  expireddate: controller
-                                      .expireDataList[index].expiredDate
-                                      .toString(),
-                                  days: getDateFromStringNew(
-                                              controller.expireDataList[index]
-                                                  .expiredDate
-                                                  .toString(),
-                                              formatter: 'dd/MM/yyyy')
-                                          .difference(getDateFromStringNew(
-                                              controller
-                                                  .expireDataList[index].Date
-                                                  .toString(),
-                                              formatter: 'dd/MM/yyyy'))
-                                          .inDays ??
-                                      1,
-                                  bill: () {
-                                    OpenFile.open(controller
-                                            .expireDataList[index].Bill)
-                                        .then((value) {
-                                      if (value.message ==
-                                          "No APP found to open this file。") {
-                                        getIt<CustomDialogs>().getDialog(
-                                          title: "No App Found",
-                                          desc: value.message,
-                                        );
-                                      }
-                                    });
-                                  },
-                                  Name: controller
-                                      .expireDataList[index].ItemName
-                                      .toString(),
-                                  image: controller.expireDataList[index].Image
-                                      .toString(),
-                                  delete: () {
-                                    showDialog(
-                                        context: context,
-                                        barrierDismissible: false,
-                                        builder: (context) {
-                                          return AlertDialog(
-                                            contentPadding: EdgeInsets.all(0.0),
-                                            content: Container(
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  Row(
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                top: MySize
-                                                                    .getHeight(
-                                                                        20.0),
-                                                                left: MySize
-                                                                    .getHeight(
-                                                                        20.0)),
-                                                        child: Text(
-                                                          "Are You Sure?",
-                                                          style: GoogleFonts
-                                                              .lexend(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: MySize
-                                                                .getHeight(20),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  SizedBox(
-                                                    height:
-                                                        MySize.getHeight(20),
-                                                  ),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.end,
-                                                    children: [
-                                                      TextButton(
-                                                          onPressed: () {
-                                                            Get.back();
-                                                          },
-                                                          child: Container(
-                                                            height: MySize
-                                                                .getHeight(50),
-                                                            width:
-                                                                MySize.getWidth(
-                                                                    115),
-                                                            decoration: BoxDecoration(
-                                                                border: Border.all(
-                                                                    color: appTheme
-                                                                        .yellowPrimaryTheme),
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            4)),
-                                                            child: Center(
-                                                              child: Text(
-                                                                "CANCEL",
-                                                                style: GoogleFonts.lexend(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400,
-                                                                    fontSize: MySize
-                                                                        .getHeight(
-                                                                            18),
-                                                                    color: Colors
-                                                                        .black),
-                                                              ),
-                                                            ),
-                                                          )),
-                                                      SizedBox(
-                                                        width: MySize.getHeight(
-                                                            3.0),
-                                                      ),
-                                                      TextButton(
-                                                          onPressed: () {
-                                                            Get.back();
-                                                            controller
-                                                                .addDataTempList
-                                                                .forEach(
-                                                                    (element) {
-                                                              if (element.id ==
-                                                                  controller
-                                                                      .expireDataList[
-                                                                          index]
-                                                                      .id) {
-                                                                controller
-                                                                    .addDataList
-                                                                    .remove(
-                                                                        element);
-                                                                controller
-                                                                    .expireDataList
-                                                                    .remove(
-                                                                        element);
-                                                                controller
-                                                                    .addDataTempList
-                                                                    .remove(
-                                                                        element);
-                                                                box.write(
-                                                                    ArgumentConstant
-                                                                        .additemList,
-                                                                    jsonEncode(
-                                                                        controller
-                                                                            .addDataList));
-                                                              }
-                                                            });
-                                                          },
-                                                          child: Container(
-                                                            height: MySize
-                                                                .getHeight(50),
-                                                            width:
-                                                                MySize.getWidth(
-                                                                    115),
-                                                            decoration: BoxDecoration(
-                                                                color: appTheme
-                                                                    .yellowPrimaryTheme,
-                                                                border: Border.all(
-                                                                    color: appTheme
-                                                                        .yellowPrimaryTheme),
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            4)),
-                                                            child: Center(
-                                                              child: Text(
-                                                                "DELETE",
-                                                                style: GoogleFonts.lexend(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontSize: MySize
-                                                                        .getHeight(
-                                                                            18),
-                                                                    color: Colors
-                                                                        .white),
-                                                              ),
-                                                            ),
-                                                          )),
-                                                    ],
-                                                  ),
-                                                  SizedBox(
-                                                    height:
-                                                        MySize.getHeight(10),
-                                                  ),
-                                                ],
+                                                    SizedBox(
+                                                      height:
+                                                          MySize.getHeight(10),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                          );
-                                        });
-                                  },
-                                );
-                              },
-                              separatorBuilder: (context, index) {
-                                return SizedBox(
-                                  height: 5,
-                                );
-                              },
-                              itemCount: controller.expireDataList.length),
-                        ],
+                                            );
+                                          });
+                                    },
+                                  );
+                                },
+                                separatorBuilder: (context, index) {
+                                  return SizedBox(
+                                    height: 5,
+                                  );
+                                },
+                                itemCount: controller.expireDataList.length),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -608,7 +617,10 @@ class AddItemListscreenView extends GetWidget<AddItemListscreenController> {
     return GestureDetector(
       onTap: onTap,
       child: Padding(
-        padding: EdgeInsets.all(MySize.getHeight(20)),
+        padding: EdgeInsets.only(
+            bottom: MySize.getHeight(20),
+            right: MySize.getHeight(20),
+            left: MySize.getHeight(20)),
         child: Container(
           decoration: BoxDecoration(
             color: Color(0xffE8F9FF),

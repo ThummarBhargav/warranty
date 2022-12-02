@@ -26,6 +26,7 @@ class AddItemController extends GetxController {
   SingleValueDropDownController? notificationController;
   HomeController? homeController;
   RxInt expireDay = 0.obs;
+  RxInt days = 0.obs;
   RxInt selectedExpireDay = 0.obs;
   RxInt selectedExpireSec = 0.obs;
   AddItemListscreenController? addItemListscreenController;

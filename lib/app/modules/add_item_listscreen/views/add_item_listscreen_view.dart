@@ -204,30 +204,31 @@ class AddItemListscreenView extends GetWidget<AddItemListscreenController> {
                                                             TextButton(
                                                                 onPressed: () {
                                                                   Get.back();
+                                                                  controller.addDataList.removeWhere((element) =>
+                                                                      element
+                                                                          .id ==
+                                                                      controller
+                                                                          .addDataTempList[
+                                                                              index]
+                                                                          .id);
+                                                                  controller
+                                                                      .addDataTempList
+                                                                      .clear();
                                                                   controller
                                                                       .addDataList
                                                                       .forEach(
                                                                           (element) {
-                                                                    if (element
-                                                                            .id ==
-                                                                        controller
-                                                                            .addDataTempList[index]
-                                                                            .id) {
-                                                                      controller
-                                                                          .addDataList
-                                                                          .remove(
-                                                                              element);
-                                                                      controller
-                                                                          .addDataTempList
-                                                                          .remove(
-                                                                              element);
-                                                                      box.write(
-                                                                          ArgumentConstant
-                                                                              .additemList,
-                                                                          jsonEncode(
-                                                                              controller.addDataList));
-                                                                    }
+                                                                    controller
+                                                                        .addDataTempList
+                                                                        .add(
+                                                                            element);
                                                                   });
+                                                                  box.write(
+                                                                      ArgumentConstant
+                                                                          .additemList,
+                                                                      jsonEncode(
+                                                                          controller
+                                                                              .addDataList));
                                                                 },
                                                                 child:
                                                                     Container(

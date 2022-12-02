@@ -75,33 +75,37 @@ class AddItemView extends GetView<AddItemController> {
                           padding: EdgeInsets.all(MySize.getHeight(8.0)),
                           child: GestureDetector(
                             onTap: () async {
-                              controller.selectedExpireSec ==
-                                  ((controller.expireDay.value) -
-                                      (controller.selectedExpireDay.value));
                               if (controller.formKey.currentState!.validate()) {
                                 if (controller.isNameEmpty.isFalse &&
                                     controller.isDurationEmpty.isFalse) {
+                                  controller.expireDay.value =
+                                      (getDateFromStringNew(
+                                              getExpiryDateString(),
+                                              formatter: 'dd/MM/yyyy')
+                                          .difference(getDateFromStringNew(
+                                              controller
+                                                  .dateController.value.text
+                                                  .toString(),
+                                              formatter: 'dd/MM/yyyy'))
+                                          .inDays);
+                                  print(
+                                      "ExpireDay :========= ${controller.expireDay.value}");
+                                  controller.notificationList.clear();
+
+                                  controller.selectedExpireSec.value =
+                                      ((controller.expireDay.value) -
+                                              (controller
+                                                  .selectedExpireDay.value)) *
+                                          3600;
+                                  print(
+                                      "Data :========= ${controller.selectedExpireSec.value}");
                                   await controller.service
                                       .showScheduledNotification(
                                           id: 0,
                                           title: 'Notification Title',
                                           body: 'Some body',
-                                          seconds: 0);
-
-                                  controller.expireDay ==
-                                      (getDateFromStringNew(
-                                                  getExpiryDateString(),
-                                                  formatter: 'dd/MM/yyyy')
-                                              .difference(getDateFromStringNew(
-                                                  controller
-                                                      .dateController.value.text
-                                                      .toString(),
-                                                  formatter: 'dd/MM/yyyy'))
-                                              .inDays)
-                                          .obs
-                                          .toString();
-                                  print(
-                                      "ExpireDay========>${controller.expireDay.value}");
+                                          seconds: controller
+                                              .selectedExpireSec.value);
                                   if (controller.isFromEdit) {
                                     controller.EditItem(dataModels(
                                         id: DateTime.now()
@@ -465,8 +469,9 @@ class AddItemView extends GetView<AddItemController> {
                                       DropDownValueModel dropDownValue =
                                           index as DropDownValueModel;
                                       print("index:=== ${dropDownValue.value}");
-                                      controller.selectedExpireDay =
-                                          dropDownValue.value.obs;
+                                      controller.selectedExpireDay.value =
+                                          int.parse(
+                                              dropDownValue.value.toString());
                                     },
                                     dropDownList: List.generate(
                                         controller.notificationList.length,

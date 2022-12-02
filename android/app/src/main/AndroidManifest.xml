@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.warranty_appp">
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="warranty_appp"
         android:name="${applicationName}"

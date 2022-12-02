@@ -480,8 +480,7 @@ class AddItemView extends GetView<AddItemController> {
                                               dropDownValue.value.toString());
                                     },
                                     dropDownList: List.generate(
-                                        (controller.days.value < 7 &&
-                                                controller.days.value != 0)
+                                        (controller.days.value < 7 && controller.days.value !=0)
                                             ? controller.days.value - 1
                                             : controller
                                                 .notificationList.length,

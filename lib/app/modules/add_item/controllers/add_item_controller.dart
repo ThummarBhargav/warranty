@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
@@ -79,6 +80,7 @@ class AddItemController extends GetxController {
         dateController.value.text = additemListview!.Date.toString();
         files!.value = additemListview!.Image.toString().split(" ");
         files1!.value = additemListview!.Bill.toString().split(" ");
+        days.value = int.parse(additemListview!.Duration.toString());
       }
       if (isFromHome) {
         dropDownController = SingleValueDropDownController(

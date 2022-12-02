@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:file_picker/file_picker.dart';
@@ -11,6 +12,7 @@ import '../../../../constants/api_constants.dart';
 import '../../../../constants/color_constant.dart';
 import '../../../../constants/sizeConstant.dart';
 import '../../../../constants/text_field.dart';
+import '../../../../main.dart';
 import '../../../models/categoriesModels.dart';
 import '../../../routes/app_pages.dart';
 import '../controllers/add_item_controller.dart';
@@ -109,6 +111,9 @@ class AddItemView extends GetView<AddItemController> {
                                     controller.EditItem(dataModels(
                                         id: DateTime.now()
                                             .microsecondsSinceEpoch,
+                                        selectedExpireDay: controller
+                                            .selectedExpireDay.value
+                                            .toString(),
                                         ItemName: controller
                                             .itemnamecontroller.value.text,
                                         Date: controller
@@ -144,6 +149,9 @@ class AddItemView extends GetView<AddItemController> {
                                             ? controller.files1![0]
                                             : null,
                                         expiredDate: getExpiryDateString(),
+                                        selectedExpireDay: controller
+                                            .selectedExpireDay.value
+                                            .toString(),
                                         Ditails: controller
                                             .detailscontroller.value.text,
                                         Duration: controller
@@ -416,8 +424,6 @@ class AddItemView extends GetView<AddItemController> {
                                       print(value);
                                       controller.days.value =
                                           int.parse(value.toString());
-                                      print(
-                                          "helllllllll ${controller.days.value}");
                                     },
                                     labelColor: Colors.grey,
                                     textInputType: TextInputType.number),
@@ -474,7 +480,6 @@ class AddItemView extends GetView<AddItemController> {
                                     onChanged: (index) {
                                       DropDownValueModel dropDownValue =
                                           index as DropDownValueModel;
-                                      print("index:=== ${dropDownValue.value}");
                                       controller.selectedExpireDay.value =
                                           int.parse(
                                               dropDownValue.value.toString());

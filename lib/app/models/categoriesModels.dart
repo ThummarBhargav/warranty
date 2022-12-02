@@ -48,6 +48,7 @@ class dataModels {
   String? Date;
   String? expiredDate;
   String? expiredDay;
+  String? selectedExpireDay;
   String? Image;
   String? Bill;
 
@@ -60,6 +61,7 @@ class dataModels {
       this.Image,
       this.Bill,
       this.expiredDate,
+      this.selectedExpireDay,
       this.expiredDay,
       this.categoriesName});
 
@@ -71,6 +73,7 @@ class dataModels {
     Duration = json['Duration'];
     Ditails = json["Ditails"];
     Image = json["Image"];
+    selectedExpireDay = json["selectedExpireDay"];
     Bill = json["Bill"];
     expiredDate = json["expiredDate"];
     expiredDay = json["expiredDay"];
@@ -83,6 +86,7 @@ class dataModels {
     data['id'] = this.id;
     data['Date'] = this.Date;
     data['Duration'] = this.Duration;
+    data['selectedExpireDay'] = this.selectedExpireDay;
     data['Ditails'] = this.Ditails;
     data['Image'] = this.Image;
     data['expiredDate'] = this.expiredDate;

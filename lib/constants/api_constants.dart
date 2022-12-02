@@ -13,6 +13,7 @@ class ArgumentConstant {
   static const isFromEdit = "isFromEdit";
   static const isFirstTime = "isFirstTime";
   static const isFromInnerScreen = "isFromInnerScreen";
+  static const selectedExpireDay = "selectedExpireDay";
   static const isPermissionDone = "isPermissionDone";
   static const isStop = "isStop";
 }

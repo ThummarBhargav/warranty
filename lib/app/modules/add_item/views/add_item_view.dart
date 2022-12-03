@@ -111,8 +111,7 @@ class AddItemView extends GetView<AddItemController> {
                                     controller.EditItem(dataModels(
                                         id: DateTime.now()
                                             .microsecondsSinceEpoch,
-                                        selectedExpireDay: controller
-                                            .selectedExpireDay.value
+                                        selectedExpireDay: controller.selectedExpireDay.value
                                             .toString(),
                                         ItemName: controller
                                             .itemnamecontroller.value.text,
@@ -125,6 +124,8 @@ class AddItemView extends GetView<AddItemController> {
                                             ? controller.files1![0]
                                             : null,
                                         expiredDate: getExpiryDateString(),
+                                        selectedExpireName: controller.selectedExpireName.value
+                                            .toString(),
                                         Ditails: controller
                                             .detailscontroller.value.text,
                                         Duration: controller
@@ -149,6 +150,9 @@ class AddItemView extends GetView<AddItemController> {
                                             ? controller.files1![0]
                                             : null,
                                         expiredDate: getExpiryDateString(),
+                                        selectedExpireName: controller
+                                            .selectedExpireName.value
+                                            .toString(),
                                         selectedExpireDay: controller
                                             .selectedExpireDay.value
                                             .toString(),
@@ -483,9 +487,15 @@ class AddItemView extends GetView<AddItemController> {
                                       controller.selectedExpireDay.value =
                                           int.parse(
                                               dropDownValue.value.toString());
+                                      DropDownValueModel dropDownValue1 = index;
+                                      controller.selectedExpireName.value =
+                                          dropDownValue1.name.toString();
+                                      print(
+                                          "name:------${dropDownValue1.name.toString()}");
                                     },
                                     dropDownList: List.generate(
-                                        (controller.days.value < 7 && controller.days.value !=0)
+                                        (controller.days.value < 7 &&
+                                                controller.days.value != 0)
                                             ? controller.days.value - 1
                                             : controller
                                                 .notificationList.length,

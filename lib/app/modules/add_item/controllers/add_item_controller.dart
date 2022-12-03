@@ -29,6 +29,7 @@ class AddItemController extends GetxController {
   RxInt expireDay = 0.obs;
   RxInt days = 0.obs;
   RxInt selectedExpireDay = 0.obs;
+  RxString selectedExpireName = "".obs;
   RxInt selectedExpireSec = 0.obs;
   AddItemListscreenController? addItemListscreenController;
   Rx<DateTime> selectedDate = DateTime.now().obs;
@@ -81,8 +82,11 @@ class AddItemController extends GetxController {
         files!.value = additemListview!.Image.toString().split(" ");
         files1!.value = additemListview!.Bill.toString().split(" ");
         days.value = int.parse(additemListview!.Duration.toString());
-        selectedExpireDay.value =
-            int.parse(additemListview!.selectedExpireDay.toString());
+        notificationController = SingleValueDropDownController(
+          data: DropDownValueModel(
+              name: additemListview!.selectedExpireName.toString(),
+              value: int.parse(additemListview!.selectedExpireDay.toString())),
+        );
       }
       if (isFromHome) {
         dropDownController = SingleValueDropDownController(

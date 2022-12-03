@@ -90,16 +90,11 @@ class AddItemView extends GetView<AddItemController> {
                                                   .toString(),
                                               formatter: 'dd/MM/yyyy'))
                                           .inDays);
-                                  print(
-                                      "ExpireDay :========= ${controller.expireDay.value}");
-
                                   controller.selectedExpireSec.value =
                                       ((controller.expireDay.value) -
                                               (controller
                                                   .selectedExpireDay.value)) *
                                           3600;
-                                  print(
-                                      "Data :========= ${controller.selectedExpireSec.value}");
                                   await controller.service
                                       .showScheduledNotification(
                                           id: 0,
@@ -454,14 +449,14 @@ class AddItemView extends GetView<AddItemController> {
                                 ),
                                 child: DropDownTextField(
                                     textStyle: GoogleFonts.lexend(
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: MySize.getHeight(13),
-                                        color: Colors.black),
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: MySize.getHeight(13),
+                                    ),
                                     clearOption: false,
                                     listTextStyle: GoogleFonts.lexend(
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: MySize.getHeight(13),
-                                        color: Colors.black),
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: MySize.getHeight(13),
+                                    ),
                                     textFieldDecoration: InputDecoration(
                                       filled: true,
                                       fillColor: Colors.white,
@@ -490,8 +485,6 @@ class AddItemView extends GetView<AddItemController> {
                                       DropDownValueModel dropDownValue1 = index;
                                       controller.selectedExpireName.value =
                                           dropDownValue1.name.toString();
-                                      print(
-                                          "name:------${dropDownValue1.name.toString()}");
                                     },
                                     dropDownList: List.generate(
                                         (controller.days.value < 7 &&
@@ -527,15 +520,18 @@ class AddItemView extends GetView<AddItemController> {
                                   ],
                                 ),
                                 child: getTextField(
+                                    minLine: 1,
+                                    maxLine: 5,
                                     fillColor: Colors.white,
                                     isFilled: true,
+                                    textInputAction: TextInputAction.newline,
                                     textEditingController:
                                         controller.detailscontroller.value,
                                     textCapitalization:
                                         TextCapitalization.words,
                                     hintText: "Detail",
                                     labelColor: Colors.grey,
-                                    textInputType: TextInputType.name),
+                                    textInputType: TextInputType.multiline),
                               ),
                               Spacing.height(MySize.getHeight(30)),
                               Row(

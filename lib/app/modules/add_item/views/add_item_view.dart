@@ -181,12 +181,18 @@ class AddItemView extends GetView<AddItemController> {
                                 }
                               }
                             },
-                            child: Text(
-                              (controller.isFromEdit) ? "UPDATE" : "SAVE",
-                              style: GoogleFonts.lexend(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: MySize.getHeight(15),
-                                  color: Colors.white),
+                            child: Container(
+                              height: MySize.getHeight(40),
+                              width: MySize.getWidth(70),
+                              child: Center(
+                                child: Text(
+                                  (controller.isFromEdit) ? "UPDATE" : "SAVE",
+                                  style: GoogleFonts.lexend(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: MySize.getHeight(15),
+                                      color: Colors.white),
+                                ),
+                              ),
                             ),
                           ),
                         ),

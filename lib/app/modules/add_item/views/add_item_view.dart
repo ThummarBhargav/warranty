@@ -102,14 +102,10 @@ class AddItemView extends GetView<AddItemController> {
                                       : controller.service
                                           .showScheduledNotification(
                                               id: 0,
-                                              title: controller
-                                                  .dropDownController!
-                                                  .dropDownValue!
-                                                  .name
-                                                  .toString(),
-                                              body: 'Some body',
-                                              seconds: controller
-                                                  .selectedExpireSec.value);
+                                              title: "Warranty App",
+                                              body:
+                                                  "${controller.itemnamecontroller.value.text} To ReNew",
+                                              seconds: 5);
                                   if (controller.isFromEdit) {
                                     controller.EditItem(dataModels(
                                         id: DateTime.now()
@@ -466,70 +462,95 @@ class AddItemView extends GetView<AddItemController> {
                                 if (int.tryParse(controller
                                         .durationcontroller.value.text)! >
                                     0)
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      boxShadow: [
-                                        BoxShadow(
-                                          offset: Offset(0, 7),
-                                          color: Colors.black.withOpacity(0.08),
-                                          blurRadius: MySize.getHeight(13),
-                                          spreadRadius: MySize.getHeight(2),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Container(
+                                        height: 50,
+                                        width: 300,
+                                        decoration: BoxDecoration(
+                                          boxShadow: [
+                                            BoxShadow(
+                                              offset: Offset(0, 7),
+                                              color: Colors.black
+                                                  .withOpacity(0.08),
+                                              blurRadius: MySize.getHeight(13),
+                                              spreadRadius: MySize.getHeight(2),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
-                                    child: DropDownTextField(
-                                        textStyle: GoogleFonts.lexend(
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: MySize.getHeight(13),
-                                        ),
-                                        clearOption: false,
-                                        listTextStyle: GoogleFonts.lexend(
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: MySize.getHeight(13),
-                                        ),
-                                        textFieldDecoration: InputDecoration(
-                                          filled: true,
-                                          fillColor: Colors.white,
-                                          labelStyle: TextStyle(),
-                                          border: OutlineInputBorder(
-                                            borderSide:
-                                                BorderSide(color: Colors.white),
-                                            borderRadius: BorderRadius.circular(
-                                                MySize.getHeight(10)),
-                                          ),
-                                          contentPadding: EdgeInsets.only(
-                                            left: MySize.getWidth(20),
-                                            right: MySize.getWidth(10),
-                                            //  bottom: size! / 2, // HERE THE IMPORTANT PART
-                                          ),
-                                        ),
-                                        controller:
-                                            controller.notificationController,
-                                        dropDownItemCount: 6,
-                                        onChanged: (index) {
-                                          DropDownValueModel dropDownValue =
-                                              index as DropDownValueModel;
-                                          controller.selectedExpireDay.value =
-                                              int.parse(dropDownValue.value
-                                                  .toString());
-                                          DropDownValueModel dropDownValue1 =
-                                              index;
-                                          controller.selectedExpireName.value =
-                                              dropDownValue1.name.toString();
-                                        },
-                                        dropDownList: List.generate(
-                                            (controller.days.value < 7 &&
-                                                    controller.days.value != 0)
-                                                ? controller.days.value
-                                                : controller
-                                                    .notificationList.length,
-                                            (index) => DropDownValueModel(
-                                                name: controller
-                                                    .notificationList[index]
-                                                    .title,
-                                                value: controller
-                                                    .notificationList[index]
-                                                    .value))),
+                                        child: DropDownTextField(
+                                            textStyle: GoogleFonts.lexend(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: MySize.getHeight(13),
+                                            ),
+                                            clearOption: false,
+                                            listTextStyle: GoogleFonts.lexend(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: MySize.getHeight(13),
+                                            ),
+                                            textFieldDecoration:
+                                                InputDecoration(
+                                              filled: true,
+                                              fillColor: Colors.white,
+                                              labelStyle: TextStyle(),
+                                              border: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Colors.white),
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        MySize.getHeight(10)),
+                                              ),
+                                              contentPadding: EdgeInsets.only(
+                                                left: MySize.getWidth(20),
+                                                right: MySize.getWidth(10),
+                                                //  bottom: size! / 2, // HERE THE IMPORTANT PART
+                                              ),
+                                            ),
+                                            controller: controller
+                                                .notificationController,
+                                            dropDownItemCount: 6,
+                                            onChanged: (index) {
+                                              DropDownValueModel dropDownValue =
+                                                  index as DropDownValueModel;
+                                              controller
+                                                      .selectedExpireDay.value =
+                                                  int.parse(dropDownValue.value
+                                                      .toString());
+                                              DropDownValueModel
+                                                  dropDownValue1 = index;
+                                              controller.selectedExpireName
+                                                      .value =
+                                                  dropDownValue1.name
+                                                      .toString();
+                                            },
+                                            dropDownList: List.generate(
+                                                (controller.days.value < 7 &&
+                                                        controller.days.value !=
+                                                            0)
+                                                    ? controller.days.value
+                                                    : controller
+                                                        .notificationList
+                                                        .length,
+                                                (index) => DropDownValueModel(
+                                                    name: controller
+                                                        .notificationList[index]
+                                                        .title,
+                                                    value: controller
+                                                        .notificationList[index]
+                                                        .value))),
+                                      ),
+                                      Container(
+                                        child: IconButton(
+                                            onPressed: () {},
+                                            icon: Icon(
+                                              Icons.alarm,
+                                              color: Colors.grey,
+                                              size: MySize.getHeight(40),
+                                            )),
+                                      )
+                                    ],
                                   ),
                               Spacing.height(20),
                               Text(

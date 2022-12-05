@@ -40,7 +40,7 @@ class AddItemController extends GetxController {
   bool isFromInnerScreen = false;
   RxList<NotificationDataModel> notificationList =
       RxList<NotificationDataModel>([
-    NotificationDataModel(value: 0, title: "0 Days Ago"),
+    NotificationDataModel(value: 0, title: "SameDays Ago"),
     NotificationDataModel(value: 1, title: "1 Days Ago"),
     NotificationDataModel(value: 2, title: "2 Days Ago"),
     NotificationDataModel(value: 3, title: "3 Days Ago"),

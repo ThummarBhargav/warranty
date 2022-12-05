@@ -543,7 +543,13 @@ class AddItemView extends GetView<AddItemController> {
                                       ),
                                       Container(
                                         child: IconButton(
-                                            onPressed: () {},
+                                            onPressed: () async {
+                                              TimeOfDay? pickedTime =
+                                                  await showTimePicker(
+                                                initialTime: TimeOfDay.now(),
+                                                context: context,
+                                              );
+                                            },
                                             icon: Icon(
                                               Icons.alarm,
                                               color: Colors.grey,

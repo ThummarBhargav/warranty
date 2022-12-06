@@ -570,8 +570,8 @@ class AddItemView extends GetView<AddItemController> {
                                                             .notificationList[index]
                                                             .value))),
                                             Positioned(
-                                              top: MySize.getHeight(15),
-                                              right: MySize.getWidth(90),
+                                              top: MySize.getHeight(17),
+                                              right: MySize.getWidth(50),
                                               child: Center(
                                                 child: Text(
                                                   "${controller.formattedTime}",
@@ -603,8 +603,6 @@ class AddItemView extends GetView<AddItemController> {
                                                 controller.formattedTime.value =
                                                     DateFormat('HH:mm:ss')
                                                         .format(parsedTime);
-                                                // print(
-                                                //     formattedTime);
                                                 controller.selectedTime.value =
                                                     pickedTime;
                                               }

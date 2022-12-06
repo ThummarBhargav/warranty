@@ -101,6 +101,7 @@ class AddItemController extends GetxController {
               name: additemListview!.selectedExpireName.toString(),
               value: additemListview!.selectedExpireDay.toString()),
         );
+        formattedTime.value = additemListview!.pickedTime.toString();
       }
       if (isFromHome) {
         dropDownController = SingleValueDropDownController(

@@ -341,7 +341,7 @@ class AddItemView extends GetView<AddItemController> {
                                     fillColor: Colors.white,
                                     isFilled: true,
                                     textEditingController:
-                                        controller.dateController.value,
+                                        controller.selectDateController.value,
                                     labelColor: Colors.grey,
                                     readOnly: true,
                                     suffixIcon: GestureDetector(
@@ -377,6 +377,16 @@ class AddItemView extends GetView<AddItemController> {
                                         if (pickedDate != null) {
                                           DateTime now = DateTime.now();
                                           controller.dateController.value.text =
+                                              DateFormat('dd/MM/yyyy HH:mm:ss')
+                                                  .format(DateTime(
+                                                      pickedDate.year,
+                                                      pickedDate.month,
+                                                      pickedDate.day,
+                                                      now.hour,
+                                                      now.minute,
+                                                      now.second));
+                                          controller.selectDateController.value
+                                                  .text =
                                               DateFormat('dd/MM/yyyy').format(
                                                   DateTime(
                                                       pickedDate.year,
@@ -564,7 +574,13 @@ class AddItemView extends GetView<AddItemController> {
                                               right: MySize.getWidth(90),
                                               child: Center(
                                                 child: Text(
-                                                    "${controller.formattedTime}"),
+                                                  "${controller.formattedTime}",
+                                                  style: GoogleFonts.lexend(
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize:
+                                                        MySize.getHeight(13),
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                           ],

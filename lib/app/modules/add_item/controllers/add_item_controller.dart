@@ -23,6 +23,9 @@ class AddItemController extends GetxController {
   Rx<TextEditingController> dateController = TextEditingController(
           text: DateFormat('dd/MM/yyyy HH:mm:ss').format(DateTime.now()))
       .obs;
+  Rx<TextEditingController> selectDateController = TextEditingController(
+          text: DateFormat('dd/MM/yyyy').format(DateTime.now()))
+      .obs;
   RxString Date = "".obs;
   SingleValueDropDownController? dropDownController;
   SingleValueDropDownController? notificationController;
@@ -79,7 +82,6 @@ class AddItemController extends GetxController {
       isFromInnerScreen = Get.arguments[ArgumentConstant.isFromInnerScreen];
 
       if (isFromEdit) {
-        formattedTime.value = additemListview!.pickedTime.toString();
         additemListview = Get.arguments[ArgumentConstant.additemListview];
         itemnamecontroller.value.text = additemListview!.ItemName.toString();
         durationcontroller.value.text = additemListview!.Duration.toString();
@@ -87,6 +89,8 @@ class AddItemController extends GetxController {
         dateController.value.text = additemListview!.Date.toString();
         files!.value = additemListview!.Image.toString().split(" ");
         files1!.value = additemListview!.Bill.toString().split(" ");
+        formattedTime.value = additemListview!.pickedTime.toString();
+
         days.value = int.parse(additemListview!.Duration.toString());
         selectedExpireName.value =
             additemListview!.selectedExpireName.toString();
@@ -95,7 +99,7 @@ class AddItemController extends GetxController {
         notificationController = SingleValueDropDownController(
           data: DropDownValueModel(
               name: additemListview!.selectedExpireName.toString(),
-              value: int.parse(additemListview!.selectedExpireDay.toString())),
+              value: additemListview!.selectedExpireDay.toString()),
         );
       }
       if (isFromHome) {

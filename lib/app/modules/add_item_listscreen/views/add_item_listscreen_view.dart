@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:open_file/open_file.dart';
 import '../../../../constants/api_constants.dart';
 import '../../../../constants/color_constant.dart';
@@ -86,6 +87,14 @@ class AddItemListscreenView extends GetWidget<AddItemListscreenController> {
                                 physics: NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 itemBuilder: (context, index) {
+                                  List<String> temp = controller
+                                      .addDataTempList[index].expiredDate
+                                      .toString()
+                                      .split(" ");
+                                  List<String> purchasedDate = controller
+                                      .addDataTempList[index].Date
+                                      .toString()
+                                      .split(" ");
                                   return (getDateFromStringNew(
                                               controller.addDataTempList[index]
                                                   .expiredDate
@@ -295,13 +304,9 @@ class AddItemListscreenView extends GetWidget<AddItemListscreenController> {
                                           },
                                           context: context,
                                           Index: index,
-                                          Purchaseddate: controller
-                                              .addDataTempList[index].Date
-                                              .toString(),
-                                          expireddate: controller
-                                              .addDataTempList[index]
-                                              .expiredDate
-                                              .toString(),
+                                          Purchaseddate:
+                                              purchasedDate[0].toString(),
+                                          expireddate: temp[0].toString(),
                                           days: getDateFromStringNew(
                                                   controller
                                                       .addDataTempList[index]
@@ -341,6 +346,15 @@ class AddItemListscreenView extends GetWidget<AddItemListscreenController> {
                                 physics: NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 itemBuilder: (context, index) {
+                                  List<String> expiredDate = controller
+                                      .expireDataList[index].expiredDate
+                                      .toString()
+                                      .split(" ");
+                                  List<String> purchasedDate = controller
+                                      .expireDataList[index].Date
+                                      .toString()
+                                      .split(" ");
+
                                   return addDatawidget(
                                     isFromExprired: true,
                                     onTap: () {
@@ -367,12 +381,8 @@ class AddItemListscreenView extends GetWidget<AddItemListscreenController> {
                                                     .expireDataList[index],
                                           });
                                     },
-                                    Purchaseddate: controller
-                                        .expireDataList[index].Date
-                                        .toString(),
-                                    expireddate: controller
-                                        .expireDataList[index].expiredDate
-                                        .toString(),
+                                    Purchaseddate: purchasedDate[0].toString(),
+                                    expireddate: expiredDate[0].toString(),
                                     days: getDateFromStringNew(
                                             controller.expireDataList[index]
                                                 .expiredDate
@@ -711,7 +721,7 @@ class AddItemListscreenView extends GetWidget<AddItemListscreenController> {
                                 color: Colors.black),
                           ),
                           TextSpan(
-                            text: "$expireddate",
+                            text: "${expireddate}",
                             style: (days == 0)
                                 ? GoogleFonts.lexend(
                                     fontSize: MySize.getHeight(13),

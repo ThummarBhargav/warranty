@@ -219,7 +219,7 @@ class AddItemListscreenViewView
                               SizedBox(height: MySize.getHeight(10)),
                               Text(
                                 "Last updated On:-" +
-                                    controller.addItemListview!.Date.toString(),
+                                    controller.purchasedDate[0].toString(),
                                 style: GoogleFonts.lexend(
                                     color: appTheme.textGrayColor,
                                     fontWeight: FontWeight.w400,
@@ -241,12 +241,10 @@ class AddItemListscreenViewView
                                 "${controller.addItemListview!.categoriesName.toString()}"),
                         getDataWidget(
                             name: "Purchase date :",
-                            Data:
-                                "${controller.addItemListview!.Date.toString()}"),
+                            Data: "${controller.purchasedDate[0].toString()}"),
                         getDataWidget(
                             name: "Expire date :",
-                            Data:
-                                "${controller.addItemListview!.expiredDate.toString()}"),
+                            Data: "${controller.expireDate[0].toString()}"),
                         getDataWidget(
                             name: "Validity duration :",
                             Data:

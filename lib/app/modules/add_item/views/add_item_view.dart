@@ -83,18 +83,18 @@ class AddItemView extends GetView<AddItemController> {
                                   controller.expireDay.value =
                                       (getDateFromStringNew(
                                               getExpiryDateString(),
-                                              formatter: 'dd/MM/yyyy')
+                                              formatter: "dd/MM/yyyy HH:mm:ss")
                                           .difference(getDateFromStringNew(
                                               controller
                                                   .dateController.value.text
                                                   .toString(),
-                                              formatter: 'dd/MM/yyyy'))
-                                          .inDays);
+                                              formatter: "dd/MM/yyyy HH:mm:ss"))
+                                          .inSeconds);
                                   controller.selectedExpireSec.value =
                                       ((controller.expireDay.value) -
-                                              (controller
-                                                  .selectedExpireDay.value)) *
-                                          3600;
+                                          ((controller
+                                                  .selectedExpireDay.value) *
+                                              86400));
                                   await (controller
                                               .durationcontroller.value.text ==
                                           "0")
@@ -105,7 +105,8 @@ class AddItemView extends GetView<AddItemController> {
                                               title: "Warranty App",
                                               body:
                                                   "${controller.itemnamecontroller.value.text} To ReNew",
-                                              seconds: 5);
+                                              seconds: controller
+                                                  .selectedExpireSec.value);
                                   if (controller.isFromEdit) {
                                     controller.EditItem(dataModels(
                                         id: DateTime.now()
@@ -360,8 +361,8 @@ class AddItemView extends GetView<AddItemController> {
                                                           TextButtonThemeData(
                                                         style: TextButton
                                                             .styleFrom(
-                                                          backgroundColor: appTheme
-                                                              .yellowPrimaryTheme, // button text color
+                                                          backgroundColor: Colors
+                                                              .black, // button text color
                                                         ),
                                                       ),
                                                     ),
@@ -372,11 +373,16 @@ class AddItemView extends GetView<AddItemController> {
                                                 lastDate: DateTime(2101));
 
                                         if (pickedDate != null) {
-                                          print(
-                                              pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                                          DateTime now = DateTime.now();
                                           controller.dateController.value.text =
-                                              DateFormat('dd/MM/yyyy')
-                                                  .format(pickedDate);
+                                              DateFormat('dd/MM/yyyy').format(
+                                                  DateTime(
+                                                      pickedDate.year,
+                                                      pickedDate.month,
+                                                      pickedDate.day,
+                                                      now.hour,
+                                                      now.minute,
+                                                      now.second));
                                           controller.selectedDate.value =
                                               pickedDate;
                                         } else {
@@ -549,6 +555,19 @@ class AddItemView extends GetView<AddItemController> {
                                                 initialTime: TimeOfDay.now(),
                                                 context: context,
                                               );
+                                              if (pickedTime != null) {
+                                                DateTime parsedTime =
+                                                    DateFormat.jm().parse(
+                                                        pickedTime
+                                                            .format(context)
+                                                            .toString());
+                                                String formattedTime =
+                                                    DateFormat('HH:mm:ss')
+                                                        .format(parsedTime);
+                                                print(formattedTime);
+                                                controller.selectedTime.value =
+                                                    pickedTime;
+                                              }
                                             },
                                             icon: Icon(
                                               Icons.alarm,
@@ -632,16 +651,16 @@ class AddItemView extends GetView<AddItemController> {
 
   String getExpiryDateString() {
     DateTime n = DateTime(
-            controller.selectedDate.value.year,
-            controller.selectedDate.value.month,
-            controller.selectedDate.value.day,
-            0,
-            0,
-            0)
-        .add(Duration(
-            days: int.parse(controller.durationcontroller.value.text)));
-    DateTime finalDate = DateTime(n.year, n.month, n.day, 0, 0, 0);
-    return DateFormat('dd/MM/yyyy').format(finalDate);
+      controller.selectedDate.value.year,
+      controller.selectedDate.value.month,
+      controller.selectedDate.value.day,
+      controller.selectedTime.value.hour,
+      controller.selectedTime.value.minute,
+      controller.selectedDate.value.second,
+    ).add(Duration(days: int.parse(controller.durationcontroller.value.text)));
+    DateTime finalDate =
+        DateTime(n.year, n.month, n.day, n.hour, n.minute, n.second);
+    return DateFormat('dd/MM/yyyy HH:mm:ss').format(finalDate);
   }
 
   getimageWidget({

@@ -21,7 +21,7 @@ class AddItemController extends GetxController {
   Rx<TextEditingController> durationcontroller = TextEditingController().obs;
   Rx<TextEditingController> detailscontroller = TextEditingController().obs;
   Rx<TextEditingController> dateController = TextEditingController(
-          text: DateFormat('dd/MM/yyyy').format(DateTime.now()))
+          text: DateFormat('dd/MM/yyyy HH:mm:ss').format(DateTime.now()))
       .obs;
   SingleValueDropDownController? dropDownController;
   SingleValueDropDownController? notificationController;
@@ -33,6 +33,7 @@ class AddItemController extends GetxController {
   RxInt selectedExpireSec = 0.obs;
   AddItemListscreenController? addItemListscreenController;
   Rx<DateTime> selectedDate = DateTime.now().obs;
+  Rx<TimeOfDay> selectedTime = TimeOfDay.now().obs;
   bool isFromHome = false;
   RxBool isDurationEmpty = false.obs;
   RxBool isNameEmpty = false.obs;

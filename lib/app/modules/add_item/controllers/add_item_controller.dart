@@ -1,11 +1,10 @@
 import 'dart:convert';
-import 'dart:ffi';
-
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:rxdart/subjects.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 import '../../../../constants/api_constants.dart';
@@ -178,12 +177,12 @@ class LocalNotificationService {
 
   final _localNotificationService = FlutterLocalNotificationsPlugin();
 
-  // final BehaviorSubject<String?> onNotificationClick = BehaviorSubject();
+  final BehaviorSubject<String?> onNotificationClick = BehaviorSubject();
 
   Future<void> intialize() async {
     tz.initializeTimeZones();
     const AndroidInitializationSettings androidInitializationSettings =
-        AndroidInitializationSettings('@drawable/appicon');
+        AndroidInitializationSettings('@drawable/ic_stat_android');
 
     IOSInitializationSettings iosInitializationSettings =
         IOSInitializationSettings(
@@ -200,7 +199,7 @@ class LocalNotificationService {
 
     await _localNotificationService.initialize(
       settings,
-      // onSelectNotification: onSelectNotification,
+      onSelectNotification: onSelectNotification,
     );
   }
 
@@ -209,7 +208,6 @@ class LocalNotificationService {
         AndroidNotificationDetails(
       'channel_id',
       'channel_name',
-      // icon: "test_icon",
       channelDescription: 'description',
       importance: Importance.max,
       priority: Priority.max,
@@ -270,12 +268,12 @@ class LocalNotificationService {
     print('id $id');
   }
 
-// void onSelectNotification(String? payload) {
-//   print('payload $payload');
-//   if (payload != null && payload.isNotEmpty) {
-//     onNotificationClick.add(payload);
-//   }
-// }
+  void onSelectNotification(String? payload) {
+    print('payload $payload');
+    if (payload != null && payload.isNotEmpty) {
+      onNotificationClick.add(payload);
+    }
+  }
 }
 
 class NotificationDataModel {

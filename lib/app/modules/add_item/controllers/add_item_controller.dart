@@ -23,6 +23,7 @@ class AddItemController extends GetxController {
   Rx<TextEditingController> dateController = TextEditingController(
           text: DateFormat('dd/MM/yyyy HH:mm:ss').format(DateTime.now()))
       .obs;
+  RxString Date = "".obs;
   SingleValueDropDownController? dropDownController;
   SingleValueDropDownController? notificationController;
   HomeController? homeController;
@@ -50,6 +51,7 @@ class AddItemController extends GetxController {
     NotificationDataModel(value: 6, title: "6 Days Ago"),
     NotificationDataModel(value: 7, title: "Week Ago"),
   ]);
+  RxString formattedTime = "".obs;
   String categoryName = "";
   dataModels? additemListview;
   RxList<String>? files = RxList<String>([]);
@@ -85,6 +87,10 @@ class AddItemController extends GetxController {
         files!.value = additemListview!.Image.toString().split(" ");
         files1!.value = additemListview!.Bill.toString().split(" ");
         days.value = int.parse(additemListview!.Duration.toString());
+        selectedExpireName.value =
+            additemListview!.selectedExpireName.toString();
+        selectedExpireDay.value =
+            int.parse(additemListview!.selectedExpireDay.toString());
         notificationController = SingleValueDropDownController(
           data: DropDownValueModel(
               name: additemListview!.selectedExpireName.toString(),

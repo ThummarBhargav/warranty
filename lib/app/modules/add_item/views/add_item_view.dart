@@ -486,66 +486,87 @@ class AddItemView extends GetView<AddItemController> {
                                             ),
                                           ],
                                         ),
-                                        child: DropDownTextField(
-                                            textStyle: GoogleFonts.lexend(
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: MySize.getHeight(13),
-                                            ),
-                                            clearOption: false,
-                                            listTextStyle: GoogleFonts.lexend(
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: MySize.getHeight(13),
-                                            ),
-                                            textFieldDecoration:
-                                                InputDecoration(
-                                              filled: true,
-                                              fillColor: Colors.white,
-                                              labelStyle: TextStyle(),
-                                              border: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Colors.white),
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        MySize.getHeight(10)),
+                                        child: Stack(
+                                          children: [
+                                            DropDownTextField(
+                                                textStyle: GoogleFonts.lexend(
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize:
+                                                      MySize.getHeight(13),
+                                                ),
+                                                clearOption: false,
+                                                listTextStyle:
+                                                    GoogleFonts.lexend(
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize:
+                                                      MySize.getHeight(13),
+                                                ),
+                                                textFieldDecoration:
+                                                    InputDecoration(
+                                                  filled: true,
+                                                  fillColor: Colors.white,
+                                                  labelStyle: TextStyle(),
+                                                  border: OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                        color: Colors.white),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            MySize.getHeight(
+                                                                10)),
+                                                  ),
+                                                  contentPadding:
+                                                      EdgeInsets.only(
+                                                    left: MySize.getWidth(20),
+                                                    right: MySize.getWidth(10),
+                                                    //  bottom: size! / 2, // HERE THE IMPORTANT PART
+                                                  ),
+                                                ),
+                                                controller: controller
+                                                    .notificationController,
+                                                dropDownItemCount: 6,
+                                                onChanged: (index) {
+                                                  DropDownValueModel
+                                                      dropDownValue = index
+                                                          as DropDownValueModel;
+                                                  controller.selectedExpireDay
+                                                          .value =
+                                                      int.parse(dropDownValue
+                                                          .value
+                                                          .toString());
+                                                  DropDownValueModel
+                                                      dropDownValue1 = index;
+                                                  controller.selectedExpireName
+                                                          .value =
+                                                      "${dropDownValue1.name.toString()}";
+                                                },
+                                                dropDownList: List.generate(
+                                                    (controller.days.value <
+                                                                7 &&
+                                                            controller.days
+                                                                    .value !=
+                                                                0)
+                                                        ? controller.days.value
+                                                        : controller
+                                                            .notificationList
+                                                            .length,
+                                                    (index) => DropDownValueModel(
+                                                        name: controller
+                                                            .notificationList[
+                                                                index]
+                                                            .title,
+                                                        value: controller
+                                                            .notificationList[index]
+                                                            .value))),
+                                            Positioned(
+                                              top: MySize.getHeight(15),
+                                              right: MySize.getWidth(90),
+                                              child: Center(
+                                                child: Text(
+                                                    "${controller.formattedTime}"),
                                               ),
-                                              contentPadding: EdgeInsets.only(
-                                                left: MySize.getWidth(20),
-                                                right: MySize.getWidth(10),
-                                                //  bottom: size! / 2, // HERE THE IMPORTANT PART
-                                              ),
                                             ),
-                                            controller: controller
-                                                .notificationController,
-                                            dropDownItemCount: 6,
-                                            onChanged: (index) {
-                                              DropDownValueModel dropDownValue =
-                                                  index as DropDownValueModel;
-                                              controller
-                                                      .selectedExpireDay.value =
-                                                  int.parse(dropDownValue.value
-                                                      .toString());
-                                              DropDownValueModel
-                                                  dropDownValue1 = index;
-                                              controller.selectedExpireName
-                                                      .value =
-                                                  dropDownValue1.name
-                                                      .toString();
-                                            },
-                                            dropDownList: List.generate(
-                                                (controller.days.value < 7 &&
-                                                        controller.days.value !=
-                                                            0)
-                                                    ? controller.days.value
-                                                    : controller
-                                                        .notificationList
-                                                        .length,
-                                                (index) => DropDownValueModel(
-                                                    name: controller
-                                                        .notificationList[index]
-                                                        .title,
-                                                    value: controller
-                                                        .notificationList[index]
-                                                        .value))),
+                                          ],
+                                        ),
                                       ),
                                       Container(
                                         child: IconButton(
@@ -561,10 +582,11 @@ class AddItemView extends GetView<AddItemController> {
                                                         pickedTime
                                                             .format(context)
                                                             .toString());
-                                                String formattedTime =
+                                                controller.formattedTime.value =
                                                     DateFormat('HH:mm:ss')
                                                         .format(parsedTime);
-                                                print(formattedTime);
+                                                // print(
+                                                //     formattedTime);
                                                 controller.selectedTime.value =
                                                     pickedTime;
                                               }

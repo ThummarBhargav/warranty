@@ -111,7 +111,8 @@ class AddItemView extends GetView<AddItemController> {
                                     controller.EditItem(dataModels(
                                         id: DateTime.now()
                                             .microsecondsSinceEpoch,
-                                        selectedExpireDay: controller.selectedExpireDay.value
+                                        selectedExpireDay: controller
+                                            .selectedExpireDay.value
                                             .toString(),
                                         ItemName: controller
                                             .itemnamecontroller.value.text,
@@ -124,17 +125,16 @@ class AddItemView extends GetView<AddItemController> {
                                             ? controller.files1![0]
                                             : null,
                                         expiredDate: getExpiryDateString(),
-                                        selectedExpireName: controller.selectedExpireName.value
+                                        pickedTime:
+                                            controller.formattedTime.value,
+                                        selectedExpireName: controller
+                                            .selectedExpireName.value
                                             .toString(),
                                         Ditails: controller
                                             .detailscontroller.value.text,
                                         Duration: controller
                                             .durationcontroller.value.text,
-                                        categoriesName: controller
-                                            .dropDownController!
-                                            .dropDownValue!
-                                            .name
-                                            .toString()));
+                                        categoriesName: controller.dropDownController!.dropDownValue!.name.toString()));
                                   } else {
                                     controller.addItem(dataModels(
                                         id: DateTime.now()
@@ -143,6 +143,8 @@ class AddItemView extends GetView<AddItemController> {
                                             .itemnamecontroller.value.text,
                                         Date: controller
                                             .dateController.value.text,
+                                        pickedTime:
+                                            controller.formattedTime.value,
                                         Image: (controller.files!.isNotEmpty)
                                             ? controller.files![0]
                                             : null,

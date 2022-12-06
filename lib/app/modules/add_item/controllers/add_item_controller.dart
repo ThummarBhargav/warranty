@@ -79,6 +79,7 @@ class AddItemController extends GetxController {
       isFromInnerScreen = Get.arguments[ArgumentConstant.isFromInnerScreen];
 
       if (isFromEdit) {
+        formattedTime.value = additemListview!.pickedTime.toString();
         additemListview = Get.arguments[ArgumentConstant.additemListview];
         itemnamecontroller.value.text = additemListview!.ItemName.toString();
         durationcontroller.value.text = additemListview!.Duration.toString();

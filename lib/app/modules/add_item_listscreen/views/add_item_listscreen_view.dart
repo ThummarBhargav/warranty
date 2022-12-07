@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:open_file/open_file.dart';
+import 'package:open_filex/open_filex.dart';
 import '../../../../constants/api_constants.dart';
 import '../../../../constants/color_constant.dart';
 import '../../../../constants/sizeConstant.dart';
@@ -114,7 +114,7 @@ class AddItemListscreenView extends GetWidget<AddItemListscreenController> {
                                                 });
                                           },
                                           bill: () {
-                                            OpenFile.open(controller
+                                            OpenFilex.open(controller
                                                     .addDataTempList[index]
                                                     .Bill)
                                                 .then((value) {
@@ -394,7 +394,7 @@ class AddItemListscreenView extends GetWidget<AddItemListscreenController> {
                                             formatter: 'dd/MM/yyyy'))
                                         .inDays,
                                     bill: () {
-                                      OpenFile.open(controller
+                                      OpenFilex.open(controller
                                               .expireDataList[index].Bill)
                                           .then((value) {
                                         if (value.message ==

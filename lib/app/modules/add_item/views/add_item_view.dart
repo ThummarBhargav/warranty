@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -90,23 +91,25 @@ class AddItemView extends GetView<AddItemController> {
                                           ((controller
                                                   .selectedExpireDay.value) *
                                               86400));
+                                  controller.id.value = UniqueKey().hashCode;
                                   await (controller
                                               .durationcontroller.value.text ==
                                           "0")
                                       ? SizedBox()
                                       : controller.service
                                           .showScheduledNotification(
-                                          id: 0,
-                                          title: "Warranty App",
-                                          body:
-                                              "${controller.itemnamecontroller.value.text} To ReNew",
-                                          seconds: controller
-                                              .selectedExpireSec.value,
-                                        );
+                                              id: controller.id.value,
+                                              title: "Warranty App",
+                                              payload: "Testing1234@1234",
+                                              body:
+                                                  "${controller.itemnamecontroller.value.text} To ReNew",
+                                              seconds: 5
+                                              // controller
+                                              //     .selectedExpireSec.value,
+                                              );
                                   if (controller.isFromEdit) {
                                     controller.EditItem(dataModels(
-                                        id: DateTime.now()
-                                            .microsecondsSinceEpoch,
+                                        id: controller.id.value,
                                         selectedExpireDay: controller
                                             .selectedExpireDay.value
                                             .toString(),
@@ -121,8 +124,6 @@ class AddItemView extends GetView<AddItemController> {
                                             ? controller.files1![0]
                                             : null,
                                         expiredDate: getExpiryDateString(),
-                                        pickedTime:
-                                            controller.formattedTime.value,
                                         selectedExpireName: controller
                                             .selectedExpireName.value
                                             .toString(),
@@ -130,11 +131,16 @@ class AddItemView extends GetView<AddItemController> {
                                             .detailscontroller.value.text,
                                         Duration: controller
                                             .durationcontroller.value.text,
-                                        categoriesName: controller.dropDownController!.dropDownValue!.name.toString()));
+                                        pickedTime:
+                                            controller.formattedTime.value,
+                                        categoriesName: controller
+                                            .dropDownController!
+                                            .dropDownValue!
+                                            .name
+                                            .toString()));
                                   } else {
                                     controller.addItem(dataModels(
-                                        id: DateTime.now()
-                                            .microsecondsSinceEpoch,
+                                        id: controller.id.value,
                                         ItemName: controller
                                             .itemnamecontroller.value.text,
                                         Date: controller
@@ -683,6 +689,14 @@ class AddItemView extends GetView<AddItemController> {
         }),
       ),
     );
+  }
+
+  void listenToNotification() => controller.service.onNotificationClick.stream
+      .listen(onNoticationListener);
+  void onNoticationListener(String? payload) {
+    if (payload != null && payload.isNotEmpty) {
+      print('payload $payload');
+    }
   }
 
   String getExpiryDateString() {

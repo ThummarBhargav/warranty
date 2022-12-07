@@ -34,6 +34,7 @@ class AddItemController extends GetxController {
   RxInt selectedExpireDay = 0.obs;
   RxString selectedExpireName = "".obs;
   RxInt selectedExpireSec = 0.obs;
+  RxInt id = 0.obs;
   AddItemListscreenController? addItemListscreenController;
   Rx<DateTime> selectedDate = DateTime.now().obs;
   Rx<TimeOfDay> selectedTime = TimeOfDay.now().obs;
@@ -89,18 +90,18 @@ class AddItemController extends GetxController {
         files!.value = additemListview!.Image.toString().split(" ");
         files1!.value = additemListview!.Bill.toString().split(" ");
         formattedTime.value = additemListview!.pickedTime.toString();
-
+        id.value = additemListview!.id!;
         days.value = int.parse(additemListview!.Duration.toString());
         selectedExpireName.value =
             additemListview!.selectedExpireName.toString();
         selectedExpireDay.value =
             int.parse(additemListview!.selectedExpireDay.toString());
+        formattedTime.value = additemListview!.pickedTime.toString();
         notificationController = SingleValueDropDownController(
           data: DropDownValueModel(
               name: additemListview!.selectedExpireName.toString(),
               value: additemListview!.selectedExpireDay.toString()),
         );
-        formattedTime.value = additemListview!.pickedTime.toString();
       }
       if (isFromHome) {
         dropDownController = SingleValueDropDownController(
@@ -140,7 +141,6 @@ class AddItemController extends GetxController {
         addItemListscreenController!.addDataList[index] = c;
       }
     });
-
     Get.offAllNamed(Routes.ADD_ITEM_LISTSCREEN, arguments: {
       ArgumentConstant.Categoriename: categoryName,
     });
@@ -182,7 +182,7 @@ class LocalNotificationService {
   Future<void> intialize() async {
     tz.initializeTimeZones();
     const AndroidInitializationSettings androidInitializationSettings =
-        AndroidInitializationSettings('@drawable/ic_stat_android');
+        AndroidInitializationSettings('@drawable/appicon');
 
     IOSInitializationSettings iosInitializationSettings =
         IOSInitializationSettings(
@@ -236,12 +236,14 @@ class LocalNotificationService {
       {required int id,
       required String title,
       required String body,
+      String? payload,
       required int seconds}) async {
     final details = await _notificationDetails();
     await _localNotificationService.zonedSchedule(
       id,
       title,
       body,
+      payload: payload,
       tz.TZDateTime.from(
         DateTime.now().add(Duration(seconds: seconds)),
         tz.local,

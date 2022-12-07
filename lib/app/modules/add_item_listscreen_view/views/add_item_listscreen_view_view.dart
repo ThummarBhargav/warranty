@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:open_file/open_file.dart';
+import 'package:open_filex/open_filex.dart';
 import '../../../../constants/api_constants.dart';
 import '../../../../constants/color_constant.dart';
 import '../../../../constants/sizeConstant.dart';
@@ -101,7 +101,7 @@ class AddItemListscreenViewView
                           if (controller.addItemListview!.Bill == null) {
                           } else {
                             try {
-                              OpenFile.open(controller.addItemListview!.Bill)
+                              OpenFilex.open(controller.addItemListview!.Bill)
                                   .then((value) {
                                 if (value.message ==
                                     "No APP found to open this file。") {

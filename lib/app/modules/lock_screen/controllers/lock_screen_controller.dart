@@ -10,6 +10,7 @@ import '../../../../main.dart';
 import '../../../../utilities/progress_dialog_utils.dart';
 import '../../../models/categoriesModels.dart';
 import '../../../routes/app_pages.dart';
+import '../../add_item/controllers/add_item_controller.dart';
 
 class LockScreenController extends GetxController {
   String Password = "1234";
@@ -20,6 +21,7 @@ class LockScreenController extends GetxController {
   RxBool isAuth = false.obs;
   RxBool canCheckBiometric = false.obs;
   RxList<categoriesModel> dataList = RxList<categoriesModel>([]);
+  AddItemController? addItemController;
   @override
   Future<void> onInit() async {
     if (!isNullEmptyOrFalse(box.read(ArgumentConstant.Password))) {
@@ -31,6 +33,9 @@ class LockScreenController extends GetxController {
     }
     canCheckBiometric.value = await auth.canCheckBiometrics;
     checkAuth();
+
+    Get.lazyPut(() => AddItemController());
+    addItemController = Get.find<AddItemController>();
     super.onInit();
   }
 

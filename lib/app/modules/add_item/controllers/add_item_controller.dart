@@ -64,13 +64,14 @@ class AddItemController extends GetxController {
 
   @override
   void onInit() {
+    service = LocalNotificationService(controller: AddItemController());
+    service.intialize();
     durationcontroller.value.text = "0";
     notificationController = SingleValueDropDownController(
       data: DropDownValueModel(
           name: notificationList[0].title, value: notificationList[0].value),
     );
-    service = LocalNotificationService();
-    service.intialize();
+
     // listenToNotification();
     Get.lazyPut(() => AddItemListscreenController());
     addItemListscreenController = Get.find<AddItemListscreenController>();
@@ -161,6 +162,20 @@ class AddItemController extends GetxController {
           });
   }
 
+  String getExpiryDateString() {
+    DateTime n = DateTime(
+      selectedDate.value.year,
+      selectedDate.value.month,
+      selectedDate.value.day,
+      selectedTime.value.hour,
+      selectedTime.value.minute,
+      selectedDate.value.second,
+    ).add(Duration(days: int.parse(durationcontroller.value.text)));
+    DateTime finalDate =
+        DateTime(n.year, n.month, n.day, n.hour, n.minute, n.second);
+    return DateFormat('dd/MM/yyyy HH:mm:ss').format(finalDate);
+  }
+
   @override
   void onReady() {
     super.onReady();
@@ -173,8 +188,9 @@ class AddItemController extends GetxController {
 }
 
 class LocalNotificationService {
-  LocalNotificationService();
+  LocalNotificationService({required this.controller});
 
+  AddItemController controller;
   final _localNotificationService = FlutterLocalNotificationsPlugin();
 
   final BehaviorSubject<String?> onNotificationClick = BehaviorSubject();
@@ -201,6 +217,9 @@ class LocalNotificationService {
       settings,
       onSelectNotification: onSelectNotification,
     );
+
+    Get.lazyPut(() => AddItemController());
+    controller = Get.find<AddItemController>();
   }
 
   Future<NotificationDetails> _notificationDetails() async {
@@ -271,9 +290,22 @@ class LocalNotificationService {
   }
 
   void onSelectNotification(String? payload) {
-    print('payload $payload');
+    print('payload====================== $payload');
     if (payload != null && payload.isNotEmpty) {
       onNotificationClick.add(payload);
+      print("heloo ${payload}");
+      box.write(ArgumentConstant.isFromPayload, true);
+      box.write(ArgumentConstant.Payload, payload);
+      controller.addItemListscreenController!.addDataList.forEach((element) {
+        if (payload == element.id.toString()) {
+          Get.offAndToNamed(
+            Routes.ADD_ITEM_LISTSCREEN_VIEW,
+            arguments: {
+              ArgumentConstant.additemListview: element,
+            },
+          );
+        }
+      });
     }
   }
 }

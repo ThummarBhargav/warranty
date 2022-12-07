@@ -78,7 +78,7 @@ class AddItemView extends GetView<AddItemController> {
                                     controller.isDurationEmpty.isFalse) {
                                   controller.expireDay.value =
                                       (getDateFromStringNew(
-                                              getExpiryDateString(),
+                                              controller.getExpiryDateString(),
                                               formatter: "dd/MM/yyyy HH:mm:ss")
                                           .difference(getDateFromStringNew(
                                               controller
@@ -92,26 +92,13 @@ class AddItemView extends GetView<AddItemController> {
                                                   .selectedExpireDay.value) *
                                               86400));
                                   controller.id.value = UniqueKey().hashCode;
-                                  await (controller
-                                              .durationcontroller.value.text ==
-                                          "0")
-                                      ? SizedBox()
-                                      : controller.service
-                                          .showScheduledNotification(
-                                              id: controller.id.value,
-                                              title: "Warranty App",
-                                              payload: "Testing1234@1234",
-                                              body:
-                                                  "${controller.itemnamecontroller.value.text} To ReNew",
-                                              seconds: 5
-                                              // controller
-                                              //     .selectedExpireSec.value,
-                                              );
+
                                   if (controller.isFromEdit) {
+                                    print(
+                                        "id ==================== ${controller.id.value}");
                                     controller.EditItem(dataModels(
                                         id: controller.id.value,
-                                        selectedExpireDay: controller
-                                            .selectedExpireDay.value
+                                        selectedExpireDay: controller.selectedExpireDay.value
                                             .toString(),
                                         ItemName: controller
                                             .itemnamecontroller.value.text,
@@ -123,7 +110,8 @@ class AddItemView extends GetView<AddItemController> {
                                         Bill: (controller.files1!.isNotEmpty)
                                             ? controller.files1![0]
                                             : null,
-                                        expiredDate: getExpiryDateString(),
+                                        expiredDate:
+                                            controller.getExpiryDateString(),
                                         selectedExpireName: controller
                                             .selectedExpireName.value
                                             .toString(),
@@ -153,7 +141,8 @@ class AddItemView extends GetView<AddItemController> {
                                         Bill: (controller.files1!.isNotEmpty)
                                             ? controller.files1![0]
                                             : null,
-                                        expiredDate: getExpiryDateString(),
+                                        expiredDate:
+                                            controller.getExpiryDateString(),
                                         selectedExpireName: controller
                                             .selectedExpireName.value
                                             .toString(),
@@ -181,6 +170,19 @@ class AddItemView extends GetView<AddItemController> {
                                   controller.isDurationEmpty.value = true;
                                 }
                               }
+                              await (controller.durationcontroller.value.text ==
+                                      "0")
+                                  ? SizedBox()
+                                  : controller.service.showScheduledNotification(
+                                      id: controller.id.value,
+                                      title: "Warranty App",
+                                      payload: "${controller.id.value}",
+                                      body:
+                                          "${controller.itemnamecontroller.value.text} To ReNew",
+                                      seconds: 5
+                                      // controller
+                                      //     .selectedExpireSec.value,
+                                      );
                             },
                             child: Container(
                               height: MySize.getHeight(40),
@@ -695,22 +697,9 @@ class AddItemView extends GetView<AddItemController> {
       .listen(onNoticationListener);
   void onNoticationListener(String? payload) {
     if (payload != null && payload.isNotEmpty) {
-      print('payload $payload');
+      print('payload==================================== $payload');
+      Get.toNamed(Routes.HOME);
     }
-  }
-
-  String getExpiryDateString() {
-    DateTime n = DateTime(
-      controller.selectedDate.value.year,
-      controller.selectedDate.value.month,
-      controller.selectedDate.value.day,
-      controller.selectedTime.value.hour,
-      controller.selectedTime.value.minute,
-      controller.selectedDate.value.second,
-    ).add(Duration(days: int.parse(controller.durationcontroller.value.text)));
-    DateTime finalDate =
-        DateTime(n.year, n.month, n.day, n.hour, n.minute, n.second);
-    return DateFormat('dd/MM/yyyy HH:mm:ss').format(finalDate);
   }
 
   getimageWidget({

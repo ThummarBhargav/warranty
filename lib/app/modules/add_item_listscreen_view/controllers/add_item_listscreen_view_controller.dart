@@ -8,6 +8,7 @@ class AddItemListscreenViewController extends GetxController {
   List<String> purchasedDate = [];
   @override
   void onInit() {
+    print(Get.arguments[ArgumentConstant.additemListview]);
     if (Get.arguments != null) {
       addItemListview = Get.arguments[ArgumentConstant.additemListview];
     }

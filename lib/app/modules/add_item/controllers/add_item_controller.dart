@@ -294,14 +294,13 @@ class LocalNotificationService {
     if (payload != null && payload.isNotEmpty) {
       onNotificationClick.add(payload);
       print("heloo ${payload}");
-      box.write(ArgumentConstant.isFromPayload, true);
-      box.write(ArgumentConstant.Payload, payload);
       controller.addItemListscreenController!.addDataList.forEach((element) {
         if (payload == element.id.toString()) {
           Get.offAndToNamed(
-            Routes.ADD_ITEM_LISTSCREEN_VIEW,
+            Routes.SPLASH_SCREN,
             arguments: {
-              ArgumentConstant.additemListview: element,
+              ArgumentConstant.Payload: payload,
+              ArgumentConstant.isFromPayload: true,
             },
           );
         }

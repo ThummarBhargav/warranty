@@ -3,14 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:local_auth/local_auth.dart';
-
 import '../../../../constants/api_constants.dart';
 import '../../../../constants/sizeConstant.dart';
 import '../../../../main.dart';
 import '../../../../utilities/progress_dialog_utils.dart';
 import '../../../models/categoriesModels.dart';
 import '../../../routes/app_pages.dart';
-import '../../add_item/controllers/add_item_controller.dart';
+import '../../add_item_listscreen/controllers/add_item_listscreen_controller.dart';
 
 class LockScreenController extends GetxController {
   String Password = "1234";
@@ -21,9 +20,15 @@ class LockScreenController extends GetxController {
   RxBool isAuth = false.obs;
   RxBool canCheckBiometric = false.obs;
   RxList<categoriesModel> dataList = RxList<categoriesModel>([]);
-  AddItemController? addItemController;
+  AddItemListscreenController? addItemListscreenController;
+  String payload = "";
+  bool isFromPayload = false;
   @override
   Future<void> onInit() async {
+    if (Get.arguments != null) {
+      payload = Get.arguments[ArgumentConstant.Payload];
+      isFromPayload = Get.arguments[ArgumentConstant.isFromPayload];
+    }
     if (!isNullEmptyOrFalse(box.read(ArgumentConstant.Password))) {
       Password = box.read(ArgumentConstant.Password);
     }
@@ -33,9 +38,8 @@ class LockScreenController extends GetxController {
     }
     canCheckBiometric.value = await auth.canCheckBiometrics;
     checkAuth();
-
-    Get.lazyPut(() => AddItemController());
-    addItemController = Get.find<AddItemController>();
+    Get.lazyPut(() => AddItemListscreenController());
+    addItemListscreenController = Get.find<AddItemListscreenController>();
     super.onInit();
   }
 
@@ -155,10 +159,37 @@ class LockScreenController extends GetxController {
 
   checkPassword() {
     if (box.read(ArgumentConstant.Password) == passwordController.value.text) {
-      Get.offAndToNamed(Routes.HOME);
+      if (!isNullEmptyOrFalse(payload)) {
+        addItemListscreenController!.addDataList.forEach((element) {
+          if (payload == element.id.toString()) {
+            Get.offAndToNamed(
+              Routes.ADD_ITEM_LISTSCREEN_VIEW,
+              arguments: {
+                ArgumentConstant.additemListview: element,
+              },
+            );
+          }
+        });
+      } else {
+        Get.offAndToNamed(Routes.HOME);
+      }
+      // Get.offAndToNamed(Routes.HOME);
     } else if (isAuth.value) {
-      Get.offAndToNamed(Routes.HOME);
-    } else {
+      if (!isNullEmptyOrFalse(payload)) {
+        addItemListscreenController!.addDataList.forEach((element) {
+          if (payload == element.id.toString()) {
+            Get.offAndToNamed(
+              Routes.ADD_ITEM_LISTSCREEN_VIEW,
+              arguments: {
+                ArgumentConstant.additemListview: element,
+              },
+            );
+          }
+        });
+      } else {
+        Get.offAndToNamed(Routes.HOME);
+      }
+      // Get.offAndToNamed(Routes.HOME);
       isIncorrect.value = true;
       passwordController.value.clear();
     }

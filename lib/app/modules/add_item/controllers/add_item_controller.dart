@@ -297,10 +297,9 @@ class LocalNotificationService {
       controller.addItemListscreenController!.addDataList.forEach((element) {
         if (payload == element.id.toString()) {
           Get.offAndToNamed(
-            Routes.SPLASH_SCREN,
+            Routes.ADD_ITEM_LISTSCREEN_VIEW,
             arguments: {
-              ArgumentConstant.Payload: payload,
-              ArgumentConstant.isFromPayload: true,
+              ArgumentConstant.additemListview: element,
             },
           );
         }

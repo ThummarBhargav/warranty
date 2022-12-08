@@ -21,14 +21,8 @@ class LockScreenController extends GetxController {
   RxBool canCheckBiometric = false.obs;
   RxList<categoriesModel> dataList = RxList<categoriesModel>([]);
   AddItemListscreenController? addItemListscreenController;
-  String payload = "";
-  bool isFromPayload = false;
   @override
   Future<void> onInit() async {
-    if (Get.arguments != null) {
-      payload = Get.arguments[ArgumentConstant.Payload];
-      isFromPayload = Get.arguments[ArgumentConstant.isFromPayload];
-    }
     if (!isNullEmptyOrFalse(box.read(ArgumentConstant.Password))) {
       Password = box.read(ArgumentConstant.Password);
     }
@@ -159,37 +153,37 @@ class LockScreenController extends GetxController {
 
   checkPassword() {
     if (box.read(ArgumentConstant.Password) == passwordController.value.text) {
-      if (!isNullEmptyOrFalse(payload)) {
-        addItemListscreenController!.addDataList.forEach((element) {
-          if (payload == element.id.toString()) {
-            Get.offAndToNamed(
-              Routes.ADD_ITEM_LISTSCREEN_VIEW,
-              arguments: {
-                ArgumentConstant.additemListview: element,
-              },
-            );
-          }
-        });
-      } else {
-        Get.offAndToNamed(Routes.HOME);
-      }
-      // Get.offAndToNamed(Routes.HOME);
+      // if (!isNullEmptyOrFalse(payload)) {
+      //   addItemListscreenController!.addDataList.forEach((element) {
+      //     if (payload == element.id.toString()) {
+      //       Get.offAndToNamed(
+      //         Routes.ADD_ITEM_LISTSCREEN_VIEW,
+      //         arguments: {
+      //           ArgumentConstant.additemListview: element,
+      //         },
+      //       );
+      //     }
+      //   });
+      // } else {
+      //   Get.offAndToNamed(Routes.HOME);
+      // }
+      Get.offAndToNamed(Routes.HOME);
     } else if (isAuth.value) {
-      if (!isNullEmptyOrFalse(payload)) {
-        addItemListscreenController!.addDataList.forEach((element) {
-          if (payload == element.id.toString()) {
-            Get.offAndToNamed(
-              Routes.ADD_ITEM_LISTSCREEN_VIEW,
-              arguments: {
-                ArgumentConstant.additemListview: element,
-              },
-            );
-          }
-        });
-      } else {
-        Get.offAndToNamed(Routes.HOME);
-      }
-      // Get.offAndToNamed(Routes.HOME);
+      // if (!isNullEmptyOrFalse(payload)) {
+      //   addItemListscreenController!.addDataList.forEach((element) {
+      //     if (payload == element.id.toString()) {
+      //       Get.offAndToNamed(
+      //         Routes.ADD_ITEM_LISTSCREEN_VIEW,
+      //         arguments: {
+      //           ArgumentConstant.additemListview: element,
+      //         },
+      //       );
+      //     }
+      //   });
+      // } else {
+      //
+      // }
+      Get.offAndToNamed(Routes.HOME);
       isIncorrect.value = true;
       passwordController.value.clear();
     }

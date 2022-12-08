@@ -59,73 +59,89 @@ class HomeView extends GetWidget<HomeController> {
               children: [
                 Expanded(
                     flex: 12,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.all(MySize.getHeight(8.0)),
-                            child: Container(
-                              padding:
-                                  EdgeInsets.only(bottom: MySize.getHeight(9)),
-                              height: MySize.safeHeight! -
-                                  AppBar().preferredSize.height,
-                              child: GridView.builder(
-                                padding: EdgeInsets.only(bottom: 10),
-                                itemCount: controller.categoryDataList.length,
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 2,
-                                        crossAxisSpacing:
-                                            MySize.getHeight(10.0),
-                                        mainAxisSpacing:
-                                            MySize.getHeight(10.0)),
-                                itemBuilder: (context, index) {
-                                  String valueString = controller
-                                      .categoryDataList[index].color!
-                                      .split('(0x')[1]
-                                      .split(')')[0]; // kind of hacky..
-                                  int value = int.parse(valueString, radix: 16);
-                                  Color backColor = new Color(value);
-                                  return getCategoriesWidget(
-                                    onLongPress: () {
-                                      deletDialogBox(
-                                        context,
-                                        onPressed1: () {
-                                          Get.back();
-                                          controller.addItemList.removeWhere(
-                                              (element) => (element
-                                                      .categoriesName ==
-                                                  controller
-                                                      .categoryDataList[index]
-                                                      .categoriesName));
-                                          controller.categoryDataList
-                                              .removeAt(index);
-                                          box.write(
-                                              ArgumentConstant.categoriesList,
-                                              jsonEncode(
-                                                  controller.categoryDataList));
-                                          box.write(
-                                              ArgumentConstant.additemList,
-                                              jsonEncode(
-                                                  controller.addItemList));
-                                        },
-                                      );
-                                    },
-                                    color: backColor,
-                                    image: controller
-                                        .categoryDataList[index].Image!,
-                                    Counter: controller
-                                        .categoryDataList[index].Counter!,
-                                    Name: controller.categoryDataList[index]
-                                        .categoriesName!,
-                                  );
-                                },
-                              ),
+                    child: (isNullEmptyOrFalse(controller.categoryDataList))
+                        ? Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Center(
+                                  child: SvgPicture.asset("image/Nodata.svg")),
+                            ],
+                          )
+                        : SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding:
+                                      EdgeInsets.all(MySize.getHeight(8.0)),
+                                  child: Container(
+                                    padding: EdgeInsets.only(
+                                        bottom: MySize.getHeight(9)),
+                                    height: MySize.safeHeight! -
+                                        AppBar().preferredSize.height,
+                                    child: GridView.builder(
+                                      padding: EdgeInsets.only(bottom: 10),
+                                      itemCount:
+                                          controller.categoryDataList.length,
+                                      gridDelegate:
+                                          SliverGridDelegateWithFixedCrossAxisCount(
+                                              crossAxisCount: 2,
+                                              crossAxisSpacing:
+                                                  MySize.getHeight(10.0),
+                                              mainAxisSpacing:
+                                                  MySize.getHeight(10.0)),
+                                      itemBuilder: (context, index) {
+                                        String valueString = controller
+                                            .categoryDataList[index].color!
+                                            .split('(0x')[1]
+                                            .split(')')[0]; // kind of hacky..
+                                        int value =
+                                            int.parse(valueString, radix: 16);
+                                        Color backColor = new Color(value);
+                                        return getCategoriesWidget(
+                                          onLongPress: () {
+                                            deletDialogBox(
+                                              context,
+                                              onPressed1: () {
+                                                Get.back();
+                                                controller.addItemList.removeWhere(
+                                                    (element) => (element
+                                                            .categoriesName ==
+                                                        controller
+                                                            .categoryDataList[
+                                                                index]
+                                                            .categoriesName));
+                                                controller.categoryDataList
+                                                    .removeAt(index);
+                                                box.write(
+                                                    ArgumentConstant
+                                                        .categoriesList,
+                                                    jsonEncode(controller
+                                                        .categoryDataList));
+                                                box.write(
+                                                    ArgumentConstant
+                                                        .additemList,
+                                                    jsonEncode(controller
+                                                        .addItemList));
+                                              },
+                                            );
+                                          },
+                                          color: backColor,
+                                          image: controller
+                                              .categoryDataList[index].Image!,
+                                          Counter: controller
+                                              .categoryDataList[index].Counter!,
+                                          Name: controller
+                                              .categoryDataList[index]
+                                              .categoriesName!,
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-                    )),
+                          )),
               ],
             )),
             floatingActionButton: SpeedDial(

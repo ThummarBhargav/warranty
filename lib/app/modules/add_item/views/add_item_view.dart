@@ -92,10 +92,7 @@ class AddItemView extends GetView<AddItemController> {
                                                   .selectedExpireDay.value) *
                                               86400));
                                   controller.id.value = UniqueKey().hashCode;
-
                                   if (controller.isFromEdit) {
-                                    print(
-                                        "id ==================== ${controller.id.value}");
                                     controller.EditItem(dataModels(
                                         id: controller.id.value,
                                         selectedExpireDay: controller.selectedExpireDay.value
@@ -173,16 +170,16 @@ class AddItemView extends GetView<AddItemController> {
                               await (controller.durationcontroller.value.text ==
                                       "0")
                                   ? SizedBox()
-                                  : controller.service.showScheduledNotification(
+                                  : controller.service
+                                      .showScheduledNotification(
                                       id: controller.id.value,
                                       title: "Warranty App",
                                       payload: "${controller.id.value}",
                                       body:
                                           "${controller.itemnamecontroller.value.text} To ReNew",
-                                      seconds: 5
-                                      // controller
-                                      //     .selectedExpireSec.value,
-                                      );
+                                      seconds:
+                                          controller.selectedExpireSec.value,
+                                    );
                             },
                             child: Container(
                               height: MySize.getHeight(40),

@@ -285,6 +285,7 @@ class AddItemView extends GetView<AddItemController> {
                                   ],
                                 ),
                                 child: getTextField(
+                                  focusNode: controller.noteFocus,
                                   hintText: "Enter Item Name",
                                   borderColor: (controller.isNameEmpty.isTrue)
                                       ? appTheme.ErrorText
@@ -297,6 +298,8 @@ class AddItemView extends GetView<AddItemController> {
                                       controller.isNameEmpty.value = false;
                                     } else {
                                       controller.isNameEmpty.value = true;
+                                      controller.noteFocus
+                                          .requestFocus(controller.noteFocus);
                                     }
                                     return null;
                                   },
@@ -479,6 +482,7 @@ class AddItemView extends GetView<AddItemController> {
                                   ],
                                 ),
                                 child: getTextField(
+                                    focusNode: controller.noteFocus1,
                                     isFilled: true,
                                     fillColor: Colors.white,
                                     borderColor:
@@ -494,6 +498,8 @@ class AddItemView extends GetView<AddItemController> {
                                             false;
                                       } else {
                                         controller.isDurationEmpty.value = true;
+                                        controller.noteFocus1.requestFocus(
+                                            controller.noteFocus1);
                                       }
                                       return null;
                                     },

@@ -35,6 +35,8 @@ class AddItemController extends GetxController {
   SingleValueDropDownController? notificationController;
   HomeController? homeController;
   RxInt expireDay = 0.obs;
+  final FocusNode noteFocus = FocusNode();
+  final FocusNode noteFocus1 = FocusNode();
   RxInt days = 0.obs;
   RxInt selectedExpireDay = 0.obs;
   RxString selectedExpireName = "".obs;

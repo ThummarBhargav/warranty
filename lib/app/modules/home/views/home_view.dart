@@ -9,8 +9,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:rate_my_app/rate_my_app.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:yodo1mas/Yodo1MasBannerAd.dart';
-// import 'package:yodo1mas/Yodo1MAS.dart';
-// import 'package:yodo1mas/Yodo1MasBannerAd.dart';
 import '../../../../constants/api_constants.dart';
 import '../../../../constants/color_constant.dart';
 import '../../../../constants/sizeConstant.dart';
@@ -270,6 +268,7 @@ class HomeView extends GetWidget<HomeController> {
                     ),
                     label: "Add Category",
                     onTap: () {
+                      FocusScope.of(context).unfocus();
                       dialogBox(context);
                     },
                     backgroundColor: appTheme.appbarTheme,

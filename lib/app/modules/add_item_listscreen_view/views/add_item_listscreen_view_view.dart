@@ -1,16 +1,19 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:open_filex/open_filex.dart';
+import 'package:warranty_appp/utilities/timer_service.dart';
 import '../../../../constants/api_constants.dart';
 import '../../../../constants/color_constant.dart';
 import '../../../../constants/sizeConstant.dart';
 import '../../../../main.dart';
 
+import '../../../../utilities/ad_service.dart';
 import '../../../../utilities/progress_dialog_utils.dart';
 import '../../../routes/app_pages.dart';
 
@@ -24,11 +27,27 @@ class AddItemListscreenViewView
     return SafeArea(
       child: WillPopScope(
         onWillPop: () async {
-          Get.offAndToNamed(Routes.ADD_ITEM_LISTSCREEN, arguments: {
-            ArgumentConstant.Categoriename:
-                controller.addItemListview!.categoriesName.toString(),
-          });
-          return await true;
+          if (getIt<TimerService>().is40SecCompleted) {
+            SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+            getIt<AdService>()
+                .getAd(adType: AdService.interstitialAd)
+                .then((value) {
+              if (!value) {
+                SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+                Get.offAndToNamed(Routes.ADD_ITEM_LISTSCREEN, arguments: {
+                  ArgumentConstant.Categoriename:
+                      controller.addItemListview!.categoriesName.toString(),
+                });
+              }
+            });
+            return await false;
+          } else {
+            Get.offAndToNamed(Routes.ADD_ITEM_LISTSCREEN, arguments: {
+              ArgumentConstant.Categoriename:
+                  controller.addItemListview!.categoriesName.toString(),
+            });
+            return await true;
+          }
         },
         child: Scaffold(
             body: Column(
@@ -78,12 +97,31 @@ class AddItemListscreenViewView
                       left: MySize.getHeight(20),
                       child: GestureDetector(
                         onTap: () {
-                          Get.offAndToNamed(Routes.ADD_ITEM_LISTSCREEN,
-                              arguments: {
-                                ArgumentConstant.Categoriename: controller
-                                    .addItemListview!.categoriesName
-                                    .toString(),
-                              });
+                          if (getIt<TimerService>().is40SecCompleted) {
+                            SystemChrome.setEnabledSystemUIMode(
+                                SystemUiMode.immersiveSticky);
+                            getIt<AdService>()
+                                .getAd(adType: AdService.interstitialAd)
+                                .then((value) {
+                              if (!value) {
+                                SystemChrome.setEnabledSystemUIMode(
+                                    SystemUiMode.edgeToEdge);
+                                Get.offAndToNamed(Routes.ADD_ITEM_LISTSCREEN,
+                                    arguments: {
+                                      ArgumentConstant.Categoriename: controller
+                                          .addItemListview!.categoriesName
+                                          .toString(),
+                                    });
+                              }
+                            });
+                          } else {
+                            Get.offAndToNamed(Routes.ADD_ITEM_LISTSCREEN,
+                                arguments: {
+                                  ArgumentConstant.Categoriename: controller
+                                      .addItemListview!.categoriesName
+                                      .toString(),
+                                });
+                          }
                         },
                         child: Container(
                           height: MySize.getHeight(35),
@@ -286,20 +324,15 @@ class AddItemListscreenViewView
                 ),
               ),
               Spacing.width(MySize.getWidth(10)),
-              Wrap(
-                children: [
-                  SizedBox(
-                    width: MySize.getWidth(200),
-                    child: Text(
-                      "${Data}",
-                      style: GoogleFonts.lexend(
-                        color: appTheme.dateTextColor,
-                        fontWeight: FontWeight.w400,
-                        fontSize: MySize.getHeight(12),
-                      ),
-                    ),
+              Expanded(
+                child: Text(
+                  "${Data}",
+                  style: GoogleFonts.lexend(
+                    color: appTheme.dateTextColor,
+                    fontWeight: FontWeight.w400,
+                    fontSize: MySize.getHeight(12),
                   ),
-                ],
+                ),
               ),
             ],
           ),

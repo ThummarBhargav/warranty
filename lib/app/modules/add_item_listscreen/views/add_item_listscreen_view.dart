@@ -1,14 +1,19 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:open_filex/open_filex.dart';
+import 'package:warranty_appp/utilities/timer_service.dart';
+import 'package:yodo1mas/Yodo1MAS.dart';
 import '../../../../constants/api_constants.dart';
 import '../../../../constants/color_constant.dart';
 import '../../../../constants/sizeConstant.dart';
 import '../../../../main.dart';
+import '../../../../utilities/ad_service.dart';
 import '../../../../utilities/buttons.dart';
 import '../../../../utilities/progress_dialog_utils.dart';
 import '../../../routes/app_pages.dart';
@@ -21,8 +26,22 @@ class AddItemListscreenView extends GetWidget<AddItemListscreenController> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        Get.offAndToNamed(Routes.HOME);
-        return await true;
+        if (getIt<TimerService>().is40SecCompleted) {
+          SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+          await getIt<AdService>()
+              .getAd(adType: AdService.interstitialAd)
+              .then((value) {
+            if (!value) {
+              SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+              getIt<TimerService>().verifyTimer();
+              Get.offAndToNamed(Routes.HOME);
+            }
+          });
+          return await false;
+        } else {
+          Get.offAndToNamed(Routes.HOME);
+          return await true;
+        }
       },
       child: Obx(() {
         return SafeArea(
@@ -38,12 +57,31 @@ class AddItemListscreenView extends GetWidget<AddItemListscreenController> {
                         Padding(
                           padding: EdgeInsets.all(MySize.getHeight(8.0)),
                           child: GestureDetector(
-                            onTap: () {
-                              Get.offAndToNamed(Routes.HOME);
+                            onTap: () async {
+                              if (getIt<TimerService>().is40SecCompleted) {
+                                SystemChrome.setEnabledSystemUIMode(
+                                    SystemUiMode.immersiveSticky);
+                                await getIt<AdService>()
+                                    .getAd(adType: AdService.interstitialAd)
+                                    .then((value) {
+                                  if (!value) {
+                                    SystemChrome.setEnabledSystemUIMode(
+                                        SystemUiMode.edgeToEdge);
+                                    getIt<TimerService>().verifyTimer();
+                                    Get.offAndToNamed(Routes.HOME);
+                                  }
+                                });
+                              } else {
+                                Get.offAndToNamed(Routes.HOME);
+                              }
                             },
-                            child: Icon(
-                              Icons.arrow_back,
-                              color: Colors.white,
+                            child: Container(
+                              height: MySize.getHeight(60),
+                              width: MySize.getHeight(60),
+                              child: Icon(
+                                Icons.arrow_back,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),

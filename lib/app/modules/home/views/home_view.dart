@@ -1,10 +1,16 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:rate_my_app/rate_my_app.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:yodo1mas/Yodo1MasBannerAd.dart';
+// import 'package:yodo1mas/Yodo1MAS.dart';
+// import 'package:yodo1mas/Yodo1MasBannerAd.dart';
 import '../../../../constants/api_constants.dart';
 import '../../../../constants/color_constant.dart';
 import '../../../../constants/sizeConstant.dart';
@@ -41,15 +47,96 @@ class HomeView extends GetWidget<HomeController> {
                               ),
                             )),
                         Spacer(),
-                        Padding(
-                          padding:
-                              EdgeInsets.only(right: MySize.getHeight(8.0)),
-                          child: Icon(
-                            Icons.settings,
-                            size: MySize.getHeight(30.0),
-                            color: Colors.white,
+                        PopupMenuButton(
+                          offset: Offset(0, MySize.getHeight(50)),
+                          itemBuilder: (context) {
+                            return [
+                              PopupMenuItem(
+                                  child: GestureDetector(
+                                onTap: () {
+                                  controller.rateMyApp.init().then((value) {
+                                    controller.rateMyApp.showRateDialog(
+                                      context,
+                                      title:
+                                          'Rate this app', // The dialog title.0
+                                      message:
+                                          'If you like this app, please take a little bit of your time to review it !\nIt really helps us and it shouldn\'t take you more than one minute.', // The dialog message.
+                                      rateButton:
+                                          'RATE', // The dialog "rate" button text.
+                                      noButton:
+                                          'NO THANKS', // The dialog "no" button text.
+                                      laterButton:
+                                          'MAYBE LATER', // The dialog "later" button text.
+                                      listener: (button) {
+                                        // The button click listener (useful if you want to cancel the click event).
+                                        switch (button) {
+                                          case RateMyAppDialogButton.rate:
+                                            print('Clicked on "Rate".');
+                                            break;
+                                          case RateMyAppDialogButton.later:
+                                            print('Clicked on "Later".');
+                                            break;
+                                          case RateMyAppDialogButton.no:
+                                            print('Clicked on "No".');
+                                            break;
+                                        }
+
+                                        return true; // Return false if you want to cancel the click event.
+                                      },
+                                      ignoreNativeDialog: Platform
+                                          .isAndroid, // Set to false if you want to show the Apple's native app rating dialog on iOS or Google's native app rating dialog (depends on the current Platform).
+                                      dialogStyle:
+                                          const DialogStyle(), // Custom dialog styles.
+                                      onDismissed: () => controller.rateMyApp
+                                          .callEvent(RateMyAppEventType
+                                              .laterButtonPressed), // Called when the user dismissed the dialog (either by taping outside or by pressing the "back" button).
+                                    );
+                                  });
+                                },
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.star,
+                                      color: Colors.black,
+                                    ),
+                                    SizedBox(
+                                      width: MySize.getWidth(5),
+                                    ),
+                                    Text("Rate us")
+                                  ],
+                                ),
+                              )),
+                              PopupMenuItem(
+                                  child: GestureDetector(
+                                onTap: () {
+                                  Share.share(
+                                      'check out my website https://play.google.com/store/apps/details?id=com.all_dog.all_dogs');
+                                },
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.share,
+                                      color: Colors.black,
+                                    ),
+                                    SizedBox(
+                                      width: MySize.getWidth(5),
+                                    ),
+                                    Text("Share App")
+                                  ],
+                                ),
+                              )),
+                            ];
+                          },
+                          child: Container(
+                            height: MySize.getHeight(60),
+                            width: MySize.getWidth(60),
+                            child: Icon(
+                              Icons.settings,
+                              size: MySize.getHeight(30.0),
+                              color: Colors.white,
+                            ),
                           ),
-                        )
+                        ),
                       ]),
                     )),
               ],
@@ -57,6 +144,11 @@ class HomeView extends GetWidget<HomeController> {
             body: Center(
                 child: Column(
               children: [
+                (controller.connectivityResult == ConnectionState.none)
+                    ? SizedBox()
+                    : Yodo1MASBannerAd(
+                        size: BannerSize.Banner,
+                      ),
                 Expanded(
                     flex: 12,
                     child: (isNullEmptyOrFalse(controller.categoryDataList))

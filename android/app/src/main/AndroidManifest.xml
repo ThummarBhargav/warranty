@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.warranty_appp">
+    package="com.warrenty_manager.warrentytracker">
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -33,5 +33,9 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-    </application>
+       <meta-data
+           android:name="com.google.android.gms.ads.ca-app-pub-5580537606944457~4465578836"
+           android:value="7vE8y0yb7X"/>
+
+   </application>
 </manifest>

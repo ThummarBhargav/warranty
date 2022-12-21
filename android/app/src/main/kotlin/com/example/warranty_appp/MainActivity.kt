@@ -1,4 +1,4 @@
-package com.example.warranty_appp
+package com.warrenty_manager.warrentytracker
 
 import androidx.annotation.NonNull
 import io.flutter.embedding.android.FlutterFragmentActivity

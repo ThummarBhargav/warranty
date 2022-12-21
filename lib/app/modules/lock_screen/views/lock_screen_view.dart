@@ -155,11 +155,9 @@ class LockScreenView extends GetWidget<LockScreenController> {
                                   getCustomButton(
                                     number: "1",
                                   ),
-                                  Spacer(),
                                   getCustomButton(
                                     number: "2",
                                   ),
-                                  Spacer(),
                                   getCustomButton(
                                     number: "3",
                                   )
@@ -171,11 +169,9 @@ class LockScreenView extends GetWidget<LockScreenController> {
                                   getCustomButton(
                                     number: "4",
                                   ),
-                                  Spacer(),
                                   getCustomButton(
                                     number: "5",
                                   ),
-                                  Spacer(),
                                   getCustomButton(
                                     number: "6",
                                   )
@@ -187,11 +183,9 @@ class LockScreenView extends GetWidget<LockScreenController> {
                                   getCustomButton(
                                     number: "7",
                                   ),
-                                  Spacer(),
                                   getCustomButton(
                                     number: "8",
                                   ),
-                                  Spacer(),
                                   getCustomButton(
                                     number: "9",
                                   )
@@ -205,11 +199,9 @@ class LockScreenView extends GetWidget<LockScreenController> {
                                     isBackButton: true,
                                     icon: Icons.backspace_rounded,
                                   ),
-                                  Spacer(),
                                   getCustomButton(
                                     number: "0",
                                   ),
-                                  Spacer(),
                                   getCustomButton(
                                     isIcon: true,
                                     isSubmitButton: true,
@@ -239,33 +231,33 @@ class LockScreenView extends GetWidget<LockScreenController> {
     String number = "0",
     IconData icon = Icons.add,
   }) {
-    return GestureDetector(
-      onTap: (isBackButton)
-          ? () {
-              List<String> temp =
-                  controller.passwordController.value.text.toString().split("");
-              temp.removeLast();
-              controller.passwordController.value.text = temp.join("");
-            }
-          : (isSubmitButton)
-              ? () {
-                  if (controller.passwordController.value.text.length >= 3) {
-                    controller.checkPassword();
-                  } else {
-                    controller.passwordController.value.clear();
+    return Expanded(
+      child: GestureDetector(
+        onTap: (isBackButton)
+            ? () {
+                List<String> temp = controller.passwordController.value.text
+                    .toString()
+                    .split("");
+                temp.removeLast();
+                controller.passwordController.value.text = temp.join("");
+              }
+            : (isSubmitButton)
+                ? () {
+                    if (controller.passwordController.value.text.length >= 3) {
+                      controller.checkPassword();
+                    } else {
+                      controller.passwordController.value.clear();
+                    }
                   }
-                }
-              : () {
-                  if (controller.passwordController.value.text.length <= 3) {
-                    controller.passwordController.value.text =
-                        controller.passwordController.value.text + number;
-                    controller.isIncorrect.value = false;
-                  }
-                },
-      child: Center(
+                : () {
+                    if (controller.passwordController.value.text.length <= 3) {
+                      controller.passwordController.value.text =
+                          controller.passwordController.value.text + number;
+                      controller.isIncorrect.value = false;
+                    }
+                  },
         child: Container(
           height: MySize.getHeight(60),
-          width: MySize.getWidth(60),
           child: (isIcon)
               ? Center(
                   child: Icon(

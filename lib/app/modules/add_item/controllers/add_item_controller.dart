@@ -1,14 +1,19 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
+import 'package:yodo1mas/Yodo1MAS.dart';
 import '../../../../constants/api_constants.dart';
 import '../../../../main.dart';
+import '../../../../utilities/ad_service.dart';
+import '../../../../utilities/timer_service.dart';
 import '../../../models/categoriesModels.dart';
 import '../../../routes/app_pages.dart';
 import '../../add_item_listscreen/controllers/add_item_listscreen_controller.dart';
@@ -45,14 +50,14 @@ class AddItemController extends GetxController {
   bool isFromInnerScreen = false;
   RxList<NotificationDataModel> notificationList =
       RxList<NotificationDataModel>([
-    NotificationDataModel(value: 0, title: "SameDays Ago"),
-    NotificationDataModel(value: 1, title: "1 Days Ago"),
-    NotificationDataModel(value: 2, title: "2 Days Ago"),
-    NotificationDataModel(value: 3, title: "3 Days Ago"),
-    NotificationDataModel(value: 4, title: "4 Days Ago"),
-    NotificationDataModel(value: 5, title: "5 Days Ago"),
-    NotificationDataModel(value: 6, title: "6 Days Ago"),
-    NotificationDataModel(value: 7, title: "Week Ago"),
+    NotificationDataModel(value: 0, title: "SameDay"),
+    NotificationDataModel(value: 1, title: "1 Day Ago"),
+    NotificationDataModel(value: 2, title: "2 Day Ago"),
+    NotificationDataModel(value: 3, title: "3 Day Ago"),
+    NotificationDataModel(value: 4, title: "4 Day Ago"),
+    NotificationDataModel(value: 5, title: "5 Day Ago"),
+    NotificationDataModel(value: 6, title: "6 Day Ago"),
+    NotificationDataModel(value: 7, title: "7 Day Ago"),
   ]);
   RxString formattedTime = "".obs;
   String categoryName = "";
@@ -61,18 +66,33 @@ class AddItemController extends GetxController {
   RxList<String>? files1 = RxList<String>([]);
   RxString notificationDays = "".obs;
   late final LocalNotificationService service;
-
   @override
   void onInit() {
+    selectedExpireName.value = "SameDay";
     service = LocalNotificationService(controller: AddItemController());
     service.intialize();
-    durationcontroller.value.text = "0";
     notificationController = SingleValueDropDownController(
       data: DropDownValueModel(
           name: notificationList[0].title, value: notificationList[0].value),
     );
-
-    // listenToNotification();
+    Yodo1MAS.instance.setInterstitialListener((event, message) {
+      switch (event) {
+        case Yodo1MAS.AD_EVENT_OPENED:
+          print('Interstitial AD_EVENT_OPENED');
+          break;
+        case Yodo1MAS.AD_EVENT_ERROR:
+          print('Interstitial AD_EVENT_ERROR' + message);
+          break;
+        case Yodo1MAS.AD_EVENT_CLOSED:
+          getIt<TimerService>().verifyTimer();
+          SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+          (isFromHome)
+              ? Get.offAndToNamed(Routes.HOME)
+              : Get.offAndToNamed(Routes.ADD_ITEM_LISTSCREEN,
+                  arguments: {ArgumentConstant.Categoriename: categoryName});
+          break;
+      }
+    });
     Get.lazyPut(() => AddItemListscreenController());
     addItemListscreenController = Get.find<AddItemListscreenController>();
     Get.lazyPut(() => HomeController());
@@ -142,11 +162,19 @@ class AddItemController extends GetxController {
         addItemListscreenController!.addDataList[index] = c;
       }
     });
-    Get.offAllNamed(Routes.ADD_ITEM_LISTSCREEN, arguments: {
-      ArgumentConstant.Categoriename: categoryName,
-    });
     box.write(ArgumentConstant.additemList,
         jsonEncode(addItemListscreenController!.addDataList));
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+    getIt<AdService>().getAd(adType: AdService.interstitialAd).then((value) {
+      if (!value) {
+        getIt<TimerService>().verifyTimer();
+        SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+        (isFromHome)
+            ? Get.offAndToNamed(Routes.HOME)
+            : Get.offAndToNamed(Routes.ADD_ITEM_LISTSCREEN,
+                arguments: {ArgumentConstant.Categoriename: categoryName});
+      }
+    });
   }
 
   addItem(dataModels c) {
@@ -155,11 +183,17 @@ class AddItemController extends GetxController {
     );
     box.write(ArgumentConstant.additemList,
         jsonEncode(addItemListscreenController!.addDataList));
-    (isFromHome)
-        ? Get.offAndToNamed(Routes.HOME)
-        : Get.offAndToNamed(Routes.ADD_ITEM_LISTSCREEN, arguments: {
-            ArgumentConstant.Categoriename: categoryName,
-          });
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+    getIt<AdService>().getAd(adType: AdService.interstitialAd).then((value) {
+      if (!value) {
+        getIt<TimerService>().verifyTimer();
+        SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+        (isFromHome)
+            ? Get.offAndToNamed(Routes.HOME)
+            : Get.offAndToNamed(Routes.ADD_ITEM_LISTSCREEN,
+                arguments: {ArgumentConstant.Categoriename: categoryName});
+      }
+    });
   }
 
   String getExpiryDateString() {

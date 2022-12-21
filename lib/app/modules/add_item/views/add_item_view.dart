@@ -1,16 +1,20 @@
 import 'dart:io';
-import 'dart:math';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:warranty_appp/utilities/buttons.dart';
+import 'package:yodo1mas/testmasfluttersdktwo.dart';
 import '../../../../constants/api_constants.dart';
 import '../../../../constants/color_constant.dart';
 import '../../../../constants/sizeConstant.dart';
 import '../../../../constants/text_field.dart';
+import '../../../../main.dart';
+import '../../../../utilities/ad_service.dart';
+import '../../../../utilities/timer_service.dart';
 import '../../../models/categoriesModels.dart';
 import '../../../routes/app_pages.dart';
 import '../controllers/add_item_controller.dart';
@@ -23,12 +27,30 @@ class AddItemView extends GetView<AddItemController> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        (controller.isFromHome)
-            ? Get.offAndToNamed(Routes.HOME)
-            : Get.offAndToNamed(Routes.ADD_ITEM_LISTSCREEN, arguments: {
-                ArgumentConstant.Categoriename: controller.categoryName
-              });
-        return await true;
+        if (getIt<TimerService>().is40SecCompleted) {
+          SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+          await getIt<AdService>()
+              .getAd(adType: AdService.interstitialAd)
+              .then((value) {
+            if (!value) {
+              getIt<TimerService>().verifyTimer();
+              SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+              (controller.isFromHome)
+                  ? Get.offAndToNamed(Routes.HOME)
+                  : Get.offAndToNamed(Routes.ADD_ITEM_LISTSCREEN, arguments: {
+                      ArgumentConstant.Categoriename: controller.categoryName
+                    });
+            }
+          });
+          return await false;
+        } else {
+          (controller.isFromHome)
+              ? Get.offAndToNamed(Routes.HOME)
+              : Get.offAndToNamed(Routes.ADD_ITEM_LISTSCREEN, arguments: {
+                  ArgumentConstant.Categoriename: controller.categoryName
+                });
+          return await true;
+        }
       },
       child: SafeArea(
         child: Obx(() {
@@ -44,19 +66,45 @@ class AddItemView extends GetView<AddItemController> {
                         Padding(
                           padding: EdgeInsets.all(MySize.getHeight(8.0)),
                           child: GestureDetector(
-                            onTap: () {
-                              (controller.isFromHome)
-                                  ? Get.offAndToNamed(Routes.HOME)
-                                  : Get.offAndToNamed(
-                                      Routes.ADD_ITEM_LISTSCREEN,
-                                      arguments: {
-                                          ArgumentConstant.Categoriename:
-                                              controller.categoryName
-                                        });
+                            onTap: () async {
+                              if (getIt<TimerService>().is40SecCompleted) {
+                                SystemChrome.setEnabledSystemUIMode(
+                                    SystemUiMode.immersiveSticky);
+                                await getIt<AdService>()
+                                    .getAd(adType: AdService.interstitialAd)
+                                    .then((value) {
+                                  if (!value) {
+                                    getIt<TimerService>().verifyTimer();
+                                    SystemChrome.setEnabledSystemUIMode(
+                                        SystemUiMode.edgeToEdge);
+                                    (controller.isFromHome)
+                                        ? Get.offAndToNamed(Routes.HOME)
+                                        : Get.offAndToNamed(
+                                            Routes.ADD_ITEM_LISTSCREEN,
+                                            arguments: {
+                                                ArgumentConstant.Categoriename:
+                                                    controller.categoryName
+                                              });
+                                  }
+                                });
+                              } else {
+                                (controller.isFromHome)
+                                    ? Get.offAndToNamed(Routes.HOME)
+                                    : Get.offAndToNamed(
+                                        Routes.ADD_ITEM_LISTSCREEN,
+                                        arguments: {
+                                            ArgumentConstant.Categoriename:
+                                                controller.categoryName
+                                          });
+                              }
                             },
-                            child: Icon(
-                              Icons.arrow_back,
-                              color: Colors.white,
+                            child: Container(
+                              height: MySize.getHeight(60),
+                              width: MySize.getHeight(60),
+                              child: Icon(
+                                Icons.arrow_back,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),
@@ -73,6 +121,7 @@ class AddItemView extends GetView<AddItemController> {
                           padding: EdgeInsets.all(MySize.getHeight(8.0)),
                           child: GestureDetector(
                             onTap: () async {
+                              FocusScope.of(context).unfocus();
                               if (controller.formKey.currentState!.validate()) {
                                 if (controller.isNameEmpty.isFalse &&
                                     controller.isDurationEmpty.isFalse) {
@@ -692,6 +741,7 @@ class AddItemView extends GetView<AddItemController> {
 
   void listenToNotification() => controller.service.onNotificationClick.stream
       .listen(onNoticationListener);
+
   void onNoticationListener(String? payload) {
     if (payload != null && payload.isNotEmpty) {
       print('payload==================================== $payload');

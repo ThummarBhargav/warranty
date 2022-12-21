@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:yodo1mas/testmasfluttersdktwo.dart';
 import '../../../../constants/api_constants.dart';
 import '../../../../constants/sizeConstant.dart';
 import '../../../../main.dart';
+import '../../../../utilities/ad_service.dart';
 import '../../../../utilities/progress_dialog_utils.dart';
+import '../../../../utilities/timer_service.dart';
 import '../../../models/categoriesModels.dart';
 import '../../../routes/app_pages.dart';
 import '../../add_item_listscreen/controllers/add_item_listscreen_controller.dart';
@@ -32,6 +35,21 @@ class LockScreenController extends GetxController {
     }
     canCheckBiometric.value = await auth.canCheckBiometrics;
     checkAuth();
+    Yodo1MAS.instance.setInterstitialListener((event, message) {
+      switch (event) {
+        case Yodo1MAS.AD_EVENT_OPENED:
+          print('Interstitial AD_EVENT_OPENED');
+          break;
+        case Yodo1MAS.AD_EVENT_ERROR:
+          print('Interstitial AD_EVENT_ERROR' + message);
+          break;
+        case Yodo1MAS.AD_EVENT_CLOSED:
+          getIt<TimerService>().verifyTimer();
+          SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+          Get.offAndToNamed(Routes.HOME);
+          break;
+      }
+    });
     Get.lazyPut(() => AddItemListscreenController());
     addItemListscreenController = Get.find<AddItemListscreenController>();
     super.onInit();
@@ -151,41 +169,33 @@ class LockScreenController extends GetxController {
     super.onClose();
   }
 
-  checkPassword() {
+  checkPassword() async {
     if (box.read(ArgumentConstant.Password) == passwordController.value.text) {
-      // if (!isNullEmptyOrFalse(payload)) {
-      //   addItemListscreenController!.addDataList.forEach((element) {
-      //     if (payload == element.id.toString()) {
-      //       Get.offAndToNamed(
-      //         Routes.ADD_ITEM_LISTSCREEN_VIEW,
-      //         arguments: {
-      //           ArgumentConstant.additemListview: element,
-      //         },
-      //       );
-      //     }
-      //   });
-      // } else {
-      //   Get.offAndToNamed(Routes.HOME);
-      // }
-      Get.offAndToNamed(Routes.HOME);
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+      await getIt<AdService>()
+          .getAd(adType: AdService.interstitialAd)
+          .then((value) {
+        if (!value) {
+          SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+          Get.offAndToNamed(Routes.HOME);
+        }
+      });
+      getIt<TimerService>().verifyTimer();
     } else if (isAuth.value) {
-      // if (!isNullEmptyOrFalse(payload)) {
-      //   addItemListscreenController!.addDataList.forEach((element) {
-      //     if (payload == element.id.toString()) {
-      //       Get.offAndToNamed(
-      //         Routes.ADD_ITEM_LISTSCREEN_VIEW,
-      //         arguments: {
-      //           ArgumentConstant.additemListview: element,
-      //         },
-      //       );
-      //     }
-      //   });
-      // } else {
-      //
-      // }
-      Get.offAndToNamed(Routes.HOME);
-      isIncorrect.value = true;
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+      await getIt<AdService>()
+          .getAd(adType: AdService.interstitialAd)
+          .then((value) {
+        if (!value) {
+          SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+          Get.offAndToNamed(Routes.HOME);
+        }
+      });
+      getIt<TimerService>().verifyTimer();
+
       passwordController.value.clear();
+    } else {
+      isIncorrect.value = true;
     }
   }
 }

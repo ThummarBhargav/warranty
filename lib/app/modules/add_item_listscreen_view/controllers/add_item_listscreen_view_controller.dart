@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:warranty_appp/main.dart';
@@ -11,8 +12,9 @@ class AddItemListscreenViewController extends GetxController {
   dataModels? addItemListview;
   List<String> expireDate = [];
   List<String> purchasedDate = [];
+  var connectivityResult;
   @override
-  void onInit() {
+  Future<void> onInit() async {
     Yodo1MAS.instance.setInterstitialListener((event, message) {
       switch (event) {
         case Yodo1MAS.AD_EVENT_OPENED:
@@ -31,13 +33,14 @@ class AddItemListscreenViewController extends GetxController {
           break;
       }
     });
-
     print(Get.arguments[ArgumentConstant.additemListview]);
     if (Get.arguments != null) {
       addItemListview = Get.arguments[ArgumentConstant.additemListview];
     }
     expireDate = addItemListview!.expiredDate.toString().split(" ");
     purchasedDate = addItemListview!.Date.toString().split(" ");
+    connectivityResult = await Connectivity().checkConnectivity();
+
     super.onInit();
   }
 

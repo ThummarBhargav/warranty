@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:vibration/vibration.dart';
 import 'package:yodo1mas/testmasfluttersdktwo.dart';
 import '../../../../constants/api_constants.dart';
 import '../../../../constants/sizeConstant.dart';
@@ -170,31 +171,22 @@ class LockScreenController extends GetxController {
   }
 
   checkPassword() async {
-    if (box.read(ArgumentConstant.Password) == passwordController.value.text) {
-      SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+    if (box.read(ArgumentConstant.Password) == passwordController.value.text ||
+        isAuth.value) {
       await getIt<AdService>()
           .getAd(adType: AdService.interstitialAd)
           .then((value) {
         if (!value) {
-          SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
           Get.offAndToNamed(Routes.HOME);
         }
       });
       getIt<TimerService>().verifyTimer();
-    } else if (isAuth.value) {
-      SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-      await getIt<AdService>()
-          .getAd(adType: AdService.interstitialAd)
-          .then((value) {
-        if (!value) {
-          SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-          Get.offAndToNamed(Routes.HOME);
-        }
-      });
-      getIt<TimerService>().verifyTimer();
-
       passwordController.value.clear();
     } else {
+      if (await Vibration.hasVibrator() ?? false) {
+        Vibration.vibrate();
+      }
+      passwordController.value.clear();
       isIncorrect.value = true;
     }
   }

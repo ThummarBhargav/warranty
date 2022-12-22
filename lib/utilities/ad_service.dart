@@ -1,4 +1,5 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/services.dart';
 import 'package:yodo1mas/Yodo1MAS.dart';
 
 class AdService {
@@ -11,6 +12,7 @@ class AdService {
     if (connectivityResult == ConnectivityResult.none) {
       return false;
     } else {
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
       if (adType == AdService.interstitialAd) {
         Yodo1MAS.instance.showInterstitialAd();
       } else if (adType == AdService.bannerAd) {

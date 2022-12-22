@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:warranty_appp/utilities/timer_service.dart';
+import 'package:yodo1mas/Yodo1MasBannerAd.dart';
 import '../../../../constants/api_constants.dart';
 import '../../../../constants/color_constant.dart';
 import '../../../../constants/sizeConstant.dart';
@@ -28,7 +29,6 @@ class AddItemListscreenViewView
       child: WillPopScope(
         onWillPop: () async {
           if (getIt<TimerService>().is40SecCompleted) {
-            SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
             getIt<AdService>()
                 .getAd(adType: AdService.interstitialAd)
                 .then((value) {
@@ -54,7 +54,7 @@ class AddItemListscreenViewView
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: GestureDetector(
+              child: InkWell(
                 onTap:
                     (!isNullEmptyOrFalse(controller.addItemListview!.Image) &&
                             controller.addItemListview!.Image != "null")
@@ -93,13 +93,11 @@ class AddItemListscreenViewView
                       ),
                     ),
                     Positioned(
-                      top: MySize.getHeight(55),
-                      left: MySize.getHeight(20),
-                      child: GestureDetector(
+                      top: MySize.getHeight(45),
+                      left: MySize.getWidth(15),
+                      child: InkWell(
                         onTap: () {
                           if (getIt<TimerService>().is40SecCompleted) {
-                            SystemChrome.setEnabledSystemUIMode(
-                                SystemUiMode.immersiveSticky);
                             getIt<AdService>()
                                 .getAd(adType: AdService.interstitialAd)
                                 .then((value) {
@@ -124,17 +122,19 @@ class AddItemListscreenViewView
                           }
                         },
                         child: Container(
-                          height: MySize.getHeight(35),
-                          width: MySize.getHeight(35),
-                          child: SvgPicture.asset("image/backArrow.svg",
-                              fit: BoxFit.none),
+                          height: MySize.getHeight(50),
+                          width: MySize.getHeight(50),
+                          child: Center(
+                            child: SvgPicture.asset("image/backArrow.svg",
+                                fit: BoxFit.none),
+                          ),
                         ),
                       ),
                     ),
                     Positioned(
                       bottom: 0,
                       right: 0,
-                      child: GestureDetector(
+                      child: InkWell(
                         onTap: () {
                           if (controller.addItemListview!.Bill == null) {
                           } else {
@@ -191,7 +191,7 @@ class AddItemListscreenViewView
                     Positioned(
                       bottom: MySize.getHeight(38),
                       right: MySize.getHeight(23),
-                      child: GestureDetector(
+                      child: InkWell(
                         onTap: () {
                           Get.toNamed(Routes.ADD_ITEM, arguments: {
                             ArgumentConstant.Categoriename:
@@ -301,6 +301,11 @@ class AddItemListscreenViewView
                 ],
               ),
             )),
+            (controller.connectivityResult == ConnectionState.none)
+                ? SizedBox()
+                : Yodo1MASBannerAd(
+                    size: BannerSize.Banner,
+                  ),
           ],
         )),
       ),
@@ -315,12 +320,15 @@ class AddItemListscreenViewView
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "${name}",
-                style: GoogleFonts.lexend(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500,
-                  fontSize: MySize.getHeight(14),
+              Container(
+                width: MySize.getWidth(130),
+                child: Text(
+                  "${name}",
+                  style: GoogleFonts.lexend(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                    fontSize: MySize.getHeight(14),
+                  ),
                 ),
               ),
               Spacing.width(MySize.getWidth(10)),

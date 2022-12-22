@@ -50,7 +50,7 @@ class HomeView extends GetWidget<HomeController> {
                           itemBuilder: (context) {
                             return [
                               PopupMenuItem(
-                                  child: GestureDetector(
+                                  child: InkWell(
                                 onTap: () {
                                   controller.rateMyApp.init().then((value) {
                                     controller.rateMyApp.showRateDialog(
@@ -105,10 +105,10 @@ class HomeView extends GetWidget<HomeController> {
                                 ),
                               )),
                               PopupMenuItem(
-                                  child: GestureDetector(
+                                  child: InkWell(
                                 onTap: () {
                                   Share.share(
-                                      'check out my website https://play.google.com/store/apps/details?id=com.all_dog.all_dogs');
+                                      'check out my website https://play.google.com/store/apps/details?id=com.warrenty_manager.warrentytracker');
                                 },
                                 child: Row(
                                   children: [
@@ -155,82 +155,71 @@ class HomeView extends GetWidget<HomeController> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Center(
-                                  child: SvgPicture.asset("image/Nodata.svg")),
+                                child: SvgPicture.asset(
+                                  "image/Nodata.svg",
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              SizedBox(
+                                height: MySize.getHeight(10),
+                              ),
+                              Center(
+                                child: Text("Click on + icon to add new items",
+                                    style: GoogleFonts.lexend(
+                                        color: Colors.grey,
+                                        fontSize: MySize.getHeight(15))),
+                              ),
                             ],
                           )
-                        : SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding:
-                                      EdgeInsets.all(MySize.getHeight(8.0)),
-                                  child: Container(
-                                    padding: EdgeInsets.only(
-                                        bottom: MySize.getHeight(9)),
-                                    height: MySize.safeHeight! -
-                                        AppBar().preferredSize.height,
-                                    child: GridView.builder(
-                                      padding: EdgeInsets.only(bottom: 10),
-                                      itemCount:
-                                          controller.categoryDataList.length,
-                                      gridDelegate:
-                                          SliverGridDelegateWithFixedCrossAxisCount(
-                                              crossAxisCount: 2,
-                                              crossAxisSpacing:
-                                                  MySize.getHeight(10.0),
-                                              mainAxisSpacing:
-                                                  MySize.getHeight(10.0)),
-                                      itemBuilder: (context, index) {
-                                        String valueString = controller
-                                            .categoryDataList[index].color!
-                                            .split('(0x')[1]
-                                            .split(')')[0]; // kind of hacky..
-                                        int value =
-                                            int.parse(valueString, radix: 16);
-                                        Color backColor = new Color(value);
-                                        return getCategoriesWidget(
-                                          onLongPress: () {
-                                            deletDialogBox(
-                                              context,
-                                              onPressed1: () {
-                                                Get.back();
-                                                controller.addItemList.removeWhere(
-                                                    (element) => (element
-                                                            .categoriesName ==
-                                                        controller
-                                                            .categoryDataList[
-                                                                index]
-                                                            .categoriesName));
-                                                controller.categoryDataList
-                                                    .removeAt(index);
-                                                box.write(
-                                                    ArgumentConstant
-                                                        .categoriesList,
-                                                    jsonEncode(controller
-                                                        .categoryDataList));
-                                                box.write(
-                                                    ArgumentConstant
-                                                        .additemList,
-                                                    jsonEncode(controller
-                                                        .addItemList));
-                                              },
-                                            );
-                                          },
-                                          color: backColor,
-                                          image: controller
-                                              .categoryDataList[index].Image!,
-                                          Counter: controller
-                                              .categoryDataList[index].Counter!,
-                                          Name: controller
-                                              .categoryDataList[index]
-                                              .categoriesName!,
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                        : GridView.builder(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: MySize.getWidth(10),
+                                vertical: MySize.getHeight(10)),
+                            itemCount: controller.categoryDataList.length,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    crossAxisSpacing: MySize.getHeight(10.0),
+                                    mainAxisSpacing: MySize.getHeight(10.0)),
+                            itemBuilder: (context, index) {
+                              String valueString = controller
+                                  .categoryDataList[index].color!
+                                  .split('(0x')[1]
+                                  .split(')')[0]; // kind of hacky..
+                              int value = int.parse(valueString, radix: 16);
+                              Color backColor = new Color(value);
+                              return getCategoriesWidget(
+                                onLongPress: () {
+                                  deletDialogBox(
+                                    context,
+                                    onPressed1: () {
+                                      Get.back();
+                                      controller.addItemList.removeWhere(
+                                          (element) =>
+                                              (element.categoriesName ==
+                                                  controller
+                                                      .categoryDataList[index]
+                                                      .categoriesName));
+                                      controller.categoryDataList
+                                          .removeAt(index);
+                                      box.write(
+                                          ArgumentConstant.categoriesList,
+                                          jsonEncode(
+                                              controller.categoryDataList));
+                                      box.write(ArgumentConstant.additemList,
+                                          jsonEncode(controller.addItemList));
+                                    },
+                                  );
+                                },
+                                color: backColor,
+                                image:
+                                    controller.categoryDataList[index].Image!,
+                                Counter:
+                                    controller.categoryDataList[index].Counter!,
+                                Name: controller
+                                    .categoryDataList[index].categoriesName!,
+                              );
+                            },
                           )),
               ],
             )),
@@ -295,75 +284,77 @@ class HomeView extends GetWidget<HomeController> {
         count++;
       }
     });
-    return GestureDetector(
-      onTap: () {
-        Get.offAndToNamed(Routes.ADD_ITEM_LISTSCREEN,
-            arguments: {ArgumentConstant.Categoriename: Name});
-      },
-      onLongPress: onLongPress,
-      child: Container(
-        height: MySize.getHeight(150.0),
-        width: MySize.getHeight(150.0),
-        decoration: BoxDecoration(
-            color: color,
-            // border: Border.all(color: appTheme.primaryTheme),
-            borderRadius: BorderRadius.circular(MySize.getHeight(10.0))),
-        child: Stack(
-          children: [
-            Padding(
-              padding: EdgeInsets.all(MySize.getHeight(8.0)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                      child: Text(
-                    count.toString(),
-                    style: GoogleFonts.lexend(
-                        fontWeight: FontWeight.w400,
-                        fontSize: MySize.getHeight(20),
-                        color: appTheme.ErrorText),
-                  )),
-                ],
-              ),
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Center(
-                  child: Container(
-                    height: MySize.getHeight(100.0),
-                    width: MySize.getHeight(100.0),
-                    child: (image == "")
-                        ? SvgPicture.asset(
-                            imagePath + "defolt.svg",
-                            fit: BoxFit.contain,
-                          )
-                        : SvgPicture.asset(
-                            imagePath + image,
-                            fit: BoxFit.contain,
-                          ),
-                  ),
-                ),
-                SizedBox(
-                  height: MySize.getHeight(10.0),
-                ),
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 8.0, left: 8.0),
-                    child: Text(
-                      Name,
-                      maxLines: 3,
+    return Material(
+      child: InkWell(
+        onTap: () {
+          Get.toNamed(Routes.ADD_ITEM_LISTSCREEN,
+              arguments: {ArgumentConstant.Categoriename: Name});
+        },
+        onLongPress: onLongPress,
+        child: Container(
+          height: MySize.getHeight(150.0),
+          width: MySize.getHeight(150.0),
+          decoration: BoxDecoration(
+              color: color,
+              // border: Border.all(color: appTheme.primaryTheme),
+              borderRadius: BorderRadius.circular(MySize.getHeight(10.0))),
+          child: Stack(
+            children: [
+              Padding(
+                padding: EdgeInsets.all(MySize.getHeight(8.0)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container(
+                        child: Text(
+                      count.toString(),
                       style: GoogleFonts.lexend(
-                        fontWeight: FontWeight.w400,
-                        fontSize: MySize.getHeight(15),
+                          fontWeight: FontWeight.w400,
+                          fontSize: MySize.getHeight(20),
+                          color: appTheme.ErrorText),
+                    )),
+                  ],
+                ),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Center(
+                    child: Container(
+                      height: MySize.getHeight(100.0),
+                      width: MySize.getHeight(100.0),
+                      child: (image == "")
+                          ? SvgPicture.asset(
+                              imagePath + "defolt.svg",
+                              fit: BoxFit.contain,
+                            )
+                          : SvgPicture.asset(
+                              imagePath + image,
+                              fit: BoxFit.contain,
+                            ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: MySize.getHeight(10.0),
+                  ),
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 8.0, left: 8.0),
+                      child: Text(
+                        Name,
+                        maxLines: 3,
+                        style: GoogleFonts.lexend(
+                          fontWeight: FontWeight.w400,
+                          fontSize: MySize.getHeight(15),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -400,54 +391,58 @@ class HomeView extends GetWidget<HomeController> {
                     SizedBox(
                       height: MySize.getHeight(20),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        TextButton(
-                            onPressed: () {
-                              Get.back();
-                            },
-                            child: Container(
-                              height: MySize.getHeight(50),
-                              width: MySize.getWidth(115),
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: appTheme.yellowPrimaryTheme),
-                                  borderRadius: BorderRadius.circular(4)),
-                              child: Center(
-                                child: Text(
-                                  "CANCEL",
-                                  style: GoogleFonts.lexend(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: MySize.getHeight(18),
-                                      color: Colors.black),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          right: MySize.getWidth(8), left: MySize.getWidth(8)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          TextButton(
+                              onPressed: () {
+                                Get.back();
+                              },
+                              child: Container(
+                                height: MySize.getHeight(50),
+                                width: MySize.getWidth(115),
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: appTheme.yellowPrimaryTheme),
+                                    borderRadius: BorderRadius.circular(4)),
+                                child: Center(
+                                  child: Text(
+                                    "CANCEL",
+                                    style: GoogleFonts.lexend(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: MySize.getHeight(18),
+                                        color: Colors.black),
+                                  ),
                                 ),
-                              ),
-                            )),
-                        SizedBox(
-                          width: MySize.getHeight(3.0),
-                        ),
-                        TextButton(
-                            onPressed: onPressed1,
-                            child: Container(
-                              height: MySize.getHeight(50),
-                              width: MySize.getWidth(115),
-                              decoration: BoxDecoration(
-                                  color: appTheme.yellowPrimaryTheme,
-                                  border: Border.all(
-                                      color: appTheme.yellowPrimaryTheme),
-                                  borderRadius: BorderRadius.circular(4)),
-                              child: Center(
-                                child: Text(
-                                  "DELETE",
-                                  style: GoogleFonts.lexend(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: MySize.getHeight(18),
-                                      color: Colors.white),
+                              )),
+                          SizedBox(
+                            width: MySize.getHeight(3.0),
+                          ),
+                          TextButton(
+                              onPressed: onPressed1,
+                              child: Container(
+                                height: MySize.getHeight(50),
+                                width: MySize.getWidth(115),
+                                decoration: BoxDecoration(
+                                    color: appTheme.yellowPrimaryTheme,
+                                    border: Border.all(
+                                        color: appTheme.yellowPrimaryTheme),
+                                    borderRadius: BorderRadius.circular(4)),
+                                child: Center(
+                                  child: Text(
+                                    "DELETE",
+                                    style: GoogleFonts.lexend(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: MySize.getHeight(18),
+                                        color: Colors.white),
+                                  ),
                                 ),
-                              ),
-                            )),
-                      ],
+                              )),
+                        ],
+                      ),
                     ),
                     SizedBox(
                       height: MySize.getHeight(10),
@@ -468,15 +463,18 @@ class HomeView extends GetWidget<HomeController> {
         barrierDismissible: false,
         builder: (context) {
           return AlertDialog(
-            contentPadding: EdgeInsets.all(0.0),
+            contentPadding: EdgeInsets.all(0),
             content: Container(
+              width: MySize.getWidth(420),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Row(
                     children: [
                       Padding(
-                        padding: EdgeInsets.all(MySize.getHeight(8.0)),
+                        padding: EdgeInsets.only(
+                            top: MySize.getHeight(8.0),
+                            left: MySize.getHeight(15.0)),
                         child: Text(
                           "Add category",
                           style: GoogleFonts.lexend(
@@ -491,7 +489,11 @@ class HomeView extends GetWidget<HomeController> {
                     height: MySize.getHeight(5),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(MySize.getHeight(9.0)),
+                    padding: EdgeInsets.only(
+                      top: MySize.getHeight(8.0),
+                      left: MySize.getHeight(15.0),
+                      right: MySize.getHeight(15.0),
+                    ),
                     child: Container(
                       decoration: BoxDecoration(
                         boxShadow: [
@@ -504,9 +506,10 @@ class HomeView extends GetWidget<HomeController> {
                         ],
                       ),
                       child: getTextField(
+                        textCapitalization: TextCapitalization.words,
                         hintText: "Category",
                         borderColor: Colors.transparent,
-                        size: 70,
+                        size: 40,
                         isFilled: true,
                         fillColor: Colors.white,
                         textEditingController:
@@ -514,86 +517,98 @@ class HomeView extends GetWidget<HomeController> {
                       ),
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      TextButton(
-                          onPressed: () {
-                            Get.back();
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: appTheme.yellowPrimaryTheme),
-                                borderRadius: BorderRadius.circular(2)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                "CANCEL",
-                                style: GoogleFonts.lexend(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: MySize.getHeight(15),
-                                    color: Colors.black),
-                              ),
-                            ),
-                          )),
-                      SizedBox(
-                        width: MySize.getHeight(3.0),
-                      ),
-                      TextButton(
-                          onPressed: () {
-                            bool isCopy = false;
-                            if (controller
-                                .categoryNameController.value.text.isNotEmpty) {
-                              controller.categoryDataList.forEach((element) {
-                                if (element.categoriesName!.toLowerCase() ==
-                                    controller.categoryNameController.value.text
-                                        .trim()
-                                        .toLowerCase()
-                                        .trim()) {
-                                  isCopy = true;
-                                } else {}
-                              });
-                              if (isCopy == false &&
-                                  controller.categoryNameController.value.text
-                                      .trim()
-                                      .isNotEmpty) {
-                                controller.addCategory(
-                                  categoriesModel(
-                                      categoriesName: controller
-                                          .categoryNameController.value.text
-                                          .trim(),
-                                      color: Color(
-                                              (Random().nextDouble() * 0xFFFFFF)
-                                                  .toInt())
-                                          .withOpacity(0.2)
-                                          .toString(),
-                                      Image: "",
-                                      Counter: "0"),
-                                );
-                              }
-                            }
-                            Get.back();
-                            controller.categoryNameController.value.clear();
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: appTheme.yellowPrimaryTheme,
-                                border: Border.all(
-                                    color: appTheme.yellowPrimaryTheme),
-                                borderRadius: BorderRadius.circular(2)),
-                            child: Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 8.0, bottom: 8, right: 25, left: 25),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        top: MySize.getHeight(8),
+                        bottom: MySize.getHeight(8),
+                        right: MySize.getHeight(8)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        TextButton(
+                            onPressed: () {
+                              controller.categoryNameController.value.clear();
+                              Get.back();
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: appTheme.yellowPrimaryTheme),
+                                  borderRadius: BorderRadius.circular(2)),
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
                                 child: Text(
-                                  "ADD",
+                                  "CANCEL",
                                   style: GoogleFonts.lexend(
                                       fontWeight: FontWeight.w400,
                                       fontSize: MySize.getHeight(15),
-                                      color: Colors.white),
-                                )),
-                          )),
-                    ],
+                                      color: Colors.black),
+                                ),
+                              ),
+                            )),
+                        SizedBox(
+                          width: MySize.getWidth(3.0),
+                        ),
+                        TextButton(
+                            onPressed: () {
+                              bool isCopy = false;
+                              if (controller.categoryNameController.value.text
+                                  .isNotEmpty) {
+                                controller.categoryDataList.forEach((element) {
+                                  if (element.categoriesName!.toLowerCase() ==
+                                      controller
+                                          .categoryNameController.value.text
+                                          .trim()
+                                          .toLowerCase()
+                                          .trim()) {
+                                    isCopy = true;
+                                  } else {}
+                                });
+                                if (isCopy == false &&
+                                    controller.categoryNameController.value.text
+                                        .trim()
+                                        .isNotEmpty) {
+                                  controller.addCategory(
+                                    categoriesModel(
+                                        categoriesName: controller
+                                            .categoryNameController.value.text
+                                            .trim(),
+                                        color: Color((Random().nextDouble() *
+                                                    0xFFFFFF)
+                                                .toInt())
+                                            .withOpacity(0.2)
+                                            .toString(),
+                                        Image: "",
+                                        Counter: "0"),
+                                  );
+                                }
+                              }
+                              Get.back();
+                              controller.categoryNameController.value.clear();
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: appTheme.yellowPrimaryTheme,
+                                  border: Border.all(
+                                      color: appTheme.yellowPrimaryTheme),
+                                  borderRadius: BorderRadius.circular(2)),
+                              child: Padding(
+                                  padding: EdgeInsets.only(
+                                    top: MySize.getHeight(10),
+                                    bottom: MySize.getHeight(10),
+                                    right: MySize.getWidth(25),
+                                    left: MySize.getWidth(25),
+                                  ),
+                                  child: Text(
+                                    "ADD",
+                                    style: GoogleFonts.lexend(
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: MySize.getHeight(15),
+                                        color: Colors.white),
+                                  )),
+                            )),
+                      ],
+                    ),
                   )
                 ],
               ),

@@ -7,7 +7,6 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:warranty_appp/utilities/buttons.dart';
-import 'package:yodo1mas/testmasfluttersdktwo.dart';
 import '../../../../constants/api_constants.dart';
 import '../../../../constants/color_constant.dart';
 import '../../../../constants/sizeConstant.dart';
@@ -28,7 +27,6 @@ class AddItemView extends GetView<AddItemController> {
     return WillPopScope(
       onWillPop: () async {
         if (getIt<TimerService>().is40SecCompleted) {
-          SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
           await getIt<AdService>()
               .getAd(adType: AdService.interstitialAd)
               .then((value) {
@@ -36,7 +34,7 @@ class AddItemView extends GetView<AddItemController> {
               getIt<TimerService>().verifyTimer();
               SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
               (controller.isFromHome)
-                  ? Get.offAndToNamed(Routes.HOME)
+                  ? Get.offAllNamed(Routes.HOME)
                   : Get.offAndToNamed(Routes.ADD_ITEM_LISTSCREEN, arguments: {
                       ArgumentConstant.Categoriename: controller.categoryName
                     });
@@ -45,7 +43,7 @@ class AddItemView extends GetView<AddItemController> {
           return await false;
         } else {
           (controller.isFromHome)
-              ? Get.offAndToNamed(Routes.HOME)
+              ? Get.offAllNamed(Routes.HOME)
               : Get.offAndToNamed(Routes.ADD_ITEM_LISTSCREEN, arguments: {
                   ArgumentConstant.Categoriename: controller.categoryName
                 });
@@ -64,12 +62,11 @@ class AddItemView extends GetView<AddItemController> {
                     child: Row(
                       children: [
                         Padding(
-                          padding: EdgeInsets.all(MySize.getHeight(8.0)),
-                          child: GestureDetector(
+                          padding: EdgeInsets.all(MySize.getHeight(0)),
+                          child: InkWell(
                             onTap: () async {
+                              FocusScope.of(context).unfocus();
                               if (getIt<TimerService>().is40SecCompleted) {
-                                SystemChrome.setEnabledSystemUIMode(
-                                    SystemUiMode.immersiveSticky);
                                 await getIt<AdService>()
                                     .getAd(adType: AdService.interstitialAd)
                                     .then((value) {
@@ -89,7 +86,7 @@ class AddItemView extends GetView<AddItemController> {
                                 });
                               } else {
                                 (controller.isFromHome)
-                                    ? Get.offAndToNamed(Routes.HOME)
+                                    ? Get.offAllNamed(Routes.HOME)
                                     : Get.offAndToNamed(
                                         Routes.ADD_ITEM_LISTSCREEN,
                                         arguments: {
@@ -99,8 +96,8 @@ class AddItemView extends GetView<AddItemController> {
                               }
                             },
                             child: Container(
-                              height: MySize.getHeight(60),
-                              width: MySize.getHeight(60),
+                              height: MySize.getHeight(50),
+                              width: MySize.getWidth(60),
                               child: Icon(
                                 Icons.arrow_back,
                                 color: Colors.white,
@@ -118,8 +115,8 @@ class AddItemView extends GetView<AddItemController> {
                         ),
                         Spacer(),
                         Padding(
-                          padding: EdgeInsets.all(MySize.getHeight(8.0)),
-                          child: GestureDetector(
+                          padding: EdgeInsets.all(MySize.getHeight(0)),
+                          child: InkWell(
                             onTap: () async {
                               FocusScope.of(context).unfocus();
                               if (controller.formKey.currentState!.validate()) {
@@ -231,7 +228,6 @@ class AddItemView extends GetView<AddItemController> {
                                     );
                             },
                             child: Container(
-                              height: MySize.getHeight(40),
                               width: MySize.getWidth(70),
                               child: Center(
                                 child: Text(
@@ -397,7 +393,7 @@ class AddItemView extends GetView<AddItemController> {
                                         controller.selectDateController.value,
                                     labelColor: Colors.grey,
                                     readOnly: true,
-                                    suffixIcon: GestureDetector(
+                                    suffixIcon: InkWell(
                                       onTap: () async {
                                         DateTime? pickedDate =
                                             await showDatePicker(
@@ -540,12 +536,141 @@ class AddItemView extends GetView<AddItemController> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Container(
+                                      Expanded(
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            boxShadow: [
+                                              BoxShadow(
+                                                offset: Offset(0, 7),
+                                                color: Colors.black
+                                                    .withOpacity(0.08),
+                                                blurRadius:
+                                                    MySize.getHeight(13),
+                                                spreadRadius:
+                                                    MySize.getHeight(2),
+                                              ),
+                                            ],
+                                          ),
+                                          child: DropDownTextField(
+                                              textStyle: GoogleFonts.lexend(
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: MySize.getHeight(13),
+                                              ),
+                                              clearOption: false,
+                                              listTextStyle: GoogleFonts.lexend(
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: MySize.getHeight(13),
+                                              ),
+                                              textFieldDecoration:
+                                                  InputDecoration(
+                                                filled: true,
+                                                fillColor: Colors.white,
+                                                labelStyle: TextStyle(),
+                                                border: OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Colors.white),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          MySize.getHeight(10)),
+                                                ),
+                                                contentPadding: EdgeInsets.only(
+                                                  left: MySize.getWidth(20),
+                                                  right: MySize.getWidth(10),
+                                                  //  bottom: size! / 2, // HERE THE IMPORTANT PART
+                                                ),
+                                              ),
+                                              controller: controller
+                                                  .notificationController,
+                                              dropDownItemCount: 6,
+                                              onChanged: (index) {
+                                                DropDownValueModel
+                                                    dropDownValue =
+                                                    index as DropDownValueModel;
+                                                controller.selectedExpireDay
+                                                        .value =
+                                                    int.parse(dropDownValue
+                                                        .value
+                                                        .toString());
+                                                DropDownValueModel
+                                                    dropDownValue1 = index;
+                                                controller.selectedExpireName
+                                                        .value =
+                                                    "${dropDownValue1.name.toString()}";
+                                              },
+                                              dropDownList: List.generate(
+                                                  (controller.days.value < 7 &&
+                                                          controller
+                                                                  .days.value !=
+                                                              0)
+                                                      ? controller.days.value
+                                                      : controller
+                                                          .notificationList
+                                                          .length,
+                                                  (index) => DropDownValueModel(
+                                                      name: controller
+                                                          .notificationList[
+                                                              index]
+                                                          .title,
+                                                      value: controller
+                                                          .notificationList[
+                                                              index]
+                                                          .value))),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: MySize.getWidth(10),
+                                      ),
+                                      Expanded(
+                                          child: Container(
+                                        child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  "${controller.formattedTime}",
+                                                  style: GoogleFonts.lexend(
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize:
+                                                        MySize.getHeight(13),
+                                                  ),
+                                                ),
+                                              ),
+                                              IconButton(
+                                                  onPressed: () async {
+                                                    TimeOfDay? pickedTime =
+                                                        await showTimePicker(
+                                                      initialTime:
+                                                          TimeOfDay.now(),
+                                                      context: context,
+                                                    );
+                                                    if (pickedTime != null) {
+                                                      DateTime parsedTime =
+                                                          DateFormat.jm().parse(
+                                                              pickedTime
+                                                                  .format(
+                                                                      context)
+                                                                  .toString());
+                                                      controller.formattedTime
+                                                          .value = DateFormat(
+                                                              'HH:mm:ss')
+                                                          .format(parsedTime);
+                                                      controller.selectedTime
+                                                          .value = pickedTime;
+                                                    }
+                                                  },
+                                                  icon: Icon(
+                                                    Icons.alarm,
+                                                    color: Colors.grey,
+                                                    size: MySize.getHeight(30),
+                                                  ))
+                                            ]),
                                         height: MySize.getHeight(50),
-                                        width: (MySize.isMini)
-                                            ? MySize.getWidth(270)
-                                            : MySize.getWidth(270),
                                         decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(8)),
                                           boxShadow: [
                                             BoxShadow(
                                               offset: Offset(0, 7),
@@ -556,121 +681,7 @@ class AddItemView extends GetView<AddItemController> {
                                             ),
                                           ],
                                         ),
-                                        child: Stack(
-                                          children: [
-                                            DropDownTextField(
-                                                textStyle: GoogleFonts.lexend(
-                                                  fontWeight: FontWeight.w400,
-                                                  fontSize:
-                                                      MySize.getHeight(13),
-                                                ),
-                                                clearOption: false,
-                                                listTextStyle:
-                                                    GoogleFonts.lexend(
-                                                  fontWeight: FontWeight.w400,
-                                                  fontSize:
-                                                      MySize.getHeight(13),
-                                                ),
-                                                textFieldDecoration:
-                                                    InputDecoration(
-                                                  filled: true,
-                                                  fillColor: Colors.white,
-                                                  labelStyle: TextStyle(),
-                                                  border: OutlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                        color: Colors.white),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            MySize.getHeight(
-                                                                10)),
-                                                  ),
-                                                  contentPadding:
-                                                      EdgeInsets.only(
-                                                    left: MySize.getWidth(20),
-                                                    right: MySize.getWidth(10),
-                                                    //  bottom: size! / 2, // HERE THE IMPORTANT PART
-                                                  ),
-                                                ),
-                                                controller: controller
-                                                    .notificationController,
-                                                dropDownItemCount: 6,
-                                                onChanged: (index) {
-                                                  DropDownValueModel
-                                                      dropDownValue = index
-                                                          as DropDownValueModel;
-                                                  controller.selectedExpireDay
-                                                          .value =
-                                                      int.parse(dropDownValue
-                                                          .value
-                                                          .toString());
-                                                  DropDownValueModel
-                                                      dropDownValue1 = index;
-                                                  controller.selectedExpireName
-                                                          .value =
-                                                      "${dropDownValue1.name.toString()}";
-                                                },
-                                                dropDownList: List.generate(
-                                                    (controller.days.value <
-                                                                7 &&
-                                                            controller.days
-                                                                    .value !=
-                                                                0)
-                                                        ? controller.days.value
-                                                        : controller
-                                                            .notificationList
-                                                            .length,
-                                                    (index) => DropDownValueModel(
-                                                        name: controller
-                                                            .notificationList[
-                                                                index]
-                                                            .title,
-                                                        value: controller
-                                                            .notificationList[index]
-                                                            .value))),
-                                            Positioned(
-                                              top: MySize.getHeight(17),
-                                              right: MySize.getWidth(50),
-                                              child: Center(
-                                                child: Text(
-                                                  "${controller.formattedTime}",
-                                                  style: GoogleFonts.lexend(
-                                                    fontWeight: FontWeight.w400,
-                                                    fontSize:
-                                                        MySize.getHeight(13),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Container(
-                                        child: IconButton(
-                                            onPressed: () async {
-                                              TimeOfDay? pickedTime =
-                                                  await showTimePicker(
-                                                initialTime: TimeOfDay.now(),
-                                                context: context,
-                                              );
-                                              if (pickedTime != null) {
-                                                DateTime parsedTime =
-                                                    DateFormat.jm().parse(
-                                                        pickedTime
-                                                            .format(context)
-                                                            .toString());
-                                                controller.formattedTime.value =
-                                                    DateFormat('HH:mm:ss')
-                                                        .format(parsedTime);
-                                                controller.selectedTime.value =
-                                                    pickedTime;
-                                              }
-                                            },
-                                            icon: Icon(
-                                              Icons.alarm,
-                                              color: Colors.grey,
-                                              size: MySize.getHeight(40),
-                                            )),
-                                      )
+                                      ))
                                     ],
                                   ),
                               Spacing.height(20),
@@ -822,7 +833,7 @@ class AddItemView extends GetView<AddItemController> {
                     ),
                     Spacing.height(10),
                     Center(
-                        child: GestureDetector(
+                        child: InkWell(
                       onTap: onTap,
                       child: Container(
                         height: MySize.getHeight(35),
@@ -932,7 +943,7 @@ class AddItemView extends GetView<AddItemController> {
                     ),
                     Spacing.height(10),
                     Center(
-                        child: GestureDetector(
+                        child: InkWell(
                       onTap: onTap,
                       child: Container(
                         height: MySize.getHeight(35),

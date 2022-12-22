@@ -31,41 +31,49 @@ class AppPages {
       name: _Paths.HOME,
       page: () => const HomeView(),
       binding: HomeBinding(),
+      transition: Transition.cupertino,
     ),
     GetPage(
       name: _Paths.LOCK_SCREEN,
       page: () => const LockScreenView(),
       binding: LockScreenBinding(),
+      transition: Transition.cupertino,
     ),
     GetPage(
       name: _Paths.ADD_ITEM,
       page: () => const AddItemView(),
       binding: AddItemBinding(),
+      transition: Transition.cupertino,
     ),
     GetPage(
       name: _Paths.ADD_ITEM_LISTSCREEN,
       page: () => const AddItemListscreenView(),
       binding: AddItemListscreenBinding(),
+      transition: Transition.cupertino,
     ),
     GetPage(
       name: _Paths.ADD_ITEM_LISTSCREEN_VIEW,
       page: () => const AddItemListscreenViewView(),
       binding: AddItemListscreenViewBinding(),
+      transition: Transition.cupertino,
     ),
     GetPage(
       name: _Paths.IMAGE_VIEW,
       page: () => const ImageViewView(),
       binding: ImageViewBinding(),
+      transition: Transition.cupertino,
     ),
     GetPage(
       name: _Paths.PERMISSION,
       page: () => const PermissionView(),
       binding: PermissionBinding(),
+      transition: Transition.cupertino,
     ),
     GetPage(
       name: _Paths.SPLASH_SCREN,
       page: () => const SplashScrenView(),
       binding: SplashScrenBinding(),
+      transition: Transition.cupertino,
     ),
   ];
 }

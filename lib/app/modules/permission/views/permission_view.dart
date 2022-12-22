@@ -50,7 +50,7 @@ class PermissionView extends GetView<PermissionController> {
               ),
             ),
             Spacer(),
-            GestureDetector(
+            InkWell(
               onTap: () async {
                 if (await Permission.storage.request().isGranted) {
                   controller.isPermissionDone.value = true;

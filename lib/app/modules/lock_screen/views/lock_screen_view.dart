@@ -132,6 +132,7 @@ class LockScreenView extends GetWidget<LockScreenController> {
                 Container(
                   child: Stack(
                     alignment: Alignment.center,
+                    clipBehavior: Clip.antiAlias,
                     children: [
                       Container(
                         child: SvgPicture.asset(
@@ -146,8 +147,8 @@ class LockScreenView extends GetWidget<LockScreenController> {
                             : MySize.getHeight(80),
                         // left: MySize.getWidth(75),
                         child: Container(
-                          height: MySize.getHeight(250),
-                          width: MySize.getWidth(250),
+                          height: MySize.getHeight(280),
+                          width: MySize.getWidth(280),
                           child: Column(
                             children: [
                               Row(
@@ -232,51 +233,60 @@ class LockScreenView extends GetWidget<LockScreenController> {
     IconData icon = Icons.add,
   }) {
     return Expanded(
-      child: GestureDetector(
-        onTap: (isBackButton)
-            ? () {
-                List<String> temp = controller.passwordController.value.text
-                    .toString()
-                    .split("");
-                temp.removeLast();
-                controller.passwordController.value.text = temp.join("");
-              }
-            : (isSubmitButton)
-                ? () {
-                    if (controller.passwordController.value.text.length >= 3) {
-                      controller.checkPassword();
-                    } else {
-                      controller.passwordController.value.clear();
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: (isBackButton)
+              ? () {
+                  List<String> temp = controller.passwordController.value.text
+                      .toString()
+                      .split("");
+                  temp.removeLast();
+                  controller.passwordController.value.text = temp.join("");
+                }
+              : (isSubmitButton)
+                  ? () {
+                      if (controller.passwordController.value.text.length >=
+                          3) {
+                        controller.checkPassword();
+                      } else {
+                        controller.passwordController.value.clear();
+                      }
                     }
-                  }
-                : () {
-                    if (controller.passwordController.value.text.length <= 3) {
-                      controller.passwordController.value.text =
-                          controller.passwordController.value.text + number;
-                      controller.isIncorrect.value = false;
-                    }
-                  },
-        child: Container(
-          height: MySize.getHeight(60),
-          child: (isIcon)
-              ? Center(
-                  child: Icon(
-                    icon,
-                    color: (isSubmitButton)
-                        ? appTheme.yellowPrimaryTheme
-                        : Colors.white,
-                    size: MySize.getHeight(30),
+                  : () {
+                      if (controller.passwordController.value.text.length <=
+                          3) {
+                        controller.passwordController.value.text =
+                            controller.passwordController.value.text + number;
+                        controller.isIncorrect.value = false;
+                      }
+                      if (controller.passwordController.value.text.length ==
+                          4) {
+                        controller.checkPassword();
+                      }
+                    },
+          child: Container(
+            height: MySize.getHeight(60),
+            child: (isIcon)
+                ? Center(
+                    child: Icon(
+                      icon,
+                      color: (isSubmitButton)
+                          ? appTheme.yellowPrimaryTheme
+                          : Colors.white,
+                      size: MySize.getHeight(30),
+                    ),
+                  )
+                : Center(
+                    child: Text(
+                      "${number}",
+                      style: GoogleFonts.lexend(
+                          color: Colors.white,
+                          fontSize: MySize.getHeight(30),
+                          fontWeight: FontWeight.w500),
+                    ),
                   ),
-                )
-              : Center(
-                  child: Text(
-                    "${number}",
-                    style: GoogleFonts.lexend(
-                        color: Colors.white,
-                        fontSize: MySize.getHeight(30),
-                        fontWeight: FontWeight.w500),
-                  ),
-                ),
+          ),
         ),
       ),
     );

@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -8,7 +7,6 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:warranty_appp/utilities/timer_service.dart';
-import 'package:yodo1mas/Yodo1MAS.dart';
 import '../../../../constants/api_constants.dart';
 import '../../../../constants/color_constant.dart';
 import '../../../../constants/sizeConstant.dart';
@@ -27,19 +25,18 @@ class AddItemListscreenView extends GetWidget<AddItemListscreenController> {
     return WillPopScope(
       onWillPop: () async {
         if (getIt<TimerService>().is40SecCompleted) {
-          SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
           await getIt<AdService>()
               .getAd(adType: AdService.interstitialAd)
               .then((value) {
             if (!value) {
               SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
               getIt<TimerService>().verifyTimer();
-              Get.offAndToNamed(Routes.HOME);
+              Get.offAllNamed(Routes.HOME);
             }
           });
           return await false;
         } else {
-          Get.offAndToNamed(Routes.HOME);
+          Get.offAllNamed(Routes.HOME);
           return await true;
         }
       },
@@ -55,12 +52,10 @@ class AddItemListscreenView extends GetWidget<AddItemListscreenController> {
                     child: Row(
                       children: [
                         Padding(
-                          padding: EdgeInsets.all(MySize.getHeight(8.0)),
-                          child: GestureDetector(
+                          padding: EdgeInsets.all(MySize.getHeight(0)),
+                          child: InkWell(
                             onTap: () async {
                               if (getIt<TimerService>().is40SecCompleted) {
-                                SystemChrome.setEnabledSystemUIMode(
-                                    SystemUiMode.immersiveSticky);
                                 await getIt<AdService>()
                                     .getAd(adType: AdService.interstitialAd)
                                     .then((value) {
@@ -72,12 +67,12 @@ class AddItemListscreenView extends GetWidget<AddItemListscreenController> {
                                   }
                                 });
                               } else {
-                                Get.offAndToNamed(Routes.HOME);
+                                Get.offAllNamed(Routes.HOME);
                               }
                             },
                             child: Container(
                               height: MySize.getHeight(60),
-                              width: MySize.getHeight(60),
+                              width: MySize.getWidth(60),
                               child: Icon(
                                 Icons.arrow_back,
                                 color: Colors.white,
@@ -86,9 +81,9 @@ class AddItemListscreenView extends GetWidget<AddItemListscreenController> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: SizedBox(
-                            width: 300,
+                          padding: EdgeInsets.only(left: 0),
+                          child: Container(
+                            width: MySize.getWidth(300),
                             child: Text(
                               controller.CategoryName.toString(),
                               overflow: TextOverflow.ellipsis,
@@ -106,11 +101,26 @@ class AddItemListscreenView extends GetWidget<AddItemListscreenController> {
               ],
             ),
             body: (isNullEmptyOrFalse(controller.addDataTempList))
-                ? Center(
-                    child: SvgPicture.asset(
-                      "image/Nodata.svg",
-                      fit: BoxFit.cover,
-                    ),
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Center(
+                        child: SvgPicture.asset(
+                          "image/Nodata.svg",
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      SizedBox(
+                        height: MySize.getHeight(10),
+                      ),
+                      Center(
+                        child: Text("Click on + icon to add new items",
+                            style: GoogleFonts.lexend(
+                                color: Colors.grey,
+                                fontSize: MySize.getHeight(15))),
+                      ),
+                    ],
                   )
                 : Container(
                     height: MySize.safeHeight,
@@ -179,136 +189,146 @@ class AddItemListscreenView extends GetWidget<AddItemListscreenController> {
                                                         mainAxisSize:
                                                             MainAxisSize.min,
                                                         children: [
-                                                          Row(
-                                                            children: [
-                                                              Padding(
-                                                                padding: EdgeInsets.only(
-                                                                    top: MySize
-                                                                        .getHeight(
-                                                                            20.0),
-                                                                    left: MySize
-                                                                        .getHeight(
-                                                                            20.0)),
-                                                                child: Text(
-                                                                  "Are You Sure?",
-                                                                  style:
-                                                                      GoogleFonts
-                                                                          .lexend(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontSize: MySize
-                                                                        .getHeight(
-                                                                            20),
+                                                          Padding(
+                                                            padding: EdgeInsets.only(
+                                                                right: MySize
+                                                                    .getWidth(
+                                                                        8),
+                                                                left: MySize
+                                                                    .getWidth(
+                                                                        8)),
+                                                            child: Row(
+                                                              children: [
+                                                                Padding(
+                                                                  padding: EdgeInsets.only(
+                                                                      top: MySize
+                                                                          .getHeight(
+                                                                              20.0),
+                                                                      left: MySize
+                                                                          .getHeight(
+                                                                              20.0)),
+                                                                  child: Text(
+                                                                    "Are You Sure?",
+                                                                    style: GoogleFonts
+                                                                        .lexend(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      fontSize:
+                                                                          MySize.getHeight(
+                                                                              20),
+                                                                    ),
                                                                   ),
                                                                 ),
-                                                              ),
-                                                            ],
+                                                              ],
+                                                            ),
                                                           ),
                                                           SizedBox(
                                                             height: MySize
                                                                 .getHeight(20),
                                                           ),
-                                                          Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .end,
-                                                            children: [
-                                                              TextButton(
-                                                                  onPressed:
-                                                                      () {
-                                                                    Get.back();
-                                                                  },
-                                                                  child:
-                                                                      Container(
-                                                                    height: MySize
-                                                                        .getHeight(
-                                                                            50),
-                                                                    width: MySize
-                                                                        .getWidth(
-                                                                            115),
-                                                                    decoration: BoxDecoration(
-                                                                        border: Border.all(
-                                                                            color: appTheme
-                                                                                .yellowPrimaryTheme),
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(4)),
+                                                          Padding(
+                                                            padding: EdgeInsets.only(
+                                                                right: MySize
+                                                                    .getWidth(
+                                                                        8),
+                                                                left: MySize
+                                                                    .getWidth(
+                                                                        8)),
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .end,
+                                                              children: [
+                                                                TextButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      Get.back();
+                                                                    },
                                                                     child:
-                                                                        Center(
+                                                                        Container(
+                                                                      height: MySize
+                                                                          .getHeight(
+                                                                              50),
+                                                                      width: MySize
+                                                                          .getWidth(
+                                                                              115),
+                                                                      decoration: BoxDecoration(
+                                                                          border:
+                                                                              Border.all(color: appTheme.yellowPrimaryTheme),
+                                                                          borderRadius: BorderRadius.circular(4)),
                                                                       child:
-                                                                          Text(
-                                                                        "CANCEL",
-                                                                        style: GoogleFonts.lexend(
-                                                                            fontWeight:
-                                                                                FontWeight.w400,
-                                                                            fontSize: MySize.getHeight(18),
-                                                                            color: Colors.black),
+                                                                          Center(
+                                                                        child:
+                                                                            Text(
+                                                                          "CANCEL",
+                                                                          style: GoogleFonts.lexend(
+                                                                              fontWeight: FontWeight.w400,
+                                                                              fontSize: MySize.getHeight(18),
+                                                                              color: Colors.black),
+                                                                        ),
                                                                       ),
-                                                                    ),
-                                                                  )),
-                                                              SizedBox(
-                                                                width: MySize
-                                                                    .getHeight(
-                                                                        3.0),
-                                                              ),
-                                                              TextButton(
-                                                                  onPressed:
-                                                                      () {
-                                                                    Get.back();
-                                                                    controller.addDataList.removeWhere((element) =>
-                                                                        element
-                                                                            .id ==
-                                                                        controller
-                                                                            .addDataTempList[index]
-                                                                            .id);
-                                                                    controller
-                                                                        .addDataTempList
-                                                                        .clear();
-                                                                    controller
-                                                                        .addDataList
-                                                                        .forEach(
-                                                                            (element) {
+                                                                    )),
+                                                                SizedBox(
+                                                                  width: MySize
+                                                                      .getHeight(
+                                                                          3.0),
+                                                                ),
+                                                                TextButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      Get.back();
+                                                                      controller.addDataList.removeWhere((element) =>
+                                                                          element
+                                                                              .id ==
+                                                                          controller
+                                                                              .addDataTempList[index]
+                                                                              .id);
                                                                       controller
                                                                           .addDataTempList
-                                                                          .add(
-                                                                              element);
-                                                                    });
-                                                                    box.write(
-                                                                        ArgumentConstant
-                                                                            .additemList,
-                                                                        jsonEncode(
-                                                                            controller.addDataList));
-                                                                  },
-                                                                  child:
-                                                                      Container(
-                                                                    height: MySize
-                                                                        .getHeight(
-                                                                            50),
-                                                                    width: MySize
-                                                                        .getWidth(
-                                                                            115),
-                                                                    decoration: BoxDecoration(
-                                                                        color: appTheme
-                                                                            .yellowPrimaryTheme,
-                                                                        border: Border.all(
-                                                                            color: appTheme
-                                                                                .yellowPrimaryTheme),
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(4)),
+                                                                          .clear();
+                                                                      controller
+                                                                          .addDataList
+                                                                          .forEach(
+                                                                              (element) {
+                                                                        controller
+                                                                            .addDataTempList
+                                                                            .add(element);
+                                                                      });
+                                                                      box.write(
+                                                                          ArgumentConstant
+                                                                              .additemList,
+                                                                          jsonEncode(
+                                                                              controller.addDataList));
+                                                                    },
                                                                     child:
-                                                                        Center(
+                                                                        Container(
+                                                                      height: MySize
+                                                                          .getHeight(
+                                                                              50),
+                                                                      width: MySize
+                                                                          .getWidth(
+                                                                              115),
+                                                                      decoration: BoxDecoration(
+                                                                          color: appTheme
+                                                                              .yellowPrimaryTheme,
+                                                                          border:
+                                                                              Border.all(color: appTheme.yellowPrimaryTheme),
+                                                                          borderRadius: BorderRadius.circular(4)),
                                                                       child:
-                                                                          Text(
-                                                                        "DELETE",
-                                                                        style: GoogleFonts.lexend(
-                                                                            fontWeight:
-                                                                                FontWeight.bold,
-                                                                            fontSize: MySize.getHeight(18),
-                                                                            color: Colors.white),
+                                                                          Center(
+                                                                        child:
+                                                                            Text(
+                                                                          "DELETE",
+                                                                          style: GoogleFonts.lexend(
+                                                                              fontWeight: FontWeight.bold,
+                                                                              fontSize: MySize.getHeight(18),
+                                                                              color: Colors.white),
+                                                                        ),
                                                                       ),
-                                                                    ),
-                                                                  )),
-                                                            ],
+                                                                    )),
+                                                              ],
+                                                            ),
                                                           ),
                                                           SizedBox(
                                                             height: MySize
@@ -661,7 +681,7 @@ class AddItemListscreenView extends GetWidget<AddItemListscreenController> {
     int days = 1,
     int Index = 0,
   }) {
-    return GestureDetector(
+    return InkWell(
       onTap: onTap,
       child: Padding(
         padding: EdgeInsets.only(

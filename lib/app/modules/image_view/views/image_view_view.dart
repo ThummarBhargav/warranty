@@ -41,7 +41,7 @@ class ImageViewView extends GetView<ImageViewController> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: GestureDetector(
+                        child: InkWell(
                           onTap: () {
                             Get.back();
                           },
@@ -109,7 +109,7 @@ class ImageViewView extends GetView<ImageViewController> {
                       width: MySize.getWidth(80),
                       child: Column(
                         children: [
-                          GestureDetector(
+                          InkWell(
                             onTap: () async {
                               await GallerySaver.saveImage(
                                   controller.image.toString());
@@ -147,7 +147,7 @@ class ImageViewView extends GetView<ImageViewController> {
                       width: MySize.getWidth(80),
                       child: Column(
                         children: [
-                          GestureDetector(
+                          InkWell(
                             onTap: () async {
                               await Share.shareFiles(
                                   [controller.image.toString()]);

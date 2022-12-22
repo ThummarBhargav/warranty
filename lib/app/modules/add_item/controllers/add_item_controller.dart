@@ -166,7 +166,6 @@ class AddItemController extends GetxController {
     });
     box.write(ArgumentConstant.additemList,
         jsonEncode(addItemListscreenController!.addDataList));
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     getIt<AdService>().getAd(adType: AdService.interstitialAd).then((value) {
       if (!value) {
         getIt<TimerService>().verifyTimer();
@@ -185,7 +184,6 @@ class AddItemController extends GetxController {
     );
     box.write(ArgumentConstant.additemList,
         jsonEncode(addItemListscreenController!.addDataList));
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     getIt<AdService>().getAd(adType: AdService.interstitialAd).then((value) {
       if (!value) {
         getIt<TimerService>().verifyTimer();

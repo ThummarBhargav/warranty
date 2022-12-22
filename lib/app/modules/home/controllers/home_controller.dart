@@ -22,7 +22,7 @@ class HomeController extends GetxController {
     minLaunches: 10,
     remindDays: 7,
     remindLaunches: 10,
-    googlePlayIdentifier: 'com.all_dog.all_dogs',
+    googlePlayIdentifier: 'com.warrenty_manager.warrentytracker',
     appStoreIdentifier: '1491556149',
   );
   @override

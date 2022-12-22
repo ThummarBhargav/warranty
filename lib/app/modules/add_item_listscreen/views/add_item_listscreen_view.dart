@@ -252,7 +252,7 @@ class AddItemListscreenView extends GetWidget<AddItemListscreenController> {
                                                                               50),
                                                                       width: MySize
                                                                           .getWidth(
-                                                                              115),
+                                                                              110),
                                                                       decoration: BoxDecoration(
                                                                           border:
                                                                               Border.all(color: appTheme.yellowPrimaryTheme),

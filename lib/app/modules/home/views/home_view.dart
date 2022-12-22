@@ -189,7 +189,12 @@ class HomeView extends GetWidget<HomeController> {
                               int value = int.parse(valueString, radix: 16);
                               Color backColor = new Color(value);
                               return getCategoriesWidget(
+                                EditPress: () {
+                                  Navigator.of(context).pop();
+                                  EditDialodBox(context, Index: index);
+                                },
                                 onLongPress: () {
+                                  Navigator.of(context).pop();
                                   deletDialogBox(
                                     context,
                                     onPressed1: () {
@@ -277,6 +282,7 @@ class HomeView extends GetWidget<HomeController> {
     String Name = "",
     Color? color,
     VoidCallback? onLongPress,
+    VoidCallback? EditPress,
   }) {
     int count = 0;
     controller.addItemList.forEach((element) {
@@ -284,77 +290,118 @@ class HomeView extends GetWidget<HomeController> {
         count++;
       }
     });
-    return Material(
-      child: InkWell(
-        onTap: () {
-          Get.toNamed(Routes.ADD_ITEM_LISTSCREEN,
-              arguments: {ArgumentConstant.Categoriename: Name});
-        },
-        onLongPress: onLongPress,
-        child: Container(
-          height: MySize.getHeight(150.0),
-          width: MySize.getHeight(150.0),
-          decoration: BoxDecoration(
-              color: color,
-              // border: Border.all(color: appTheme.primaryTheme),
-              borderRadius: BorderRadius.circular(MySize.getHeight(10.0))),
-          child: Stack(
-            children: [
-              Padding(
-                padding: EdgeInsets.all(MySize.getHeight(8.0)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Container(
-                        child: Text(
-                      count.toString(),
-                      style: GoogleFonts.lexend(
-                          fontWeight: FontWeight.w400,
-                          fontSize: MySize.getHeight(20),
-                          color: appTheme.ErrorText),
-                    )),
-                  ],
-                ),
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
+    return InkWell(
+      onTap: () {
+        Get.toNamed(Routes.ADD_ITEM_LISTSCREEN,
+            arguments: {ArgumentConstant.Categoriename: Name});
+      },
+      onLongPress: onLongPress,
+      child: Container(
+        height: MySize.getHeight(150.0),
+        width: MySize.getHeight(150.0),
+        decoration: BoxDecoration(
+            color: color,
+            // border: Border.all(color: appTheme.primaryTheme),
+            borderRadius: BorderRadius.circular(MySize.getHeight(10.0))),
+        child: Stack(
+          children: [
+            Padding(
+              padding: EdgeInsets.all(MySize.getHeight(8.0)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Center(
-                    child: Container(
-                      height: MySize.getHeight(100.0),
-                      width: MySize.getHeight(100.0),
-                      child: (image == "")
-                          ? SvgPicture.asset(
-                              imagePath + "defolt.svg",
-                              fit: BoxFit.contain,
-                            )
-                          : SvgPicture.asset(
-                              imagePath + image,
-                              fit: BoxFit.contain,
-                            ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: MySize.getHeight(10.0),
-                  ),
-                  Center(
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 8.0, left: 8.0),
+                  Container(
                       child: Text(
-                        Name,
-                        maxLines: 3,
-                        style: GoogleFonts.lexend(
-                          fontWeight: FontWeight.w400,
-                          fontSize: MySize.getHeight(15),
-                        ),
-                      ),
-                    ),
-                  ),
+                    count.toString(),
+                    style: GoogleFonts.lexend(
+                        fontWeight: FontWeight.w400,
+                        fontSize: MySize.getHeight(20),
+                        color: appTheme.ErrorText),
+                  )),
                 ],
               ),
-            ],
-          ),
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Center(
+                  child: Container(
+                    height: MySize.getHeight(100.0),
+                    width: MySize.getHeight(100.0),
+                    child: (image == "")
+                        ? SvgPicture.asset(
+                            imagePath + "defolt.svg",
+                            fit: BoxFit.contain,
+                          )
+                        : SvgPicture.asset(
+                            imagePath + image,
+                            fit: BoxFit.contain,
+                          ),
+                  ),
+                ),
+                SizedBox(
+                  height: MySize.getHeight(10.0),
+                ),
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 8.0, left: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          Name,
+                          maxLines: 3,
+                          style: GoogleFonts.lexend(
+                            fontWeight: FontWeight.w400,
+                            fontSize: MySize.getHeight(15),
+                          ),
+                        ),
+                        Spacing.width(MySize.getWidth(15)),
+                        PopupMenuButton(
+                          offset: Offset(0, 30),
+                          itemBuilder: (context) {
+                            return [
+                              PopupMenuItem(
+                                  child: Row(
+                                children: [
+                                  InkWell(
+                                      onTap: EditPress,
+                                      child: Container(
+                                          width: MySize.getWidth(200),
+                                          child: Text("Edit Categories Name"))),
+                                ],
+                              )),
+                              PopupMenuItem(
+                                  child: Row(
+                                children: [
+                                  InkWell(
+                                      child: Container(
+                                          width: MySize.getWidth(200),
+                                          child: Text("Edit Categories Icon"))),
+                                ],
+                              )),
+                              PopupMenuItem(
+                                  child: Row(
+                                children: [
+                                  InkWell(
+                                      onTap: onLongPress,
+                                      child: Container(
+                                          width: MySize.getWidth(200),
+                                          child: Text("Delete"))),
+                                ],
+                              )),
+                            ];
+                          },
+                          child: Icon(Icons.more_vert),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
@@ -425,7 +472,7 @@ class HomeView extends GetWidget<HomeController> {
                               onPressed: onPressed1,
                               child: Container(
                                 height: MySize.getHeight(50),
-                                width: MySize.getWidth(115),
+                                width: MySize.getWidth(110),
                                 decoration: BoxDecoration(
                                     color: appTheme.yellowPrimaryTheme,
                                     border: Border.all(
@@ -601,6 +648,163 @@ class HomeView extends GetWidget<HomeController> {
                                   ),
                                   child: Text(
                                     "ADD",
+                                    style: GoogleFonts.lexend(
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: MySize.getHeight(15),
+                                        color: Colors.white),
+                                  )),
+                            )),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  EditDialodBox(BuildContext context, {required int? Index}) {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return AlertDialog(
+            contentPadding: EdgeInsets.all(0),
+            content: Container(
+              width: MySize.getWidth(420),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(
+                            top: MySize.getHeight(8.0),
+                            left: MySize.getHeight(15.0)),
+                        child: Text(
+                          "Edit category",
+                          style: GoogleFonts.lexend(
+                            fontWeight: FontWeight.w400,
+                            fontSize: MySize.getHeight(20),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: MySize.getHeight(5),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: MySize.getHeight(8.0),
+                      left: MySize.getHeight(15.0),
+                      right: MySize.getHeight(15.0),
+                    ),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            offset: Offset(0, 7),
+                            color: Colors.black.withOpacity(0.08),
+                            blurRadius: MySize.getHeight(13),
+                            spreadRadius: MySize.getHeight(2),
+                          ),
+                        ],
+                      ),
+                      child: getTextField(
+                        textCapitalization: TextCapitalization.words,
+                        hintText: "Edit Category",
+                        borderColor: Colors.transparent,
+                        size: 40,
+                        isFilled: true,
+                        fillColor: Colors.white,
+                        textEditingController:
+                            controller.editCategoryNameController.value,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        top: MySize.getHeight(8),
+                        bottom: MySize.getHeight(8),
+                        right: MySize.getHeight(8)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        TextButton(
+                            onPressed: () {
+                              controller.editCategoryNameController.value
+                                  .clear();
+                              Get.back();
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: appTheme.yellowPrimaryTheme),
+                                  borderRadius: BorderRadius.circular(2)),
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Text(
+                                  "CANCEL",
+                                  style: GoogleFonts.lexend(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: MySize.getHeight(15),
+                                      color: Colors.black),
+                                ),
+                              ),
+                            )),
+                        SizedBox(
+                          width: MySize.getWidth(3.0),
+                        ),
+                        TextButton(
+                            onPressed: () {
+                              bool isCopy = false;
+                              if (controller.editCategoryNameController.value
+                                  .text.isNotEmpty) {
+                                controller.categoryDataList.forEach((element) {
+                                  if (element.categoriesName!.toLowerCase() ==
+                                      controller
+                                          .editCategoryNameController.value.text
+                                          .trim()
+                                          .toLowerCase()
+                                          .trim()) {
+                                    isCopy = true;
+                                  } else {}
+                                });
+                                if (isCopy == false &&
+                                    controller
+                                        .editCategoryNameController.value.text
+                                        .trim()
+                                        .isNotEmpty) {
+                                  controller.categoryDataList[Index!]
+                                          .categoriesName =
+                                      controller.editCategoryNameController
+                                          .value.text;
+                                  box.write(ArgumentConstant.categoriesList,
+                                      jsonEncode(controller.categoryDataList));
+                                }
+                              }
+                              controller.categoryDataList.refresh();
+                              Get.back();
+                              controller.editCategoryNameController.value
+                                  .clear();
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: appTheme.yellowPrimaryTheme,
+                                  border: Border.all(
+                                      color: appTheme.yellowPrimaryTheme),
+                                  borderRadius: BorderRadius.circular(2)),
+                              child: Padding(
+                                  padding: EdgeInsets.only(
+                                    top: MySize.getHeight(10),
+                                    bottom: MySize.getHeight(10),
+                                    right: MySize.getWidth(25),
+                                    left: MySize.getWidth(25),
+                                  ),
+                                  child: Text(
+                                    "Edit",
                                     style: GoogleFonts.lexend(
                                         fontWeight: FontWeight.w400,
                                         fontSize: MySize.getHeight(15),

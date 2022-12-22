@@ -12,6 +12,8 @@ import '../../../models/categoriesModels.dart';
 class HomeController extends GetxController {
   Rx<TextEditingController> categoryNameController =
       TextEditingController().obs;
+  Rx<TextEditingController> editCategoryNameController =
+      TextEditingController().obs;
   RxList<categoriesModel> categoryDataList = RxList<categoriesModel>([]);
   RxList<dataModels> addItemList = RxList<dataModels>([]);
   var connectivityResult;

@@ -328,6 +328,7 @@ class AddItemView extends GetView<AddItemController> {
                                   controller: controller.dropDownController,
                                   isEnabled: controller.isFromHome,
                                   textStyle: GoogleFonts.lexend(
+                                      height: 3,
                                       fontWeight: FontWeight.w400,
                                       fontSize: MySize.getHeight(13),
                                       color: Colors.black),
@@ -340,6 +341,8 @@ class AddItemView extends GetView<AddItemController> {
                                     filled: true,
                                     fillColor: Colors.white,
                                     labelStyle: TextStyle(),
+                                    enabledBorder: InputBorder.none,
+                                    focusedBorder: InputBorder.none,
                                     border: OutlineInputBorder(
                                       borderSide:
                                           BorderSide(color: Colors.white),
@@ -349,7 +352,6 @@ class AddItemView extends GetView<AddItemController> {
                                     contentPadding: EdgeInsets.only(
                                       left: MySize.getWidth(20),
                                       right: MySize.getWidth(10),
-                                      //  bottom: size! / 2, // HERE THE IMPORTANT PART
                                     ),
                                   ),
                                   dropDownItemCount: 6,
@@ -552,6 +554,7 @@ class AddItemView extends GetView<AddItemController> {
                                           child: DropDownTextField(
                                               textStyle: GoogleFonts.lexend(
                                                 fontWeight: FontWeight.w400,
+                                                height: 3,
                                                 fontSize: MySize.getHeight(13),
                                               ),
                                               clearOption: false,
@@ -561,14 +564,18 @@ class AddItemView extends GetView<AddItemController> {
                                               ),
                                               textFieldDecoration:
                                                   InputDecoration(
+                                                floatingLabelAlignment:
+                                                    FloatingLabelAlignment
+                                                        .center,
                                                 filled: true,
                                                 fillColor: Colors.white,
                                                 labelStyle: TextStyle(),
+                                                enabledBorder: InputBorder.none,
+                                                focusedBorder: InputBorder.none,
                                                 border: OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          MySize.getHeight(10)),
-                                                ),
+                                                    borderSide: BorderSide(
+                                                        color: Colors
+                                                            .transparent)),
                                                 contentPadding: EdgeInsets.only(
                                                   left: MySize.getWidth(20),
                                                   right: MySize.getWidth(10),
@@ -761,7 +768,6 @@ class AddItemView extends GetView<AddItemController> {
 
   void onNoticationListener(String? payload) {
     if (payload != null && payload.isNotEmpty) {
-      print('payload==================================== $payload');
       Get.toNamed(Routes.HOME);
     }
   }

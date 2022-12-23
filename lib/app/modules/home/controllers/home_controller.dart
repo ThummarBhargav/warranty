@@ -10,11 +10,13 @@ import '../../../../main.dart';
 import '../../../models/categoriesModels.dart';
 
 class HomeController extends GetxController {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   Rx<TextEditingController> categoryNameController =
       TextEditingController().obs;
   Rx<TextEditingController> editCategoryNameController =
       TextEditingController().obs;
   RxString editCategoriesName = "".obs;
+  RxBool isEditCategoriesNameEmpty = false.obs;
   RxString editIcon = "".obs;
   RxList iconList = RxList([
     "electronics.svg",

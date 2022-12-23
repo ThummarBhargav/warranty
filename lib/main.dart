@@ -12,7 +12,7 @@ final getIt = GetIt.instance;
 GetStorage box = GetStorage();
 void main() async {
   await GetStorage.init();
-  Yodo1MAS.instance.init("7vE8y0yb7X", true, (successful) {});
+  Yodo1MAS.instance.init("jQCZYppqxh", true, (successful) {});
 
   WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.removeAfter(afterInit);

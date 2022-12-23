@@ -296,111 +296,106 @@ class HomeView extends GetWidget<HomeController> {
             arguments: {ArgumentConstant.Categoriename: Name});
       },
       onLongPress: onLongPress,
-      child: Container(
-        height: MySize.getHeight(150.0),
-        width: MySize.getHeight(150.0),
-        decoration: BoxDecoration(
-            color: color,
-            // border: Border.all(color: appTheme.primaryTheme),
-            borderRadius: BorderRadius.circular(MySize.getHeight(10.0))),
-        child: Stack(
-          children: [
-            Padding(
-              padding: EdgeInsets.all(MySize.getHeight(8.0)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                      child: Text(
-                    count.toString(),
-                    style: GoogleFonts.lexend(
-                        fontWeight: FontWeight.w400,
-                        fontSize: MySize.getHeight(20),
-                        color: appTheme.ErrorText),
-                  )),
-                ],
-              ),
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+      child: Stack(
+        alignment: Alignment.bottomRight,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+                color: color,
+                borderRadius: BorderRadius.circular(MySize.getHeight(10.0))),
+            child: Stack(
               children: [
-                Center(
-                  child: Container(
-                    height: MySize.getHeight(100.0),
-                    width: MySize.getHeight(100.0),
-                    child: (image == "")
-                        ? SvgPicture.asset(
-                            imagePath + "defolt.svg",
-                            fit: BoxFit.contain,
-                          )
-                        : SvgPicture.asset(
-                            imagePath + image,
-                            fit: BoxFit.contain,
-                          ),
+                Padding(
+                  padding: EdgeInsets.all(MySize.getHeight(8.0)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Container(
+                          child: Text(
+                        count.toString(),
+                        style: GoogleFonts.lexend(
+                            fontWeight: FontWeight.w400,
+                            fontSize: MySize.getHeight(20),
+                            color: appTheme.ErrorText),
+                      )),
+                    ],
                   ),
                 ),
-                SizedBox(
-                  height: MySize.getHeight(10.0),
-                ),
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 8.0, left: 8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Spacer(),
-                        Container(
-                          height: MySize.getHeight(20),
-                          width: MySize.getWidth(80),
-                          child: Center(
-                            child: Text(
-                              Name,
-                              overflow: TextOverflow.ellipsis,
-                              style: GoogleFonts.lexend(
-                                fontWeight: FontWeight.w400,
-                                fontSize: MySize.getHeight(15),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: Container(
+                        height: MySize.getHeight(100.0),
+                        width: MySize.getHeight(100.0),
+                        child: (image == "")
+                            ? SvgPicture.asset(
+                                imagePath + "defolt.svg",
+                                fit: BoxFit.contain,
+                              )
+                            : SvgPicture.asset(
+                                imagePath + image,
+                                fit: BoxFit.contain,
                               ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: MySize.getHeight(20.0),
+                    ),
+                    Center(
+                      child: Container(
+                        height: MySize.getHeight(20),
+                        width: MySize.getWidth(80),
+                        child: Center(
+                          child: Text(
+                            Name,
+                            overflow: TextOverflow.ellipsis,
+                            style: GoogleFonts.lexend(
+                              fontWeight: FontWeight.w400,
+                              fontSize: MySize.getHeight(15),
                             ),
                           ),
                         ),
-                        Spacer(),
-                        PopupMenuButton(
-                          offset: Offset(0, 30),
-                          itemBuilder: (context) {
-                            return [
-                              PopupMenuItem(
-                                  child: Row(
-                                children: [
-                                  InkWell(
-                                      onTap: EditPress,
-                                      child: Container(
-                                          width: MySize.getWidth(200),
-                                          child: Text("Edit"))),
-                                ],
-                              )),
-                              PopupMenuItem(
-                                  child: Row(
-                                children: [
-                                  InkWell(
-                                      onTap: onLongPress,
-                                      child: Container(
-                                          width: MySize.getWidth(200),
-                                          child: Text("Delete"))),
-                                ],
-                              )),
-                            ];
-                          },
-                          child: Icon(Icons.more_vert),
-                        )
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ],
             ),
-          ],
-        ),
+          ),
+          Positioned(
+              bottom: MySize.getHeight(15),
+              right: MySize.getWidth(10),
+              child: PopupMenuButton(
+                offset: Offset(0, 30),
+                itemBuilder: (context) {
+                  return [
+                    PopupMenuItem(
+                        child: Row(
+                      children: [
+                        InkWell(
+                            onTap: EditPress,
+                            child: Container(
+                                width: MySize.getWidth(200),
+                                child: Text("Edit"))),
+                      ],
+                    )),
+                    PopupMenuItem(
+                        child: Row(
+                      children: [
+                        InkWell(
+                            onTap: onLongPress,
+                            child: Container(
+                                width: MySize.getWidth(200),
+                                child: Text("Delete"))),
+                      ],
+                    )),
+                  ];
+                },
+                child: Icon(Icons.more_vert),
+              )),
+        ],
       ),
     );
   }
@@ -726,374 +721,254 @@ class HomeView extends GetWidget<HomeController> {
               builder: (BuildContext context, setter) {
                 return Container(
                   width: MySize.getWidth(420),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(
-                                top: MySize.getHeight(8.0),
-                                left: MySize.getHeight(15.0)),
-                            child: Text(
-                              "Edit category",
-                              style: GoogleFonts.lexend(
-                                fontWeight: FontWeight.w400,
-                                fontSize: MySize.getHeight(20),
+                  child: Form(
+                    key: controller.formKey,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Row(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  top: MySize.getHeight(8.0),
+                                  left: MySize.getHeight(15.0)),
+                              child: Text(
+                                "Edit category",
+                                style: GoogleFonts.lexend(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: MySize.getHeight(20),
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: MySize.getHeight(5),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          top: MySize.getHeight(8.0),
-                          left: MySize.getHeight(15.0),
-                          right: MySize.getHeight(15.0),
+                          ],
                         ),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                offset: Offset(0, 7),
-                                color: Colors.black.withOpacity(0.08),
-                                blurRadius: MySize.getHeight(13),
-                                spreadRadius: MySize.getHeight(2),
-                              ),
-                            ],
+                        SizedBox(
+                          height: MySize.getHeight(5),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                            top: MySize.getHeight(8.0),
+                            left: MySize.getHeight(15.0),
+                            right: MySize.getHeight(15.0),
                           ),
-                          child: getTextField(
-                            textCapitalization: TextCapitalization.words,
-                            hintText: "Edit category",
-                            borderColor: Colors.transparent,
-                            size: 40,
-                            isFilled: true,
-                            fillColor: Colors.white,
-                            textEditingController:
-                                controller.editCategoryNameController.value,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  offset: Offset(0, 7),
+                                  color: Colors.black.withOpacity(0.08),
+                                  blurRadius: MySize.getHeight(13),
+                                  spreadRadius: MySize.getHeight(2),
+                                ),
+                              ],
+                            ),
+                            child: getTextField(
+                              textCapitalization: TextCapitalization.words,
+                              hintText: "Edit category",
+                              borderColor: Colors.transparent,
+                              size: 40,
+                              isFilled: true,
+                              validation: (value) {
+                                if (!isNullEmptyOrFalse(value)) {
+                                  controller.isEditCategoriesNameEmpty.value =
+                                      false;
+                                } else {
+                                  controller.isEditCategoriesNameEmpty.value =
+                                      true;
+                                }
+                                return null;
+                              },
+                              fillColor: Colors.white,
+                              textEditingController:
+                                  controller.editCategoryNameController.value,
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        height: MySize.getHeight(5),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(right: 8.0, left: 8),
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        SizedBox(
+                          height: MySize.getHeight(10),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(right: 8.0, left: 8),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                TextButton(
+                                    onPressed: () async {
+                                      await EditIconBox(context, setter);
+                                      setter(() {});
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: appTheme.yellowPrimaryTheme,
+                                          borderRadius:
+                                              BorderRadius.circular(2)),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: Text(
+                                          "Edit Icon",
+                                          style: GoogleFonts.lexend(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: MySize.getHeight(15),
+                                              color: Colors.white),
+                                        ),
+                                      ),
+                                    )),
+                                Container(
+                                  height: MySize.getHeight(50),
+                                  width: MySize.getWidth(50),
+                                  child: SvgPicture.asset(imagePath +
+                                      "${controller.editIcon.value}"),
+                                ),
+                              ]),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              top: MySize.getHeight(8),
+                              bottom: MySize.getHeight(8),
+                              right: MySize.getHeight(8)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               TextButton(
-                                  onPressed: () async {
-                                    await EditIconBox(context, setter);
-                                    setter(() {});
+                                  onPressed: () {
+                                    controller.editCategoryNameController.value
+                                        .clear();
+                                    controller.editIcon.value = "";
+                                    Get.back();
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
-                                        color: appTheme.yellowPrimaryTheme,
+                                        border: Border.all(
+                                            color: appTheme.yellowPrimaryTheme),
                                         borderRadius: BorderRadius.circular(2)),
                                     child: Padding(
                                       padding: const EdgeInsets.all(10.0),
                                       child: Text(
-                                        "Edit Icon",
+                                        "CANCEL",
                                         style: GoogleFonts.lexend(
                                             fontWeight: FontWeight.w400,
                                             fontSize: MySize.getHeight(15),
-                                            color: Colors.white),
+                                            color: Colors.black),
                                       ),
                                     ),
                                   )),
-                              Container(
-                                height: MySize.getHeight(50),
-                                width: MySize.getWidth(50),
-                                child: SvgPicture.asset(
-                                    imagePath + "${controller.editIcon.value}"),
+                              SizedBox(
+                                width: MySize.getWidth(3.0),
                               ),
-                            ]),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            top: MySize.getHeight(8),
-                            bottom: MySize.getHeight(8),
-                            right: MySize.getHeight(8)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            TextButton(
-                                onPressed: () {
-                                  controller.editCategoryNameController.value
-                                      .clear();
-                                  controller.editIcon.value = "";
-                                  Get.back();
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: appTheme.yellowPrimaryTheme),
-                                      borderRadius: BorderRadius.circular(2)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Text(
-                                      "CANCEL",
-                                      style: GoogleFonts.lexend(
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: MySize.getHeight(15),
-                                          color: Colors.black),
-                                    ),
-                                  ),
-                                )),
-                            SizedBox(
-                              width: MySize.getWidth(3.0),
-                            ),
-                            TextButton(
-                                onPressed: () {
-                                  bool isCopy = false;
-                                  if (controller.editCategoryNameController
-                                      .value.text.isNotEmpty) {
-                                    controller.categoryDataList
-                                        .forEach((element) {
-                                      if (element.categoriesName!
-                                              .toLowerCase() ==
-                                          controller.editCategoryNameController
-                                              .value.text
-                                              .trim()
-                                              .toLowerCase()
-                                              .trim()) {
-                                        isCopy = true;
-                                      } else {}
-                                    });
-                                    if (isCopy == false) {
-                                      controller.addItemList.value
-                                          .forEach((element) {
-                                        if (element.categoriesName ==
+                              TextButton(
+                                  onPressed: () {
+                                    if (controller.formKey.currentState!
+                                        .validate()) {
+                                      if (controller
+                                          .isEditCategoriesNameEmpty.isFalse) {
+                                        bool isCopy = false;
+                                        if (controller
+                                            .editCategoryNameController
+                                            .value
+                                            .text
+                                            .isNotEmpty) {
+                                          controller.categoryDataList
+                                              .forEach((element) {
+                                            if (element.categoriesName!
+                                                    .toLowerCase() ==
+                                                controller
+                                                    .editCategoryNameController
+                                                    .value
+                                                    .text
+                                                    .trim()
+                                                    .toLowerCase()
+                                                    .trim()) {
+                                              isCopy = true;
+                                            } else {}
+                                          });
+                                          if (isCopy == false) {
+                                            controller.addItemList.value
+                                                .forEach((element) {
+                                              if (element.categoriesName ==
+                                                  controller
+                                                      .categoryDataList[Index]
+                                                      .categoriesName) {
+                                                element.categoriesName = controller
+                                                    .editCategoryNameController
+                                                    .value
+                                                    .text;
+                                              }
+                                            });
+                                            box.write(
+                                                ArgumentConstant.additemList,
+                                                jsonEncode(
+                                                    controller.addItemList));
                                             controller.categoryDataList[Index]
-                                                .categoriesName) {
-                                          element.categoriesName = controller
-                                              .editCategoryNameController
-                                              .value
-                                              .text;
+                                                    .categoriesName =
+                                                controller
+                                                    .editCategoryNameController
+                                                    .value
+                                                    .text;
+                                            controller.categoryDataList[Index]
+                                                    .Image =
+                                                controller.editIcon.value;
+                                            box.write(
+                                                ArgumentConstant.categoriesList,
+                                                jsonEncode(controller
+                                                    .categoryDataList));
+                                            controller.categoryDataList
+                                                .refresh();
+                                            Navigator.pop(context);
+                                          } else {
+                                            controller.categoryDataList[Index]
+                                                    .Image =
+                                                controller.editIcon.value;
+                                            box.write(
+                                                ArgumentConstant.categoriesList,
+                                                jsonEncode(controller
+                                                    .categoryDataList));
+                                            controller.categoryDataList
+                                                .refresh();
+                                            Navigator.pop(context);
+                                          }
                                         }
-                                      });
-                                      box.write(ArgumentConstant.additemList,
-                                          jsonEncode(controller.addItemList));
-                                      controller.categoryDataList[Index]
-                                              .categoriesName =
-                                          controller.editCategoryNameController
-                                              .value.text;
-                                      controller.categoryDataList[Index].Image =
-                                          controller.editIcon.value;
-                                      box.write(
-                                          ArgumentConstant.categoriesList,
-                                          jsonEncode(
-                                              controller.categoryDataList));
-                                      controller.categoryDataList.refresh();
-                                      Navigator.pop(context);
+                                        Get.back();
+                                        controller.editIcon.value = "";
+                                        controller.categoryNameController.value
+                                            .clear();
+                                      }
                                     } else {
-                                      controller.categoryDataList[Index].Image =
-                                          controller.editIcon.value;
-                                      box.write(
-                                          ArgumentConstant.categoriesList,
-                                          jsonEncode(
-                                              controller.categoryDataList));
-                                      controller.categoryDataList.refresh();
-                                      Navigator.pop(context);
+                                      if (controller.editCategoryNameController
+                                          .value.text.isEmpty) {
+                                        controller.isEditCategoriesNameEmpty
+                                            .value = true;
+                                      }
                                     }
-                                  }
-                                  Get.back();
-                                  controller.editIcon.value = "";
-                                  controller.categoryNameController.value
-                                      .clear();
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: appTheme.yellowPrimaryTheme,
-                                      border: Border.all(
-                                          color: appTheme.yellowPrimaryTheme),
-                                      borderRadius: BorderRadius.circular(2)),
-                                  child: Padding(
-                                      padding: EdgeInsets.only(
-                                        top: MySize.getHeight(10),
-                                        bottom: MySize.getHeight(10),
-                                        right: MySize.getWidth(25),
-                                        left: MySize.getWidth(25),
-                                      ),
-                                      child: Text(
-                                        "Edit",
-                                        style: GoogleFonts.lexend(
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: MySize.getHeight(15),
-                                            color: Colors.white),
-                                      )),
-                                )),
-                          ],
-                        ),
-                      )
-                    ],
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: appTheme.yellowPrimaryTheme,
+                                        border: Border.all(
+                                            color: appTheme.yellowPrimaryTheme),
+                                        borderRadius: BorderRadius.circular(2)),
+                                    child: Padding(
+                                        padding: EdgeInsets.only(
+                                          top: MySize.getHeight(10),
+                                          bottom: MySize.getHeight(10),
+                                          right: MySize.getWidth(25),
+                                          left: MySize.getWidth(25),
+                                        ),
+                                        child: Text(
+                                          "Edit",
+                                          style: GoogleFonts.lexend(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: MySize.getHeight(15),
+                                              color: Colors.white),
+                                        )),
+                                  )),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 );
               },
-            ),
-          );
-        });
-  }
-
-  EditCatagoriesDialodBox(BuildContext context, {required int? Index}) {
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) {
-          return AlertDialog(
-            contentPadding: EdgeInsets.all(0),
-            content: Container(
-              width: MySize.getWidth(420),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(
-                            top: MySize.getHeight(8.0),
-                            left: MySize.getHeight(15.0)),
-                        child: Text(
-                          "Edit category",
-                          style: GoogleFonts.lexend(
-                            fontWeight: FontWeight.w400,
-                            fontSize: MySize.getHeight(20),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: MySize.getHeight(5),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: MySize.getHeight(8.0),
-                      left: MySize.getHeight(15.0),
-                      right: MySize.getHeight(15.0),
-                    ),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            offset: Offset(0, 7),
-                            color: Colors.black.withOpacity(0.08),
-                            blurRadius: MySize.getHeight(13),
-                            spreadRadius: MySize.getHeight(2),
-                          ),
-                        ],
-                      ),
-                      child: getTextField(
-                        textCapitalization: TextCapitalization.words,
-                        hintText: "Edit Category",
-                        borderColor: Colors.transparent,
-                        size: 40,
-                        isFilled: true,
-                        fillColor: Colors.white,
-                        textEditingController:
-                            controller.editCategoryNameController.value,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        top: MySize.getHeight(8),
-                        bottom: MySize.getHeight(8),
-                        right: MySize.getHeight(8)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        TextButton(
-                            onPressed: () {
-                              controller.editCategoryNameController.value
-                                  .clear();
-                              Get.back();
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: appTheme.yellowPrimaryTheme),
-                                  borderRadius: BorderRadius.circular(2)),
-                              child: Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Text(
-                                  "CANCEL",
-                                  style: GoogleFonts.lexend(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: MySize.getHeight(15),
-                                      color: Colors.black),
-                                ),
-                              ),
-                            )),
-                        SizedBox(
-                          width: MySize.getWidth(3.0),
-                        ),
-                        TextButton(
-                            onPressed: () {
-                              bool isCopy = false;
-                              if (controller.editCategoryNameController.value
-                                  .text.isNotEmpty) {
-                                controller.categoryDataList.forEach((element) {
-                                  if (element.categoriesName!.toLowerCase() ==
-                                      controller
-                                          .editCategoryNameController.value.text
-                                          .trim()
-                                          .toLowerCase()
-                                          .trim()) {
-                                    isCopy = true;
-                                  } else {}
-                                });
-                                if (isCopy == false &&
-                                    controller
-                                        .editCategoryNameController.value.text
-                                        .trim()
-                                        .isNotEmpty) {
-                                  controller.categoryDataList[Index!]
-                                          .categoriesName =
-                                      controller.editCategoryNameController
-                                          .value.text;
-                                  controller.editCategoriesName.value =
-                                      controller.editCategoryNameController
-                                          .value.text;
-                                  // box.write(ArgumentConstant.categoriesList,
-                                  //     jsonEncode(controller.categoryDataList));
-                                }
-                              }
-                              // controller.categoryDataList.refresh();
-                              Get.back();
-                              controller.editCategoryNameController.value
-                                  .clear();
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: appTheme.yellowPrimaryTheme,
-                                  border: Border.all(
-                                      color: appTheme.yellowPrimaryTheme),
-                                  borderRadius: BorderRadius.circular(2)),
-                              child: Padding(
-                                  padding: EdgeInsets.only(
-                                    top: MySize.getHeight(10),
-                                    bottom: MySize.getHeight(10),
-                                    right: MySize.getWidth(25),
-                                    left: MySize.getWidth(25),
-                                  ),
-                                  child: Text(
-                                    "Edit",
-                                    style: GoogleFonts.lexend(
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: MySize.getHeight(15),
-                                        color: Colors.white),
-                                  )),
-                            )),
-                      ],
-                    ),
-                  )
-                ],
-              ),
             ),
           );
         });
@@ -1106,10 +981,11 @@ class HomeView extends GetWidget<HomeController> {
           return AlertDialog(
             contentPadding: EdgeInsets.all(0),
             content: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
                   height: MySize.getHeight(650),
-                  width: MySize.getWidth(420),
+                  width: MySize.getWidth(400),
                   child: GridView.builder(
                     padding: EdgeInsets.symmetric(
                         horizontal: MySize.getWidth(10),
@@ -1128,8 +1004,23 @@ class HomeView extends GetWidget<HomeController> {
                           Navigator.pop(context);
                         },
                         child: Container(
-                          child: SvgPicture.asset(
-                              imagePath + "${controller.iconList[index]}"),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color.fromRGBO(0, 0, 0, 0.06),
+                                  blurStyle: BlurStyle.outer,
+                                  blurRadius: MySize.getHeight(13),
+                                  spreadRadius: MySize.getHeight(1),
+                                ),
+                              ],
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                          child: Center(
+                            child: SvgPicture.asset(
+                                imagePath + "${controller.iconList[index]}",
+                                fit: BoxFit.contain),
+                          ),
                         ),
                       );
                     },

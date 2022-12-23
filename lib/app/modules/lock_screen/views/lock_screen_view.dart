@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pinput/pinput.dart';
+import 'package:vibration/vibration.dart';
 
 import '../../../../constants/api_constants.dart';
 import '../../../../constants/color_constant.dart';
@@ -237,7 +238,10 @@ class LockScreenView extends GetWidget<LockScreenController> {
         color: Colors.transparent,
         child: InkWell(
           onTap: (isBackButton)
-              ? () {
+              ? () async {
+                  if (await Vibration.hasVibrator() ?? false) {
+                    Vibration.vibrate();
+                  }
                   List<String> temp = controller.passwordController.value.text
                       .toString()
                       .split("");

@@ -14,6 +14,22 @@ class HomeController extends GetxController {
       TextEditingController().obs;
   Rx<TextEditingController> editCategoryNameController =
       TextEditingController().obs;
+  RxString editCategoriesName = "".obs;
+  RxString editIcon = "".obs;
+  RxList iconList = RxList([
+    "electronics.svg",
+    "fashion.svg",
+    "kitchen.svg",
+    "mobile.svg",
+    "vehicles.svg",
+    "sports.svg",
+    "electronics.svg",
+    "fashion.svg",
+    "kitchen.svg",
+    "mobile.svg",
+    "vehicles.svg",
+    "sports.svg",
+  ]);
   RxList<categoriesModel> categoryDataList = RxList<categoriesModel>([]);
   RxList<dataModels> addItemList = RxList<dataModels>([]);
   var connectivityResult;

@@ -50,79 +50,75 @@ class HomeView extends GetWidget<HomeController> {
                           itemBuilder: (context) {
                             return [
                               PopupMenuItem(
-                                  child: InkWell(
-                                onTap: () {
-                                  controller.rateMyApp.init().then((value) {
-                                    controller.rateMyApp.showRateDialog(
-                                      context,
-                                      title:
-                                          'Rate this app', // The dialog title.0
-                                      message:
-                                          'If you like this app, please take a little bit of your time to review it !\nIt really helps us and it shouldn\'t take you more than one minute.', // The dialog message.
-                                      rateButton:
-                                          'RATE', // The dialog "rate" button text.
-                                      noButton:
-                                          'NO THANKS', // The dialog "no" button text.
-                                      laterButton:
-                                          'MAYBE LATER', // The dialog "later" button text.
-                                      listener: (button) {
-                                        // The button click listener (useful if you want to cancel the click event).
-                                        switch (button) {
-                                          case RateMyAppDialogButton.rate:
-                                            print('Clicked on "Rate".');
-                                            break;
-                                          case RateMyAppDialogButton.later:
-                                            print('Clicked on "Later".');
-                                            break;
-                                          case RateMyAppDialogButton.no:
-                                            print('Clicked on "No".');
-                                            break;
-                                        }
+                                  onTap: () {
+                                    controller.rateMyApp.init().then((value) {
+                                      controller.rateMyApp.showRateDialog(
+                                        context,
+                                        title:
+                                            'Rate this app', // The dialog title.0
+                                        message:
+                                            'If you like this app, please take a little bit of your time to review it !\nIt really helps us and it shouldn\'t take you more than one minute.', // The dialog message.
+                                        rateButton:
+                                            'RATE', // The dialog "rate" button text.
+                                        noButton:
+                                            'NO THANKS', // The dialog "no" button text.
+                                        laterButton:
+                                            'MAYBE LATER', // The dialog "later" button text.
+                                        listener: (button) {
+                                          // The button click listener (useful if you want to cancel the click event).
+                                          switch (button) {
+                                            case RateMyAppDialogButton.rate:
+                                              print('Clicked on "Rate".');
+                                              break;
+                                            case RateMyAppDialogButton.later:
+                                              print('Clicked on "Later".');
+                                              break;
+                                            case RateMyAppDialogButton.no:
+                                              print('Clicked on "No".');
+                                              break;
+                                          }
 
-                                        return true; // Return false if you want to cancel the click event.
-                                      },
-                                      ignoreNativeDialog: Platform
-                                          .isAndroid, // Set to false if you want to show the Apple's native app rating dialog on iOS or Google's native app rating dialog (depends on the current Platform).
-                                      dialogStyle:
-                                          const DialogStyle(), // Custom dialog styles.
-                                      onDismissed: () => controller.rateMyApp
-                                          .callEvent(RateMyAppEventType
-                                              .laterButtonPressed), // Called when the user dismissed the dialog (either by taping outside or by pressing the "back" button).
-                                    );
-                                  });
-                                },
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.star,
-                                      color: Colors.black,
-                                    ),
-                                    SizedBox(
-                                      width: MySize.getWidth(5),
-                                    ),
-                                    Text("Rate us")
-                                  ],
-                                ),
-                              )),
+                                          return true; // Return false if you want to cancel the click event.
+                                        },
+                                        ignoreNativeDialog: Platform
+                                            .isAndroid, // Set to false if you want to show the Apple's native app rating dialog on iOS or Google's native app rating dialog (depends on the current Platform).
+                                        dialogStyle:
+                                            const DialogStyle(), // Custom dialog styles.
+                                        onDismissed: () => controller.rateMyApp
+                                            .callEvent(RateMyAppEventType
+                                                .laterButtonPressed), // Called when the user dismissed the dialog (either by taping outside or by pressing the "back" button).
+                                      );
+                                    });
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.star,
+                                        color: Colors.black,
+                                      ),
+                                      SizedBox(
+                                        width: MySize.getWidth(5),
+                                      ),
+                                      Text("Rate us")
+                                    ],
+                                  )),
                               PopupMenuItem(
-                                  child: InkWell(
-                                onTap: () {
-                                  Share.share(
-                                      'check out my website https://play.google.com/store/apps/details?id=com.warrenty_manager.warrentytracker');
-                                },
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.share,
-                                      color: Colors.black,
-                                    ),
-                                    SizedBox(
-                                      width: MySize.getWidth(5),
-                                    ),
-                                    Text("Share App")
-                                  ],
-                                ),
-                              )),
+                                  onTap: () {
+                                    Share.share(
+                                        'check out my website https://play.google.com/store/apps/details?id=com.warrenty_manager.warrentytracker');
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.share,
+                                        color: Colors.black,
+                                      ),
+                                      SizedBox(
+                                        width: MySize.getWidth(5),
+                                      ),
+                                      Text("Share App")
+                                    ],
+                                  )),
                             ];
                           },
                           child: Container(
@@ -579,7 +575,7 @@ class HomeView extends GetWidget<HomeController> {
                                     child: Padding(
                                       padding: const EdgeInsets.all(10.0),
                                       child: Text(
-                                        "Choices Icon",
+                                        "Choice Icon",
                                         style: GoogleFonts.lexend(
                                             fontWeight: FontWeight.w400,
                                             fontSize: MySize.getHeight(15),

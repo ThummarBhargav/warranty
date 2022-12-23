@@ -352,8 +352,6 @@ class AddItemView extends GetView<AddItemController> {
                                       //  bottom: size! / 2, // HERE THE IMPORTANT PART
                                     ),
                                   ),
-                                  clearIconProperty:
-                                      IconProperty(color: Colors.green),
                                   dropDownItemCount: 6,
                                   dropDownList: controller
                                       .homeController!.categoryDataList
@@ -567,8 +565,6 @@ class AddItemView extends GetView<AddItemController> {
                                                 fillColor: Colors.white,
                                                 labelStyle: TextStyle(),
                                                 border: OutlineInputBorder(
-                                                  borderSide: BorderSide(
-                                                      color: Colors.white),
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           MySize.getHeight(10)),
@@ -621,65 +617,69 @@ class AddItemView extends GetView<AddItemController> {
                                         width: MySize.getWidth(10),
                                       ),
                                       Expanded(
-                                          child: Container(
-                                        child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsets.all(8.0),
-                                                child: Text(
-                                                  "${controller.formattedTime}",
-                                                  style: GoogleFonts.lexend(
-                                                    fontWeight: FontWeight.w400,
-                                                    fontSize:
-                                                        MySize.getHeight(13),
+                                          child: InkWell(
+                                        onTap: () async {
+                                          TimeOfDay? pickedTime =
+                                              await showTimePicker(
+                                            initialTime: TimeOfDay.now(),
+                                            context: context,
+                                          );
+                                          if (pickedTime != null) {
+                                            DateTime parsedTime =
+                                                DateFormat.jm().parse(pickedTime
+                                                    .format(context)
+                                                    .toString());
+                                            controller.formattedTime.value =
+                                                DateFormat('HH:mm:ss')
+                                                    .format(parsedTime);
+                                            controller.selectedTime.value =
+                                                pickedTime;
+                                          }
+                                        },
+                                        child: Container(
+                                          child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Padding(
+                                                  padding: EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                    "${controller.formattedTime}",
+                                                    style: GoogleFonts.lexend(
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      fontSize:
+                                                          MySize.getHeight(13),
+                                                    ),
                                                   ),
                                                 ),
+                                                IconButton(
+                                                    onPressed: () {},
+                                                    icon: Icon(
+                                                      Icons.alarm,
+                                                      color: Colors.grey,
+                                                      size:
+                                                          MySize.getHeight(30),
+                                                    ))
+                                              ]),
+                                          height: MySize.getHeight(50),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(8)),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                offset: Offset(0, 7),
+                                                color: Colors.black
+                                                    .withOpacity(0.08),
+                                                blurRadius:
+                                                    MySize.getHeight(13),
+                                                spreadRadius:
+                                                    MySize.getHeight(2),
                                               ),
-                                              IconButton(
-                                                  onPressed: () async {
-                                                    TimeOfDay? pickedTime =
-                                                        await showTimePicker(
-                                                      initialTime:
-                                                          TimeOfDay.now(),
-                                                      context: context,
-                                                    );
-                                                    if (pickedTime != null) {
-                                                      DateTime parsedTime =
-                                                          DateFormat.jm().parse(
-                                                              pickedTime
-                                                                  .format(
-                                                                      context)
-                                                                  .toString());
-                                                      controller.formattedTime
-                                                          .value = DateFormat(
-                                                              'HH:mm:ss')
-                                                          .format(parsedTime);
-                                                      controller.selectedTime
-                                                          .value = pickedTime;
-                                                    }
-                                                  },
-                                                  icon: Icon(
-                                                    Icons.alarm,
-                                                    color: Colors.grey,
-                                                    size: MySize.getHeight(30),
-                                                  ))
-                                            ]),
-                                        height: MySize.getHeight(50),
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(8)),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              offset: Offset(0, 7),
-                                              color: Colors.black
-                                                  .withOpacity(0.08),
-                                              blurRadius: MySize.getHeight(13),
-                                              spreadRadius: MySize.getHeight(2),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
                                       ))
                                     ],

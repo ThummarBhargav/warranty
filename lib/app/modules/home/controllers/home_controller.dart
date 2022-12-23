@@ -25,12 +25,16 @@ class HomeController extends GetxController {
     "mobile.svg",
     "vehicles.svg",
     "sports.svg",
-    "electronics.svg",
-    "fashion.svg",
-    "kitchen.svg",
-    "mobile.svg",
-    "vehicles.svg",
-    "sports.svg",
+    "Art.svg",
+    "Beauty.svg",
+    "Entertainment.svg",
+    "Fitness.svg",
+    "Game.svg",
+    "Health.svg",
+    "News.svg",
+    "Pet & Animal.svg",
+    "Shopping.svg",
+    "Travel.svg",
   ]);
   RxList<categoriesModel> categoryDataList = RxList<categoriesModel>([]);
   RxList<dataModels> addItemList = RxList<dataModels>([]);

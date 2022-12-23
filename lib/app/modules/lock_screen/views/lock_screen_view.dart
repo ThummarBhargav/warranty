@@ -238,10 +238,7 @@ class LockScreenView extends GetWidget<LockScreenController> {
         color: Colors.transparent,
         child: InkWell(
           onTap: (isBackButton)
-              ? () async {
-                  if (await Vibration.hasVibrator() ?? false) {
-                    Vibration.vibrate();
-                  }
+              ? () {
                   List<String> temp = controller.passwordController.value.text
                       .toString()
                       .split("");

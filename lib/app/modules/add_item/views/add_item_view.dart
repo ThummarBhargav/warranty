@@ -327,8 +327,9 @@ class AddItemView extends GetView<AddItemController> {
                                 child: DropDownTextField(
                                   controller: controller.dropDownController,
                                   isEnabled: controller.isFromHome,
+                                  dropdownRadius: MySize.getHeight(10),
                                   textStyle: GoogleFonts.lexend(
-                                      height: 3,
+                                      height: (MySize.isMini) ? 3 : 3,
                                       fontWeight: FontWeight.w400,
                                       fontSize: MySize.getHeight(13),
                                       color: Colors.black),
@@ -554,7 +555,7 @@ class AddItemView extends GetView<AddItemController> {
                                           child: DropDownTextField(
                                               textStyle: GoogleFonts.lexend(
                                                 fontWeight: FontWeight.w400,
-                                                height: 3,
+                                                height: (MySize.isMini) ? 3 : 3,
                                                 fontSize: MySize.getHeight(13),
                                               ),
                                               clearOption: false,

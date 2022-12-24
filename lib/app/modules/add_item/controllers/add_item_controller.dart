@@ -21,9 +21,9 @@ import '../../home/controllers/home_controller.dart';
 
 class AddItemController extends GetxController {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  Rx<TextEditingController> itemnamecontroller = TextEditingController().obs;
-  Rx<TextEditingController> durationcontroller = TextEditingController().obs;
-  Rx<TextEditingController> detailscontroller = TextEditingController().obs;
+  Rx<TextEditingController> itemNameController = TextEditingController().obs;
+  Rx<TextEditingController> durationController = TextEditingController().obs;
+  Rx<TextEditingController> detailsController = TextEditingController().obs;
   Rx<TextEditingController> dateController = TextEditingController(
           text: DateFormat('dd/MM/yyyy HH:mm:ss').format(DateTime.now()))
       .obs;
@@ -106,9 +106,9 @@ class AddItemController extends GetxController {
 
       if (isFromEdit) {
         additemListview = Get.arguments[ArgumentConstant.additemListview];
-        itemnamecontroller.value.text = additemListview!.ItemName.toString();
-        durationcontroller.value.text = additemListview!.Duration.toString();
-        detailscontroller.value.text = additemListview!.Ditails.toString();
+        itemNameController.value.text = additemListview!.ItemName.toString();
+        durationController.value.text = additemListview!.Duration.toString();
+        detailsController.value.text = additemListview!.Ditails.toString();
         dateController.value.text = additemListview!.Date.toString();
         files!.value = additemListview!.Image.toString().split(" ");
         files1!.value = additemListview!.Bill.toString().split(" ");
@@ -204,7 +204,7 @@ class AddItemController extends GetxController {
       selectedTime.value.hour,
       selectedTime.value.minute,
       selectedDate.value.second,
-    ).add(Duration(days: int.parse(durationcontroller.value.text)));
+    ).add(Duration(days: int.parse(durationController.value.text)));
     DateTime finalDate =
         DateTime(n.year, n.month, n.day, n.hour, n.minute, n.second);
     return DateFormat('dd/MM/yyyy HH:mm:ss').format(finalDate);

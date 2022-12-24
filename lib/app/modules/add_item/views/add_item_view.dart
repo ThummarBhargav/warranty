@@ -144,7 +144,7 @@ class AddItemView extends GetView<AddItemController> {
                                         selectedExpireDay: controller.selectedExpireDay.value
                                             .toString(),
                                         ItemName: controller
-                                            .itemnamecontroller.value.text,
+                                            .itemNameController.value.text,
                                         Date: controller
                                             .dateController.value.text,
                                         Image: (controller.files!.isNotEmpty)
@@ -159,9 +159,9 @@ class AddItemView extends GetView<AddItemController> {
                                             .selectedExpireName.value
                                             .toString(),
                                         Ditails: controller
-                                            .detailscontroller.value.text,
+                                            .detailsController.value.text,
                                         Duration: controller
-                                            .durationcontroller.value.text,
+                                            .durationController.value.text,
                                         pickedTime:
                                             controller.formattedTime.value,
                                         categoriesName: controller
@@ -173,7 +173,7 @@ class AddItemView extends GetView<AddItemController> {
                                     controller.addItem(dataModels(
                                         id: controller.id.value,
                                         ItemName: controller
-                                            .itemnamecontroller.value.text,
+                                            .itemNameController.value.text,
                                         Date: controller
                                             .dateController.value.text,
                                         pickedTime:
@@ -193,9 +193,9 @@ class AddItemView extends GetView<AddItemController> {
                                             .selectedExpireDay.value
                                             .toString(),
                                         Ditails: controller
-                                            .detailscontroller.value.text,
+                                            .detailsController.value.text,
                                         Duration: controller
-                                            .durationcontroller.value.text,
+                                            .durationController.value.text,
                                         categoriesName: controller
                                             .dropDownController!
                                             .dropDownValue!
@@ -205,15 +205,15 @@ class AddItemView extends GetView<AddItemController> {
                                 }
                               } else {
                                 if (controller
-                                    .itemnamecontroller.value.text.isEmpty) {
+                                    .itemNameController.value.text.isEmpty) {
                                   controller.isNameEmpty.value = true;
                                 }
                                 if (controller
-                                    .durationcontroller.value.text.isEmpty) {
+                                    .durationController.value.text.isEmpty) {
                                   controller.isDurationEmpty.value = true;
                                 }
                               }
-                              await (controller.durationcontroller.value.text ==
+                              await (controller.durationController.value.text ==
                                       "0")
                                   ? SizedBox()
                                   : controller.service
@@ -222,7 +222,7 @@ class AddItemView extends GetView<AddItemController> {
                                       title: "Warranty App",
                                       payload: "${controller.id.value}",
                                       body:
-                                          "${controller.itemnamecontroller.value.text} To ReNew",
+                                          "${controller.itemNameController.value.text} To ReNew",
                                       seconds:
                                           controller.selectedExpireSec.value,
                                     );
@@ -301,7 +301,7 @@ class AddItemView extends GetView<AddItemController> {
                                   },
                                   fillColor: Colors.white,
                                   textEditingController:
-                                      controller.itemnamecontroller.value,
+                                      controller.itemNameController.value,
                                 ),
                               ),
                               Spacing.height(20),
@@ -487,7 +487,7 @@ class AddItemView extends GetView<AddItemController> {
                                             ? appTheme.ErrorText
                                             : Colors.white,
                                     textEditingController:
-                                        controller.durationcontroller.value,
+                                        controller.durationController.value,
                                     hintText: "Duration In Days",
                                     validation: (value) {
                                       if (!isNullEmptyOrFalse(value)) {
@@ -502,7 +502,7 @@ class AddItemView extends GetView<AddItemController> {
                                     },
                                     onChange: (value) {
                                       print(value);
-                                      controller.durationcontroller.refresh();
+                                      controller.durationController.refresh();
                                       controller.days.value =
                                           int.parse(value.toString());
                                     },
@@ -511,9 +511,9 @@ class AddItemView extends GetView<AddItemController> {
                               ),
                               Spacing.height(20),
                               if (!isNullEmptyOrFalse(
-                                  controller.durationcontroller.value.text))
+                                  controller.durationController.value.text))
                                 if (int.tryParse(controller
-                                        .durationcontroller.value.text)! >
+                                        .durationController.value.text)! >
                                     0)
                                   Text(
                                     "Schedule Notification",
@@ -523,15 +523,15 @@ class AddItemView extends GetView<AddItemController> {
                                         color: Colors.black),
                                   ),
                               if (!isNullEmptyOrFalse(
-                                  controller.durationcontroller.value.text))
+                                  controller.durationController.value.text))
                                 if (int.tryParse(controller
-                                        .durationcontroller.value.text)! >
+                                        .durationController.value.text)! >
                                     0)
                                   Spacing.height(12),
                               if (!isNullEmptyOrFalse(
-                                  controller.durationcontroller.value.text))
+                                  controller.durationController.value.text))
                                 if (int.tryParse(controller
-                                        .durationcontroller.value.text)! >
+                                        .durationController.value.text)! >
                                     0)
                                   Row(
                                     mainAxisAlignment:
@@ -719,7 +719,7 @@ class AddItemView extends GetView<AddItemController> {
                                     isFilled: true,
                                     textInputAction: TextInputAction.newline,
                                     textEditingController:
-                                        controller.detailscontroller.value,
+                                        controller.detailsController.value,
                                     textCapitalization:
                                         TextCapitalization.words,
                                     hintText: "Detail",

@@ -344,6 +344,7 @@ class AddItemView extends GetView<AddItemController> {
                                     labelStyle: TextStyle(),
                                     enabledBorder: InputBorder.none,
                                     focusedBorder: InputBorder.none,
+                                    disabledBorder: InputBorder.none,
                                     border: OutlineInputBorder(
                                       borderSide:
                                           BorderSide(color: Colors.white),

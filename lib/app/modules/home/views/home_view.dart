@@ -930,9 +930,21 @@ class HomeView extends GetWidget<HomeController> {
                                         controller.editIcon.value = "";
                                         controller.categoryNameController.value
                                             .clear();
-                                        if (isCopy == true) {
-                                          errorDialogBox(context);
-                                        } else {}
+                                        if (controller.categoryDataList[Index]
+                                                .categoriesName!
+                                                .toLowerCase() ==
+                                            controller
+                                                .editCategoryNameController
+                                                .value
+                                                .text
+                                                .trim()
+                                                .toLowerCase()
+                                                .trim()) {
+                                        } else {
+                                          if (isCopy == true) {
+                                            errorDialogBox(context);
+                                          } else {}
+                                        }
                                       }
                                     } else {
                                       if (controller.editCategoryNameController

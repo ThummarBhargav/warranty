@@ -663,12 +663,15 @@ class HomeView extends GetWidget<HomeController> {
                                             Image: controller.editIcon.value,
                                             Counter: "0"),
                                       );
-                                    }
+                                    } else {}
                                   }
                                   Get.back();
                                   controller.editIcon.value = "";
                                   controller.categoryNameController.value
                                       .clear();
+                                  if (isCopy == true) {
+                                    errorDialogBox(context);
+                                  } else {}
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -927,6 +930,9 @@ class HomeView extends GetWidget<HomeController> {
                                         controller.editIcon.value = "";
                                         controller.categoryNameController.value
                                             .clear();
+                                        if (isCopy == true) {
+                                          errorDialogBox(context);
+                                        } else {}
                                       }
                                     } else {
                                       if (controller.editCategoryNameController
@@ -1023,6 +1029,71 @@ class HomeView extends GetWidget<HomeController> {
                   ),
                 ),
               ],
+            ),
+          );
+        });
+  }
+
+  errorDialogBox(
+    BuildContext context,
+  ) {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return AlertDialog(
+            contentPadding: EdgeInsets.all(0),
+            content: StatefulBuilder(
+              builder: (BuildContext context, setter) {
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "Error",
+                      style: GoogleFonts.lexend(
+                          color: appTheme.appbarTheme,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: MySize.getHeight(10),
+                    ),
+                    Text(
+                      "This Categories Already Added ",
+                      style: GoogleFonts.lexend(
+                          color: Colors.black,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w400),
+                    ),
+                    SizedBox(
+                      height: MySize.getHeight(10),
+                    ),
+                    TextButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: appTheme.yellowPrimaryTheme,
+                              borderRadius: BorderRadius.circular(2)),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 30, vertical: 10),
+                            child: Text(
+                              "Ok",
+                              style: GoogleFonts.lexend(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: MySize.getHeight(15),
+                                  color: Colors.white),
+                            ),
+                          ),
+                        )),
+                    SizedBox(
+                      width: MySize.getHeight(5.0),
+                    ),
+                  ],
+                );
+              },
             ),
           );
         });

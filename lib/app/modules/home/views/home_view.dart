@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rate_my_app/rate_my_app.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:yodo1mas/Yodo1MasBannerAd.dart';
 import '../../../../constants/api_constants.dart';
 import '../../../../constants/color_constant.dart';
@@ -117,6 +118,24 @@ class HomeView extends GetWidget<HomeController> {
                                         width: MySize.getWidth(5),
                                       ),
                                       Text("Share App")
+                                    ],
+                                  )),
+                              PopupMenuItem(
+                                  onTap: () async {
+                                    const url =
+                                        "https://sites.google.com/view/mobapp-privacy-policy/policy";
+                                    await launch(url);
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.privacy_tip_outlined,
+                                        color: Colors.black,
+                                      ),
+                                      SizedBox(
+                                        width: MySize.getWidth(5),
+                                      ),
+                                      Text("Privacy police")
                                     ],
                                   )),
                             ];

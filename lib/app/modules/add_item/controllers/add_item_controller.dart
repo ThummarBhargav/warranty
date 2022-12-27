@@ -64,8 +64,8 @@ class AddItemController extends GetxController {
   RxString formattedTime = "".obs;
   String categoryName = "";
   dataModels? additemListview;
-  RxList<String>? files = RxList<String>([]);
-  RxList<String>? files1 = RxList<String>([]);
+ RxString ? files1 = "".obs;
+ RxString ? files = "".obs;
   RxString notificationDays = "".obs;
   late final LocalNotificationService service;
   @override
@@ -110,8 +110,9 @@ class AddItemController extends GetxController {
         durationController.value.text = additemListview!.Duration.toString();
         detailsController.value.text = additemListview!.Ditails.toString();
         dateController.value.text = additemListview!.Date.toString();
-        files!.value = additemListview!.Image.toString().split(" ");
-        files1!.value = additemListview!.Bill.toString().split(" ");
+        files!.value = additemListview!.Image.toString();
+
+        files1!.value = additemListview!.Bill!.toString();
         formattedTime.value = additemListview!.pickedTime.toString();
         id.value = additemListview!.id!;
         days.value = int.parse(additemListview!.Duration.toString());

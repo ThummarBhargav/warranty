@@ -148,10 +148,10 @@ class AddItemView extends GetView<AddItemController> {
                                         Date: controller
                                             .dateController.value.text,
                                         Image: (controller.files!.isNotEmpty)
-                                            ? controller.files![0]
+                                            ? controller.files.toString()
                                             : null,
                                         Bill: (controller.files1!.isNotEmpty)
-                                            ? controller.files1![0]
+                                            ? controller.files1.toString()
                                             : null,
                                         expiredDate:
                                             controller.getExpiryDateString(),
@@ -179,10 +179,10 @@ class AddItemView extends GetView<AddItemController> {
                                         pickedTime:
                                             controller.formattedTime.value,
                                         Image: (controller.files!.isNotEmpty)
-                                            ? controller.files![0]
+                                            ? controller.files.toString()
                                             : null,
                                         Bill: (controller.files1!.isNotEmpty)
-                                            ? controller.files1![0]
+                                            ? controller.files1.toString()
                                             : null,
                                         expiredDate:
                                             controller.getExpiryDateString(),
@@ -822,7 +822,7 @@ class AddItemView extends GetView<AddItemController> {
                           ),
                           Positioned(
                             child: (controller.files!.isNotEmpty)
-                                ? (controller.files![0] == "null")
+                                ? (controller.files.toString() == "null")
                                     ? SvgPicture.asset(
                                         "image/photo.svg",
                                         fit: BoxFit.cover,
@@ -830,7 +830,7 @@ class AddItemView extends GetView<AddItemController> {
                                     : Container(
                                         height: MySize.getHeight(70),
                                         child: Image.file(
-                                            File(controller.files!.first)))
+                                            File(controller.files.toString())))
                                 : SvgPicture.asset(
                                     "image/photo.svg",
                                     fit: BoxFit.cover,
@@ -923,12 +923,12 @@ class AddItemView extends GetView<AddItemController> {
                           ),
                           Positioned(
                             child: (controller.files1!.isNotEmpty)
-                                ? (controller.files1![0] == "null")
+                                ? (controller.files1.toString() == "null")
                                     ? SvgPicture.asset(
                                         "image/bill.svg",
                                         fit: BoxFit.cover,
                                       )
-                                    : ((controller.files1!.first.isPDFFileName))
+                                    : ((controller.files1!.toString().isPDFFileName))
                                         ? Container(
                                             height: MySize.getHeight(70),
                                             child: Image.asset(
@@ -939,7 +939,7 @@ class AddItemView extends GetView<AddItemController> {
                                         : Container(
                                             height: MySize.getHeight(70),
                                             child: Image.file(
-                                                File(controller.files1!.first)),
+                                                File(controller.files1.toString())),
                                           )
                                 : SvgPicture.asset(
                                     "image/bill.svg",
@@ -994,8 +994,7 @@ class AddItemView extends GetView<AddItemController> {
       allowedExtensions: (isBill) ? ['pdf', 'jpg', 'png'] : ['jpg', 'png'],
     )
         .then((value) {
-      controller.files!.value =
-          value!.files.map((e) => e.path).cast<String>().toList();
+      controller.files!.value = value!.paths[0]!;
     });
     if (controller.files!.isEmpty) {
       return;
@@ -1009,8 +1008,7 @@ class AddItemView extends GetView<AddItemController> {
       allowedExtensions: (isBill) ? ['pdf', 'jpg', 'png'] : ['jpg', 'png'],
     )
         .then((value) {
-      controller.files1!.value =
-          value!.files.map((e) => e.path).cast<String>().toList();
+      controller.files1!.value = value!.paths[0]!;
     });
     if (controller.files1!.isEmpty) {
       return;

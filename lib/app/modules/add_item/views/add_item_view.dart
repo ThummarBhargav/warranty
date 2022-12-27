@@ -1008,7 +1008,7 @@ class AddItemView extends GetView<AddItemController> {
       allowedExtensions: (isBill) ? ['pdf', 'jpg', 'png'] : ['jpg', 'png'],
     )
         .then((value) {
-      controller.files1!.value = value!.paths[0]!;
+      controller.files1!.value = value!.paths[0]! ;
     });
     if (controller.files1!.isEmpty) {
       return;

@@ -145,7 +145,7 @@ class AddItemListscreenViewView
                                     "No APP found to open this file。") {
                                   getIt<CustomDialogs>().getDialog(
                                     title: "No App Found",
-                                    desc: value.message,
+                                    desc: "No APP found to open this file.",
                                   );
                                 }
                                 print(value);

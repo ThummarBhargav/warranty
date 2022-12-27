@@ -52,7 +52,7 @@ class CustomDialogs {
         content: Center(
           child: Text(desc, textAlign: TextAlign.center),
         ),
-        buttonColor: appTheme.yellowPrimaryTheme,
+        buttonColor: appTheme.appbarTheme,
         textConfirm: "Ok",
         confirmTextColor: Colors.white,
         onConfirm: (isNullEmptyOrFalse(onTap))

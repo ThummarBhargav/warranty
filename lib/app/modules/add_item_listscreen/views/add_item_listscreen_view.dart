@@ -171,7 +171,7 @@ class AddItemListscreenView extends GetWidget<AddItemListscreenController> {
                                                 getIt<CustomDialogs>()
                                                     .getDialog(
                                                   title: "No App Found",
-                                                  desc: value.message,
+                                                  desc: "No APP found to open this file.",
                                                 );
                                               }
                                             });
@@ -459,7 +459,7 @@ class AddItemListscreenView extends GetWidget<AddItemListscreenController> {
                                             "No APP found to open this file。") {
                                           getIt<CustomDialogs>().getDialog(
                                             title: "No App Found",
-                                            desc: value.message,
+                                            desc:"No APP found to open this file.",
                                           );
                                         }
                                       });

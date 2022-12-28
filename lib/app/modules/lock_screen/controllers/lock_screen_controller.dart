@@ -1,10 +1,12 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:vibration/vibration.dart';
 import 'package:yodo1mas/testmasfluttersdktwo.dart';
+
 import '../../../../constants/api_constants.dart';
 import '../../../../constants/sizeConstant.dart';
 import '../../../../main.dart';
@@ -177,6 +179,7 @@ class LockScreenController extends GetxController {
           .getAd(adType: AdService.interstitialAd)
           .then((value) {
         if (!value) {
+          SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
           Get.offAndToNamed(Routes.HOME);
         }
       });

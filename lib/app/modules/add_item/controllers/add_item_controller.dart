@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,9 +8,10 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:rxdart/subjects.dart';
-import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 import 'package:yodo1mas/Yodo1MAS.dart';
+
 import '../../../../constants/api_constants.dart';
 import '../../../../main.dart';
 import '../../../../utilities/ad_service.dart';
@@ -64,8 +66,8 @@ class AddItemController extends GetxController {
   RxString formattedTime = "".obs;
   String categoryName = "";
   dataModels? additemListview;
- RxString ? files1 = "".obs;
- RxString ? files = "".obs;
+  RxString? files1 = "".obs;
+  RxString? files = "".obs;
   RxString notificationDays = "".obs;
   late final LocalNotificationService service;
   @override
@@ -95,6 +97,7 @@ class AddItemController extends GetxController {
           break;
       }
     });
+
     Get.lazyPut(() => AddItemListscreenController());
     addItemListscreenController = Get.find<AddItemListscreenController>();
     Get.lazyPut(() => HomeController());

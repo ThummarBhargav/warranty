@@ -1,12 +1,15 @@
 import 'dart:io';
+
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:warranty_appp/utilities/buttons.dart';
+
 import '../../../../constants/api_constants.dart';
 import '../../../../constants/color_constant.dart';
 import '../../../../constants/sizeConstant.dart';
@@ -17,7 +20,6 @@ import '../../../../utilities/timer_service.dart';
 import '../../../models/categoriesModels.dart';
 import '../../../routes/app_pages.dart';
 import '../controllers/add_item_controller.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class AddItemView extends GetView<AddItemController> {
   const AddItemView({Key? key}) : super(key: key);
@@ -155,8 +157,7 @@ class AddItemView extends GetView<AddItemController> {
                                             : null,
                                         expiredDate:
                                             controller.getExpiryDateString(),
-                                        selectedExpireName: controller
-                                            .selectedExpireName.value
+                                        selectedExpireName: controller.selectedExpireName.value
                                             .toString(),
                                         Ditails: controller
                                             .detailsController.value.text,
@@ -635,9 +636,9 @@ class AddItemView extends GetView<AddItemController> {
                                           );
                                           if (pickedTime != null) {
                                             DateTime parsedTime =
-                                                DateFormat.jm().parse(pickedTime
-                                                    .format(context)
-                                                    .toString());
+                                                DateFormat("HH:mm").parse(
+                                                    "${pickedTime.hour}:${pickedTime.minute}");
+
                                             controller.formattedTime.value =
                                                 DateFormat('HH:mm:ss')
                                                     .format(parsedTime);
@@ -928,7 +929,9 @@ class AddItemView extends GetView<AddItemController> {
                                         "image/bill.svg",
                                         fit: BoxFit.cover,
                                       )
-                                    : ((controller.files1!.toString().isPDFFileName))
+                                    : ((controller.files1!
+                                            .toString()
+                                            .isPDFFileName))
                                         ? Container(
                                             height: MySize.getHeight(70),
                                             child: Image.asset(
@@ -938,8 +941,8 @@ class AddItemView extends GetView<AddItemController> {
                                           )
                                         : Container(
                                             height: MySize.getHeight(70),
-                                            child: Image.file(
-                                                File(controller.files1.toString())),
+                                            child: Image.file(File(
+                                                controller.files1.toString())),
                                           )
                                 : SvgPicture.asset(
                                     "image/bill.svg",
@@ -1008,7 +1011,7 @@ class AddItemView extends GetView<AddItemController> {
       allowedExtensions: (isBill) ? ['pdf', 'jpg', 'png'] : ['jpg', 'png'],
     )
         .then((value) {
-      controller.files1!.value = value!.paths[0]! ;
+      controller.files1!.value = value!.paths[0]!;
     });
     if (controller.files1!.isEmpty) {
       return;

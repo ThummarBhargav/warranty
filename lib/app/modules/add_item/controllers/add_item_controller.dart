@@ -115,7 +115,7 @@ class AddItemController extends GetxController {
         dateController.value.text = additemListview!.Date.toString();
         files!.value = additemListview!.Image.toString();
 
-        files1!.value = additemListview!.Bill!.toString();
+        files1!.value = additemListview!.Bill.toString();
         formattedTime.value = additemListview!.pickedTime.toString();
         id.value = additemListview!.id!;
         days.value = int.parse(additemListview!.Duration.toString());

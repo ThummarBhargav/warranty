@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
    <application
-        android:label="warranty_appp"
+        android:label="warranty_app"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -36,7 +36,7 @@
             android:value="2" />
        <meta-data
            android:name="com.google.android.gms.ads.ca-app-pub-5580537606944457~4465578836"
-           android:value="jQCZYppqxh"/>
+           android:value="tenPXrtko1"/>
 
    </application>
 </manifest>
